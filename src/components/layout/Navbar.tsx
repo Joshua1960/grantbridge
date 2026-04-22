@@ -130,7 +130,7 @@ function AnimatedMobileMenu({
       <div className="px-4 py-4 space-y-2">
         {isLanding && (
           <>
-            <a
+            {/* <a
               href="#features"
               onClick={onClose}
               className="block px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-brand-50 rounded-lg"
@@ -150,7 +150,7 @@ function AnimatedMobileMenu({
               className="block px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-brand-50 rounded-lg"
             >
               Categories
-            </a>
+            </a> */}
           </>
         )}
         <div className="pt-2 border-t border-slate-100 space-y-2">
