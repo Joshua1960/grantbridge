@@ -1,13 +1,11 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
   Lightbulb,
   Users,
-  TrendingUp,
   Shield,
   Globe,
-  CheckCircle2,
   ChevronRight,
   Rocket,
   DollarSign,
