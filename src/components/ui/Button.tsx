@@ -8,7 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "outline"
     | "ghost"
     | "white"
-    | "invertWhite";
+    | "invertedWhite";
   size?: "sm" | "md" | "lg";
   children: ReactNode;
   fullWidth?: boolean;
