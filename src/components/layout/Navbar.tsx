@@ -79,16 +79,16 @@ export default function Navbar() {
               </div>
             ) : (
               <>
-                <Link to="/login/entrepreneur">
-                  <Button variant="ghost" size="sm">
-                    Log In
-                  </Button>
-                </Link>
-                <Link to="/signup/entrepreneur">
-                  <Button variant="primary" size="sm">
-                    Get Started
-                  </Button>
-                </Link>
+                {/* <Link to="/login/entrepreneur"> */}
+                <Button variant="ghost" size="sm">
+                  Log In
+                </Button>
+                {/* </Link> */}
+                {/* <Link to="/signup/entrepreneur"> */}
+                <Button variant="primary" size="sm">
+                  Get Started
+                </Button>
+                {/* </Link> */}
               </>
             )}
           </div>

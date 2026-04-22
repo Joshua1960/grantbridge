@@ -2,15 +2,15 @@
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Lightbulb,
-  Users,
-  Shield,
-  Globe,
+  // Lightbulb,
+  // Users,
+  // Shield,
+  // Globe,
   ChevronRight,
-  Rocket,
+  // Rocket,
   DollarSign,
-  Handshake,
-  BarChart3,
+  // Handshake,
+  // BarChart3,
   Leaf,
   Heart,
   GraduationCap,
@@ -264,7 +264,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section id="features" className="py-24">
+      {/* <section id="features" className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -359,10 +359,10 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-24 bg-slate-50">
+      {/* <section id="how-it-works" className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial="hidden"
@@ -384,11 +384,11 @@ export default function LandingPage() {
             >
               How It Works
             </motion.h2>
-          </motion.div>
+          </motion.div> */}
 
-          <div className="grid md:grid-cols-2 gap-16">
-            {/* Entrepreneurs */}
-            <motion.div
+      {/* <div className="grid md:grid-cols-2 gap-16"> */}
+      {/* Entrepreneurs */}
+      {/* <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -444,10 +444,10 @@ export default function LandingPage() {
                   </motion.div>
                 ))}
               </div>
-            </motion.div>
+            </motion.div> */}
 
-            {/* Funders */}
-            <motion.div
+      {/* Funders */}
+      {/* <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -505,7 +505,7 @@ export default function LandingPage() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Categories */}
       <section id="categories" className="py-24">
