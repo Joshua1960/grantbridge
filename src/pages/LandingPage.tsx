@@ -586,20 +586,13 @@ export default function LandingPage() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
               {/* <Link to="/signup/entrepreneur"> */}
-              <Button
-                variant="primary"
-                size="lg"
-                icon={<ArrowRight size={18} />}
-              >
+              <Button variant="white" size="lg">
                 Submit your project
+                <ArrowRight size={18} />
               </Button>
               {/* </Link> */}
               {/* <Link to="/signup/funder"> */}
-              <Button
-                variant="ghost"
-                size="lg"
-                icon={<ChevronRight size={18} />}
-              >
+              <Button variant="invertedWhite" size="lg">
                 Browse Projects
               </Button>
               {/* </Link> */}

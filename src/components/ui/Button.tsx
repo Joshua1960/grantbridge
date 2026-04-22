@@ -2,7 +2,13 @@ import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { motion } from "framer-motion";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "outline"
+    | "ghost"
+    | "white"
+    | "invertWhite";
   size?: "sm" | "md" | "lg";
   children: ReactNode;
   fullWidth?: boolean;
@@ -28,6 +34,10 @@ export default function Button({
     outline:
       "border-2 border-brand-500 text-brand-600 hover:bg-brand-50 active:bg-brand-100",
     ghost: "text-slate-600 hover:bg-slate-100 active:bg-slate-200",
+    white:
+      "bg-white text-brand-600 border-slate-100 border-2 hover:bg-brand-500 hover:text-white active:bg-brand-700 shadow-md",
+    invertedWhite:
+      "text-brand-600 border-slate-100 border-2 hover:bg-white hover:text-brand-600 active:bg-brand-700 shadow-md text-white",
   };
 
   const sizes = {
