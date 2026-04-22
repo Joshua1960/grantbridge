@@ -2,45 +2,40 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-300">
+    <footer className="bg-brand-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 bg-brand-500 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg font-[Outfit]">
-                  G
-                </span>
-              </div>
               <span className="text-xl font-bold text-white font-[Outfit] tracking-tight">
                 GrantBridge
               </span>
             </Link>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Connecting visionary entrepreneurs with forward-thinking funders
-              to build the future together.
+            <p className="text-sm text-slate-200 leading-relaxed">
+              Connecting African entrepreneurs with forward-thinking funders to
+              build the future together.
             </p>
           </div>
 
           {/* Links */}
           <div>
             <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">
-              Platform
+              For Entrepreneurs
             </h4>
             <ul className="space-y-2.5">
               <li>
                 <a
-                  href="#features"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
+                  href="#submit-project"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
                 >
-                  Features
+                  Submit a project
                 </a>
               </li>
               <li>
                 <a
                   href="#how-it-works"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
                 >
                   How It Works
                 </a>
@@ -48,17 +43,72 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
                 >
-                  Pricing
+                  Verification Process
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
+                >
+                  Track your Project
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
                 >
                   Success Stories
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">
+              For Funders
+            </h4>
+            <ul className="space-y-2.5">
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
+                >
+                  Browse Projects
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
+                >
+                  How funding works
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
+                >
+                  Impact Dashboard
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
+                >
+                  Payment Security
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
+                >
+                  Funder FAQ
                 </a>
               </li>
             </ul>
@@ -71,7 +121,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
                 >
                   About Us
                 </a>
@@ -79,7 +129,15 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
+                >
+                  Our Mission
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
                 >
                   Blog
                 </a>
@@ -87,48 +145,17 @@ export default function Footer() {
               <li>
                 <a
                   href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
                 >
-                  Careers
+                  Career
                 </a>
               </li>
               <li>
                 <a
                   href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
+                  className="text-sm text-slate-200 hover:text-brand-400 transition-colors"
                 >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">
-              Legal
-            </h4>
-            <ul className="space-y-2.5">
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
-                >
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-slate-400 hover:text-brand-400 transition-colors"
-                >
-                  Cookie Policy
+                  Contact Us
                 </a>
               </li>
             </ul>
