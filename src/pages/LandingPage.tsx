@@ -158,19 +158,19 @@ export default function LandingPage() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center"
               >
-                <Link to="/signup/entrepreneur">
-                  <Button variant="primary" size="lg">
-                    I am an Entrepreneur
-                    <ArrowRight size={18} style={{ marginLeft: "8px" }} />
-                  </Button>
-                </Link>
+                {/* <Link to="/signup/entrepreneur"> */}
+                <Button variant="primary" size="lg">
+                  I am an Entrepreneur
+                  <ArrowRight size={18} style={{ marginLeft: "8px" }} />
+                </Button>
+                {/* </Link> */}
 
-                <Link to="/signup/funder">
-                  <Button variant="outline" size="lg">
-                    I am a Funder
-                    <ArrowRight size={18} style={{ marginLeft: "8px" }} />
-                  </Button>
-                </Link>
+                {/* <Link to="/signup/funder"> */}
+                <Button variant="outline" size="lg">
+                  I am a Funder
+                  <ArrowRight size={18} style={{ marginLeft: "8px" }} />
+                </Button>
+                {/* </Link> */}
               </motion.div>
 
               {/* Stats */}
@@ -587,24 +587,24 @@ export default function LandingPage() {
               Africa, one micro-grant at a time.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link to="/signup/entrepreneur">
-                <Button
-                  variant="primary"
-                  size="lg"
-                  icon={<ArrowRight size={18} />}
-                >
-                  Submit your project
-                </Button>
-              </Link>
-              <Link to="/signup/funder">
-                <Button
-                  variant="ghost"
-                  size="lg"
-                  icon={<ChevronRight size={18} />}
-                >
-                  Browse Projects
-                </Button>
-              </Link>
+              {/* <Link to="/signup/entrepreneur"> */}
+              <Button
+                variant="primary"
+                size="lg"
+                icon={<ArrowRight size={18} />}
+              >
+                Submit your project
+              </Button>
+              {/* </Link> */}
+              {/* <Link to="/signup/funder"> */}
+              <Button
+                variant="ghost"
+                size="lg"
+                icon={<ChevronRight size={18} />}
+              >
+                Browse Projects
+              </Button>
+              {/* </Link> */}
             </div>
           </motion.div>
         </div>
