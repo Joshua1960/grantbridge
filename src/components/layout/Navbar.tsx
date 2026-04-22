@@ -26,11 +26,6 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 bg-brand-500 rounded-xl flex items-center justify-center shadow-md shadow-brand-500/25">
-              <span className="text-white font-bold text-lg font-[Outfit]">
-                G
-              </span>
-            </div>
             <span className="text-xl font-bold text-slate-800 font-[Outfit] tracking-tight">
               GrantBridge
             </span>
