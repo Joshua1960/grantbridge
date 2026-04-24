@@ -1,5 +1,6 @@
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { PencilLine, Check, Banknote } from "lucide-react";
 import {
   ArrowRight,
   // Lightbulb,
@@ -85,6 +86,28 @@ const categories = [
   },
 ];
 
+// HOW IT WORKS DATA
+const steps = [
+    {
+      id: 1,
+      title: "Submit your project",
+      description: "Fill in a simple form. No 10-page applications. No collateral. Just your idea and your story.",
+      icon: <PencilLine className="w-8 h-8 text-slate-700" />,
+    },
+    {
+      id: 2,
+      title: "Get verified",
+      description: "Our admin team reviews every project. Approved projects get a Verified badge and go live to funders.",
+      icon: <Check className="w-8 h-8 text-slate-900" />,
+    },
+    {
+      id: 3,
+      title: "Get funded",
+      description: "Funders discover your project and send the full grant amount directly via Flutterwave. Funds disbursed within 48 hours.",
+      icon: <Banknote className="w-8 h-8 text-slate-700" />,
+    }
+  ];
+
 export default function LandingPage() {
   return (
     <div className="bg-white mt-4">
@@ -156,19 +179,19 @@ export default function LandingPage() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center"
               >
-                {/* <Link to="/signup/entrepreneur"> */}
-                <Button variant="primary" size="lg">
-                  I am an Entrepreneur
-                  <ArrowRight size={18} style={{ marginLeft: "8px" }} />
-                </Button>
-                {/* </Link> */}
+                <Link to="/signup/entrepreneur">
+                  <Button variant="primary" size="lg">
+                    I am an Entrepreneur
+                    <ArrowRight size={18} style={{ marginLeft: "8px" }} />
+                  </Button>
+                </Link>
 
-                {/* <Link to="/signup/funder"> */}
-                <Button variant="outline" size="lg">
-                  I am a Funder
-                  <ArrowRight size={18} style={{ marginLeft: "8px" }} />
-                </Button>
-                {/* </Link> */}
+                <Link to="/signup/funder">
+                  <Button variant="outline" size="lg">
+                    I am a Funder
+                    <ArrowRight size={18} style={{ marginLeft: "8px" }} />
+                  </Button>
+                </Link>
               </motion.div>
 
               {/* Stats */}
@@ -565,6 +588,42 @@ export default function LandingPage() {
               </motion.div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+
+      <section className="py-20 px-6 bg-[#F8FAFC]">
+        <div className="max-w-6xl mx-auto text-center">
+          {/* Header Section */}
+          <div className="mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              How GrantBridge works
+            </h2>
+            <p className="text-lg text-slate-500 font-medium">
+              Simple, transparent, and trusted
+            </p>
+          </div>
+
+          {/* Steps Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            {steps.map((step) => (
+              <div key={step.id} className="flex flex-col items-center group">
+                {/* Icon Circle */}
+                <div className="w-20 h-20 rounded-full bg-[#DBEAFE] border-2 border-[#BFDBFE] flex items-center justify-center mb-6 transition-transform group-hover:scale-105 duration-300">
+                  {step.icon}
+                </div>
+
+                {/* Text Content */}
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {step.id}. {step.title}
+                </h3>
+                <p className="text-slate-600 leading-relaxed max-w-sm">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
