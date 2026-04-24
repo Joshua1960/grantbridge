@@ -5,9 +5,9 @@ import {
   Mail,
   Lock,
   ArrowRight,
-  Rocket,
-  DollarSign,
-  CheckCircle2,
+  // Rocket,
+  // DollarSign,
+  // CheckCircle2,
 } from "lucide-react";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
@@ -76,11 +76,11 @@ export default function LoginPage() {
             </Link>
 
             <div className="mb-8">
-              {isEntrepreneur ? (
+              {/* {isEntrepreneur ? (
                 <Rocket size={48} className="text-white/80 mb-6" />
               ) : (
                 <DollarSign size={48} className="text-white/80 mb-6" />
-              )}
+              )} */}
               <h2 className="text-3xl font-bold text-white font-[Outfit] leading-tight">
                 {isEntrepreneur
                   ? "Welcome Back,\nInnovator"
@@ -94,7 +94,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             {[
               isEntrepreneur
                 ? "12 new funder views on your pitch"
@@ -111,7 +111,7 @@ export default function LoginPage() {
                 <span className="text-sm text-brand-100">{item}</span>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -184,14 +184,9 @@ export default function LoginPage() {
               </a>
             </div>
 
-            <Button
-              variant="primary"
-              size="lg"
-              fullWidth
-              onClick={handleLogin}
-              icon={<ArrowRight size={18} />}
-            >
+            <Button variant="primary" size="lg" fullWidth onClick={handleLogin}>
               Log In
+              <ArrowRight size={18} />
             </Button>
 
             {/* Divider */}
