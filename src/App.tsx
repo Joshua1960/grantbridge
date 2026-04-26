@@ -14,7 +14,7 @@ const LandingPage = lazy(() => import("./pages/LandingPage"));
 
 // Auth pages
 const SignupPage = lazy(() => import("./pages/auth/SignupPage"));
-const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
 const VerifyEmailPage = lazy(() => import("./pages/auth/VerifyEmailPage"));
 const VerifyPhonePage = lazy(() => import("./pages/auth/VerifyPhonePage"));
 const AccountCreatedPage = lazy(

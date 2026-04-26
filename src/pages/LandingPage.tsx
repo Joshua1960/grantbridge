@@ -88,25 +88,28 @@ const categories = [
 
 // HOW IT WORKS DATA
 const steps = [
-    {
-      id: 1,
-      title: "Submit your project",
-      description: "Fill in a simple form. No 10-page applications. No collateral. Just your idea and your story.",
-      icon: <PencilLine className="w-8 h-8 text-slate-700" />,
-    },
-    {
-      id: 2,
-      title: "Get verified",
-      description: "Our admin team reviews every project. Approved projects get a Verified badge and go live to funders.",
-      icon: <Check className="w-8 h-8 text-slate-900" />,
-    },
-    {
-      id: 3,
-      title: "Get funded",
-      description: "Funders discover your project and send the full grant amount directly via Flutterwave. Funds disbursed within 48 hours.",
-      icon: <Banknote className="w-8 h-8 text-slate-700" />,
-    }
-  ];
+  {
+    id: 1,
+    title: "Submit your project",
+    description:
+      "Fill in a simple form. No 10-page applications. No collateral. Just your idea and your story.",
+    icon: <PencilLine className="w-8 h-8 text-slate-700" />,
+  },
+  {
+    id: 2,
+    title: "Get verified",
+    description:
+      "Our admin team reviews every project. Approved projects get a Verified badge and go live to funders.",
+    icon: <Check className="w-8 h-8 text-slate-900" />,
+  },
+  {
+    id: 3,
+    title: "Get funded",
+    description:
+      "Funders discover your project and send the full grant amount directly via Flutterwave. Funds disbursed within 48 hours.",
+    icon: <Banknote className="w-8 h-8 text-slate-700" />,
+  },
+];
 
 export default function LandingPage() {
   return (
