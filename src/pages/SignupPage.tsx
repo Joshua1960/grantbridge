@@ -11,8 +11,6 @@ import {
   ArrowLeft,
   CheckCircle2,
   Clock,
-  Rocket,
-  DollarSign,
 } from "lucide-react";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
@@ -29,7 +27,7 @@ type ModalType =
 
 export default function SignupPage() {
   const { role } = useParams<{ role: string }>();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const login = useAppStore((s) => s.login);
   const userRole: UserRole = role === "funder" ? "funder" : "entrepreneur";
 
@@ -102,7 +100,7 @@ export default function SignupPage() {
       phone: form.phone,
       verificationStatus: "pending",
     });
-    navigate("/dashboard");
+    // navigate("/dashboard");
   };
 
   const handleShowExpired = () => {
@@ -139,11 +137,6 @@ export default function SignupPage() {
             </Link>
 
             <div className="mb-8">
-              {isEntrepreneur ? (
-                <Rocket size={48} className="text-white/80 mb-6" />
-              ) : (
-                <DollarSign size={48} className="text-white/80 mb-6" />
-              )}
               <h2 className="text-3xl font-bold text-white font-[Outfit] leading-tight">
                 {isEntrepreneur
                   ? "Turn Your Vision\nInto Reality"
@@ -245,7 +238,7 @@ export default function SignupPage() {
                 <div className="space-y-4">
                   <Input
                     label="Full Name"
-                    placeholder="John Doe"
+                    placeholder="Sochi Nakolisa"
                     icon={<User size={18} />}
                     value={form.fullName}
                     onChange={(e) => updateField("fullName", e.target.value)}
@@ -254,7 +247,7 @@ export default function SignupPage() {
                   <Input
                     label="Email Address"
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder="sochi@example.com"
                     icon={<Mail size={18} />}
                     value={form.email}
                     onChange={(e) => updateField("email", e.target.value)}
@@ -374,7 +367,7 @@ export default function SignupPage() {
                   <Input
                     label="Phone Number"
                     type="tel"
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+234 81 000-0000"
                     icon={<Phone size={18} />}
                     value={form.phone}
                     onChange={(e) => updateField("phone", e.target.value)}

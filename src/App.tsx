@@ -13,7 +13,7 @@ const Footer = lazy(() => import("./components/layout/Footer"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 
 // Auth pages
-const SignupPage = lazy(() => import("./pages/auth/SignupPage"));
+const SignupPage = lazy(() => import("./pages/SignupPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
 const VerifyEmailPage = lazy(() => import("./pages/auth/VerifyEmailPage"));
 const VerifyPhonePage = lazy(() => import("./pages/auth/VerifyPhonePage"));
