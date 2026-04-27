@@ -1,5 +1,5 @@
-import { Outlet } from 'react-router-dom';
-import EntrepreneurNavbar from '../../components/layout/EntrepreneurNavbar';
+import { Outlet } from "react-router-dom";
+import EntrepreneurNavbar from "../../components/layout/EntrepreneurNavbar";
 
 export default function EntrepreneurLayout() {
   return (
