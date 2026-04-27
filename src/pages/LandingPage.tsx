@@ -117,21 +117,6 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background decoration */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-150 h-150 bg-brand-100/50 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 -left-40 w-100 h-100 bg-brand-50 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-75 h-75 bg-emerald-50 rounded-full blur-3xl" />
-
-          {/* Grid pattern */}
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle, #000 1px, transparent 1px)",
-              backgroundSize: "32px 32px",
-            }}
-          />
-        </div>
 
         <div className="relative w-full px-6 sm:px-8 lg:px-10 pt-24 pb-20">
           <div className="flex justify-center items-center w-full">
