@@ -1,4 +1,5 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+// import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
 import AuthLayout from "../../components/auth/AuthLayout";
