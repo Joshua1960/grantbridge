@@ -116,8 +116,6 @@ export default function LandingPage() {
     <div className="bg-white mt-4">
       {/* Hero */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background decoration */}
-
         <div className="relative w-full px-6 sm:px-8 lg:px-10 pt-24 pb-20">
           <div className="flex justify-center items-center w-full">
             {/* Main Content */}
@@ -249,7 +247,7 @@ export default function LandingPage() {
       </section>
       {/* Trusted By */}
 
-      <section className="py-12 border-y border-slate-100 bg-slate-50/50">
+      {/* <section className="py-12 border-y border-slate-100 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-widest mb-8">
             Trusted by leading organizations
@@ -272,7 +270,7 @@ export default function LandingPage() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features */}
       {/* <section id="features" className="py-24">
