@@ -10,9 +10,10 @@ import {
   ShieldCheck, CreditCard, ArrowRight,
   Sparkles, Lock
 } from 'lucide-react';
-import { useAppStore } from '../../lib/store';
+import { usePitch, usePitches } from '../../lib/hooks/usePitches';
 import { formatNaira } from '../../components/shared/PitchGridCard';
 import Button from '../../components/ui/Button';
+import type { PitchCard } from '../../lib/store';
 
 const stageLabels: Record<string, string> = { idea: 'Idea Stage', mvp: 'MVP Stage', growth: 'Growth Stage', scale: 'Scale Stage' };
 const stageColors: Record<string, string> = { idea: 'bg-blue-100 text-blue-700 border-blue-200', mvp: 'bg-amber-100 text-amber-700 border-amber-200', growth: 'bg-brand-100 text-brand-700 border-brand-200', scale: 'bg-purple-100 text-purple-700 border-purple-200' };
@@ -22,8 +23,8 @@ type FundStep = 'closed' | 'amount' | 'payment' | 'confirmation';
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { pitches } = useAppStore();
-  const pitch = pitches.find((p) => p.id === id);
+  const { data: pitch, isLoading } = usePitch(id || '');
+  const { data: allPitches = [] } = usePitches();
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
@@ -48,6 +49,17 @@ export default function ProjectDetailPage() {
 
   useEffect(() => { window.scrollTo(0, 0); }, [id]);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading project...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!pitch) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
@@ -59,9 +71,9 @@ export default function ProjectDetailPage() {
     );
   }
 
-  const progress = Math.round((pitch.currentFunding / pitch.fundingGoal) * 100);
-  const remaining = pitch.fundingGoal - pitch.currentFunding;
-  const backers = Math.floor(pitch.likes * 0.4);
+  // Funding status helpers
+  const isFunded = pitch.fundingStatus === 'funded';
+  const isOpen = pitch.fundingStatus === 'open';
 
   const fundBreakdown = [
     { label: 'Product Development', percent: 35, color: 'bg-brand-500' },
@@ -156,20 +168,28 @@ export default function ProjectDetailPage() {
             <div className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-6 sticky top-20">
               <div className="mb-5">
                 <div className="flex items-baseline justify-between mb-2">
-                  <p className="text-2xl font-bold text-slate-900 font-[Outfit]">{formatNaira(pitch.currentFunding)}</p>
-                  <p className="text-[12px] text-slate-400">of {formatNaira(pitch.fundingGoal)}</p>
+                  <p className="text-2xl font-bold text-slate-900 font-[Outfit]">{formatNaira(pitch.fundingGoal)}</p>
+                  <p className="text-[12px] text-slate-400">Funding Required</p>
                 </div>
-                <div className="h-3 bg-slate-100 rounded-full overflow-hidden mb-2">
-                  <motion.div initial={{ width: 0 }} animate={{ width: `${Math.min(progress, 100)}%` }} transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }} className="h-full bg-gradient-to-r from-brand-400 to-brand-500 rounded-full" />
-                </div>
-                <p className="text-[12px] font-semibold text-brand-600">{progress}% funded</p>
+                {pitch.fundedBy ? (
+                  <div className="bg-brand-50 rounded-xl p-4 border border-brand-100">
+                    <p className="text-[11px] text-brand-600 font-medium mb-1">✓ Fully Funded</p>
+                    <p className="text-[13px] font-semibold text-brand-700">{pitch.fundedBy.funderName}</p>
+                    <p className="text-[11px] text-brand-500">{pitch.fundedBy.funderCompany}</p>
+                  </div>
+                ) : (
+                  <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                    <p className="text-[13px] font-semibold text-emerald-700">✓ Open for Funding</p>
+                    <p className="text-[11px] text-emerald-600">Seeking exact amount</p>
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-3 gap-3 mb-5">
                 {[
-                  { label: 'Backers', value: backers.toString(), icon: Users },
+                  { label: 'Views', value: pitch.views.toString(), icon: Users },
                   { label: 'Days Left', value: '28', icon: Clock },
-                  { label: 'Remaining', value: formatNaira(remaining), icon: Target },
+                  { label: 'Offers', value: (pitch.offers?.length || 0).toString(), icon: Target },
                 ].map((s) => (
                   <div key={s.label} className="text-center bg-slate-50 rounded-xl py-3 px-2">
                     <s.icon size={15} className="text-slate-400 mx-auto mb-1" />
@@ -180,7 +200,9 @@ export default function ProjectDetailPage() {
               </div>
 
               <div className="space-y-2.5 mb-5">
-                <Button variant="primary" size="lg" fullWidth icon={<DollarSign size={17} />} onClick={() => setFundStep('amount')}>Fund This Project</Button>
+                <Button variant="primary" size="lg" fullWidth icon={<DollarSign size={17} />} onClick={() => setFundStep('amount')} disabled={isFunded}>
+                  {isFunded ? 'Already Funded' : isOpen ? 'Fund This Project' : 'Not Available'}
+                </Button>
                 <Button variant="outline" size="md" fullWidth icon={<Share2 size={16} />} onClick={() => setShowShareModal(true)}>Share Project</Button>
               </div>
 
@@ -215,7 +237,7 @@ export default function ProjectDetailPage() {
                 <span className="flex items-center gap-1"><Heart size={12} /> {pitch.likes} likes</span>
               </div>
               <div className="flex flex-wrap gap-1.5 mb-5">
-                {pitch.tags.map((tag) => (<span key={tag} className="px-3 py-1 text-[11px] font-medium bg-slate-50 text-slate-600 rounded-lg border border-slate-100">{tag}</span>))}
+                {pitch.tags.map((tag: string) => (<span key={tag} className="px-3 py-1 text-[11px] font-medium bg-slate-50 text-slate-600 rounded-lg border border-slate-100">{tag}</span>))}
               </div>
               <h2 className="text-[15px] font-semibold text-slate-800 font-[Outfit] mb-3">About This Project</h2>
               <div className="text-[13px] text-slate-600 leading-relaxed space-y-3">
@@ -251,7 +273,7 @@ export default function ProjectDetailPage() {
               <h2 className="text-[15px] font-semibold text-slate-800 font-[Outfit] mb-4">Key Metrics</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
-                  { label: 'Monthly Revenue', value: formatNaira(pitch.currentFunding * 0.08), icon: TrendingUp, color: 'bg-brand-50 text-brand-600' },
+                  { label: 'Monthly Revenue', value: formatNaira(pitch.fundingGoal * 0.05), icon: TrendingUp, color: 'bg-brand-50 text-brand-600' },
                   { label: 'Customers', value: `${Math.floor(pitch.views * 0.3)}+`, icon: Users, color: 'bg-blue-50 text-blue-600' },
                   { label: 'Growth Rate', value: '24% MoM', icon: TrendingUp, color: 'bg-emerald-50 text-emerald-600' },
                   { label: 'Team Size', value: `${Math.floor(pitch.likes / 50) + 5}`, icon: Users, color: 'bg-purple-50 text-purple-600' },
@@ -322,10 +344,10 @@ export default function ProjectDetailPage() {
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.4 }} className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-6">
               <h2 className="text-[15px] font-semibold text-slate-800 font-[Outfit] mb-4">Similar Projects</h2>
               <div className="space-y-3">
-                {pitches.filter((p) => p.id !== pitch.id && p.category === pitch.category).slice(0, 3).map((p) => (
+                {allPitches.filter((p: PitchCard) => p.id !== pitch.id && p.category === pitch.category).slice(0, 3).map((p: PitchCard) => (
                   <Link key={p.id} to={`/dashboard/funder/project/${p.id}`} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group">
                     <div className="w-10 h-10 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl flex items-center justify-center flex-shrink-0"><span className="text-white text-[11px] font-bold">{p.entrepreneurName.charAt(0)}</span></div>
-                    <div className="flex-1 min-w-0"><p className="text-[12px] font-medium text-slate-700 truncate group-hover:text-brand-600 transition-colors">{p.title.split('—')[0].trim()}</p><p className="text-[10px] text-slate-400">{formatNaira(p.currentFunding)} raised</p></div>
+                    <div className="flex-1 min-w-0"><p className="text-[12px] font-medium text-slate-700 truncate group-hover:text-brand-600 transition-colors">{p.title.split('—')[0].trim()}</p><p className="text-[10px] text-slate-400">{formatNaira(p.fundingGoal)} needed</p></div>
                     <ExternalLink size={12} className="text-slate-300 group-hover:text-brand-500 transition-colors" />
                   </Link>
                 ))}
@@ -398,7 +420,7 @@ export default function ProjectDetailPage() {
                         <DollarSign size={24} className="text-brand-500" />
                       </div>
                       <h3 className="text-[17px] font-bold text-slate-800 font-[Outfit]">Select Funding Amount</h3>
-                      <p className="text-[12px] text-slate-400 mt-1">{pitch.title.split('—')[0].trim()} · {formatNaira(remaining)} remaining</p>
+                      <p className="text-[12px] text-slate-400 mt-1">{pitch.title.split('—')[0].trim()} · {formatNaira(pitch.fundingGoal)} required</p>
                     </div>
 
                     {/* Amount input */}

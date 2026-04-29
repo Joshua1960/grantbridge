@@ -1,6 +1,6 @@
-import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Clock, RefreshCw, ArrowLeft } from 'lucide-react';
+import { Clock, ArrowRight, RefreshCw } from 'lucide-react';
 import AuthLayout from '../../components/auth/AuthLayout';
 import Button from '../../components/ui/Button';
 import type { UserRole } from '../../lib/store';
@@ -8,47 +8,82 @@ import type { UserRole } from '../../lib/store';
 export default function LinkExpiredPage() {
   const { role } = useParams<{ role: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
-  const state = (location.state as any) || {};
+  const [searchParams] = useSearchParams();
   const userRole: UserRole = role === 'funder' ? 'funder' : 'entrepreneur';
+  
+  const linkType = searchParams.get('type') || 'verification'; // 'verification' or 'password-reset'
+  const isPasswordReset = linkType === 'password-reset';
 
   const handleResend = () => {
-    navigate(`/verify-email/${role}`, { state });
+    if (isPasswordReset) {
+      navigate(`/forgot-password/${role}`);
+    } else {
+      // In a real app, this would trigger a resend verification email API call
+      navigate(`/verify-email/${role}`);
+    }
   };
 
   return (
     <AuthLayout role={userRole} variant="error">
       <div className="text-center">
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: 'spring', damping: 12, stiffness: 200, delay: 0.1 }}
-          className="w-20 h-20 bg-red-50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-red-100"
+          initial={{ scale: 0.8, opacity: 0, rotate: -10 }}
+          animate={{ scale: 1, opacity: 1, rotate: 0 }}
+          transition={{ type: 'spring', damping: 12, stiffness: 200 }}
+          className="w-20 h-20 bg-amber-50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-amber-100"
         >
-          <motion.div animate={{ rotate: [0, -10, 10, -10, 0] }} transition={{ duration: 0.5, delay: 0.3 }}>
-            <Clock size={36} className="text-red-500" />
-          </motion.div>
+          <Clock size={36} className="text-amber-500" />
         </motion.div>
 
-        <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-2">Link Expired</h1>
+        <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-2">
+          Link Expired
+        </h1>
         <p className="text-[13px] text-slate-500 leading-relaxed mb-6 max-w-sm mx-auto">
-          The verification link has expired. Verification links are valid for 24 hours. Please request a new link to continue with your registration.
+          {isPasswordReset 
+            ? 'This password reset link has expired. Reset links are valid for 1 hour. Please request a new one.'
+            : 'This verification link has expired. Verification links are valid for 24 hours. Please request a new one.'
+          }
         </p>
 
-        <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-6 text-left">
-          <p className="text-[12px] text-amber-700 leading-relaxed">
-            <span className="font-semibold">Why did this happen?</span> Verification links expire after 24 hours for security reasons. Simply request a new one and it will be sent to your email immediately.
+        <div className="bg-slate-50 rounded-xl p-4 mb-6 text-left">
+          <p className="text-[12px] text-slate-600 leading-relaxed">
+            <span className="font-semibold text-slate-800">Security Note:</span> Links expire for your security. 
+            {isPasswordReset 
+              ? ' Password reset links are single-use and expire after 1 hour.'
+              : ' Verification links expire after 24 hours.'
+            }
           </p>
         </div>
 
-        <Button variant="primary" size="lg" fullWidth onClick={handleResend} icon={<RefreshCw size={17} />}>
-          Resend Verification Link
-        </Button>
+        <div className="space-y-3">
+          <Button 
+            variant="primary" 
+            size="lg" 
+            fullWidth 
+            onClick={handleResend} 
+            icon={<RefreshCw size={17} />}
+          >
+            {isPasswordReset ? 'Request New Reset Link' : 'Resend Verification Email'}
+          </Button>
 
-        <div className="mt-4">
-          <Link to={`/signup/${role}`} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-slate-500 hover:text-slate-700 transition-colors">
-            <ArrowLeft size={14} /> Back to signup
-          </Link>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            fullWidth 
+            onClick={() => navigate(`/login/${role}`)}
+            icon={<ArrowRight size={17} />}
+          >
+            Back to Login
+          </Button>
+        </div>
+
+        <div className="mt-6 pt-5 border-t border-slate-100">
+          <p className="text-[11px] text-slate-400">
+            Need help? Contact{' '}
+            <a href="mailto:support@grantbridge.com" className="text-brand-600 hover:underline">
+              support@grantbridge.com
+            </a>
+          </p>
         </div>
       </div>
     </AuthLayout>

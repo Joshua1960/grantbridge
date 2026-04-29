@@ -1,415 +1,407 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
-  TrendingUp,
-  Eye,
-  Plus,
-  Lightbulb,
-  DollarSign,
-  Users,
-  ArrowUpRight,
-  ArrowDownRight,
-  Wallet,
-  Clock,
-  BadgeCheck,
-  ChevronRight,
-  MessageSquare,
-  MoreHorizontal,
-  Shield,
-} from "lucide-react";
-import { useAppStore } from "../../lib/store";
-import { formatNaira } from "../../components/shared/PitchGridCard";
-import Button from "../../components/ui/Button";
-
-const statusColors: Record<string, { bg: string; text: string; dot: string }> =
-  {
-    active: {
-      bg: "bg-emerald-50",
-      text: "text-emerald-700",
-      dot: "bg-emerald-500",
-    },
-    "under review": {
-      bg: "bg-amber-50",
-      text: "text-amber-700",
-      dot: "bg-amber-500",
-    },
-    draft: { bg: "bg-slate-100", text: "text-slate-600", dot: "bg-slate-400" },
-    funded: { bg: "bg-brand-50", text: "text-brand-700", dot: "bg-brand-500" },
-  };
+  Plus, TrendingUp, DollarSign, Eye, Users,
+  ChevronRight, MoreVertical, Search, Bell,
+  Calendar, CheckCircle2
+} from 'lucide-react';
+import { useAppStore } from '../../lib/store';
+import { useUserPitches } from '../../lib/hooks/usePitches';
+import { formatNaira } from '../../components/shared/PitchGridCard';
+import Button from '../../components/ui/Button';
 
 export default function EntrepreneurDashboard() {
-  const { user, pitches } = useAppStore();
-  const isVerified = user?.verificationStatus === "verified";
-  const isSubmitted = user?.verificationStatus === "submitted";
+  const { user } = useAppStore();
+  const { data: pitches = [], isLoading } = useUserPitches(user?.id || '');
 
-  const myPitches = pitches.slice(0, 3);
-  const totalFunding = myPitches.reduce((sum, p) => sum + p.currentFunding, 0);
+  const myPitches = pitches.slice(0, 5);
   const totalViews = myPitches.reduce((s, p) => s + p.views, 0);
-  const pitchStatuses = ["active", "under review", "draft"];
+  const fundedCount = myPitches.filter(p => p.fundingStatus === 'funded').length;
+  const totalFundingReceived = myPitches
+    .filter(p => p.fundedBy)
+    .reduce((sum, p) => sum + (p.fundedBy?.fundedAmount || 0), 0);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-50 p-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse space-y-6">
+            <div className="h-32 bg-slate-200 rounded-2xl"></div>
+            <div className="grid grid-cols-4 gap-6">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="h-32 bg-slate-200 rounded-2xl"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
-      {/* Verification Banner */}
-      {!isVerified && (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`rounded-2xl p-4 sm:p-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-            isSubmitted
-              ? "bg-amber-50 border border-amber-100"
-              : "bg-red-50 border border-red-100"
-          }`}
-        >
-          <div className="flex items-start gap-3">
-            <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${isSubmitted ? "bg-amber-100" : "bg-red-100"}`}
-            >
-              {isSubmitted ? (
-                <Clock size={18} className="text-amber-600" />
-              ) : (
-                <Shield size={18} className="text-red-600" />
-              )}
-            </div>
-            <div>
-              <p
-                className={`text-[13px] font-semibold ${isSubmitted ? "text-amber-800" : "text-red-800"}`}
-              >
-                {isSubmitted
-                  ? "Verification In Progress"
-                  : "Identity Verification Required"}
-              </p>
-              <p
-                className={`text-[12px] ${isSubmitted ? "text-amber-600" : "text-red-600"}`}
-              >
-                {isSubmitted
-                  ? "Your documents are being reviewed. This usually takes 24–48 hours."
-                  : "Complete identity verification to publish projects and receive funding."}
-              </p>
-            </div>
-          </div>
-          {!isSubmitted && (
-            <Link to="/dashboard/entrepreneur/welcome">
-              <Button variant="primary" size="sm" icon={<Shield size={14} />}>
-                Verify Now
-              </Button>
-            </Link>
-          )}
-        </motion.div>
-      )}
-
-      {/* Welcome */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="bg-gradient-to-r from-brand-500 via-brand-500 to-emerald-500 rounded-2xl p-6 sm:p-8 mb-6 relative overflow-hidden"
-      >
-        <div className="absolute top-0 right-0 w-72 h-72 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-1/2 w-48 h-48 bg-white/5 rounded-full translate-y-1/2" />
-        <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="min-h-screen bg-slate-50">
+      <div className="max-w-7xl mx-auto p-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <p className="text-brand-100 text-[13px] font-medium mb-1">
-              Good morning,
-            </p>
-            <h2 className="text-xl sm:text-2xl font-bold text-white font-[Outfit] tracking-tight">
-              {user?.fullName || "Entrepreneur"} 👋
-            </h2>
-            <p className="text-brand-100 text-[13px] mt-1.5 max-w-md leading-relaxed">
-              {myPitches.length > 0
-                ? `You have ${myPitches.length} active projects. Keep building!`
-                : "Create your first project to start connecting with funders."}
+            <h1 className="text-2xl font-bold text-slate-900 font-[Outfit] mb-1">
+              Dashboard
+            </h1>
+            <p className="text-sm text-slate-500">
+              Welcome back, {user?.fullName || 'Entrepreneur'} 👋
             </p>
           </div>
-          <Link to="/dashboard/entrepreneur/projects">
-            <Button
-              variant="secondary"
-              size="md"
-              icon={<Plus size={16} />}
-              className="bg-white text-brand-600 hover:bg-brand-50 shadow-lg shadow-brand-700/20 flex-shrink-0"
-            >
-              New Project
-            </Button>
-          </Link>
-        </div>
-      </motion.div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {[
-          {
-            label: "Active Projects",
-            value: myPitches.length.toString(),
-            icon: Lightbulb,
-            trend: "+1",
-            up: true,
-            color: "bg-brand-50 text-brand-600",
-          },
-          {
-            label: "Total Raised",
-            value: formatNaira(totalFunding),
-            icon: Wallet,
-            trend: "+18%",
-            up: true,
-            color: "bg-emerald-50 text-emerald-600",
-          },
-          {
-            label: "Total Views",
-            value: totalViews.toLocaleString(),
-            icon: Eye,
-            trend: "+24%",
-            up: true,
-            color: "bg-blue-50 text-blue-600",
-          },
-          {
-            label: "Funder Inquiries",
-            value: "12",
-            icon: Users,
-            trend: "+3",
-            up: true,
-            color: "bg-purple-50 text-purple-600",
-          },
-        ].map((stat, i) => (
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <input
+                type="text"
+                placeholder="Search projects..."
+                className="w-64 pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm placeholder:text-slate-400 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+              />
+            </div>
+            <button className="relative p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
+              <Bell size={20} className="text-slate-600" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+          </div>
+        </div>
+
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {/* Total Projects */}
           <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + i * 0.04, duration: 0.35 }}
-            className="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 hover:shadow-lg hover:shadow-slate-100/80 transition-all"
+            transition={{ delay: 0.1 }}
+            className="bg-white rounded-2xl p-6 border border-slate-200"
           >
-            <div className="flex items-center justify-between mb-3">
-              <div
-                className={`w-10 h-10 ${stat.color} rounded-xl flex items-center justify-center`}
-              >
-                <stat.icon size={18} />
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                <TrendingUp className="text-blue-600" size={24} />
               </div>
-              <span
-                className={`inline-flex items-center gap-0.5 text-[11px] font-semibold px-2 py-0.5 rounded-full ${stat.up ? "text-emerald-600 bg-emerald-50" : "text-red-600 bg-red-50"}`}
-              >
-                {stat.up ? (
-                  <ArrowUpRight size={11} />
-                ) : (
-                  <ArrowDownRight size={11} />
-                )}
-                {stat.trend}
+              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                +12%
               </span>
             </div>
-            <p className="text-xl sm:text-2xl font-bold text-slate-900 font-[Outfit] leading-none">
-              {stat.value}
-            </p>
-            <p className="text-[11px] text-slate-400 mt-1.5">{stat.label}</p>
+            <h3 className="text-2xl font-bold text-slate-900 font-[Outfit] mb-1">
+              {myPitches.length}
+            </h3>
+            <p className="text-sm text-slate-500">Total Projects</p>
           </motion.div>
-        ))}
-      </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Recent Projects */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-          className="lg:col-span-2 bg-white rounded-2xl border border-slate-100"
-        >
-          <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-slate-100">
-            <div>
-              <h3 className="text-[15px] font-semibold text-slate-800 font-[Outfit]">
-                Recent Projects
-              </h3>
-              <p className="text-[11px] text-slate-400 mt-0.5">
-                {myPitches.length} projects
-              </p>
+          {/* Total Funding */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-white rounded-2xl p-6 border border-slate-200"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center">
+                <DollarSign className="text-emerald-600" size={24} />
+              </div>
+              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                +18%
+              </span>
             </div>
-            <Link
-              to="/dashboard/entrepreneur/projects"
-              className="text-[12px] font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1"
+            <h3 className="text-2xl font-bold text-slate-900 font-[Outfit] mb-1">
+              {formatNaira(totalFundingReceived)}
+            </h3>
+            <p className="text-sm text-slate-500">Total Funding Received</p>
+          </motion.div>
+
+          {/* Total Views */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-white rounded-2xl p-6 border border-slate-200"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center">
+                <Eye className="text-purple-600" size={24} />
+              </div>
+              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                +24%
+              </span>
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 font-[Outfit] mb-1">
+              {totalViews.toLocaleString()}
+            </h3>
+            <p className="text-sm text-slate-500">Total Views</p>
+          </motion.div>
+
+          {/* Funded Projects */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-white rounded-2xl p-6 border border-slate-200"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center">
+                <Users className="text-amber-600" size={24} />
+              </div>
+              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                +8%
+              </span>
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 font-[Outfit] mb-1">
+              {fundedCount}
+            </h3>
+            <p className="text-sm text-slate-500">Funded Projects</p>
+          </motion.div>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Projects List - Takes 2 columns */}
+          <div className="lg:col-span-2">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="bg-white rounded-2xl border border-slate-200"
             >
-              View All <ChevronRight size={14} />
-            </Link>
+              <div className="flex items-center justify-between p-6 border-b border-slate-100">
+                <div>
+                  <h2 className="text-lg font-semibold text-slate-900 font-[Outfit]">
+                    Recent Projects
+                  </h2>
+                  <p className="text-sm text-slate-500 mt-0.5">
+                    {myPitches.length} active projects
+                  </p>
+                </div>
+                <Link to="/dashboard/entrepreneur/projects">
+                  <Button variant="outline" size="sm" icon={<ChevronRight size={16} />}>
+                    View All
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="divide-y divide-slate-100">
+                {myPitches.length === 0 ? (
+                  <div className="p-12 text-center">
+                    <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <TrendingUp className="text-slate-400" size={24} />
+                    </div>
+                    <h3 className="text-base font-semibold text-slate-700 mb-2">
+                      No projects yet
+                    </h3>
+                    <p className="text-sm text-slate-500 mb-4">
+                      Create your first project to get started
+                    </p>
+                    <Link to="/dashboard/entrepreneur/projects">
+                      <Button variant="primary" size="sm" icon={<Plus size={16} />}>
+                        Create Project
+                      </Button>
+                    </Link>
+                  </div>
+                ) : (
+                  myPitches.map((pitch, index) => {
+                    const statusConfig = {
+                      open: { label: 'Open', color: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
+                      funded: { label: 'Funded', color: 'bg-blue-50 text-blue-700', dot: 'bg-blue-500' },
+                      in_review: { label: 'In Review', color: 'bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
+                      closed: { label: 'Closed', color: 'bg-slate-100 text-slate-600', dot: 'bg-slate-400' },
+                    };
+                    const status = statusConfig[pitch.fundingStatus];
+
+                    return (
+                      <div
+                        key={pitch.id}
+                        className="p-6 hover:bg-slate-50 transition-colors group cursor-pointer"
+                      >
+                        <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-brand-400 to-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span className="text-white font-bold text-lg">
+                              {index + 1}
+                            </span>
+                          </div>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between gap-4 mb-2">
+                              <div className="flex-1">
+                                <h3 className="text-base font-semibold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-1">
+                                  {pitch.title.split('—')[0].trim()}
+                                </h3>
+                                <p className="text-sm text-slate-500 mt-0.5">
+                                  {pitch.category} • {pitch.location}
+                                </p>
+                              </div>
+                              <button className="p-1 hover:bg-slate-100 rounded-lg transition-colors">
+                                <MoreVertical size={18} className="text-slate-400" />
+                              </button>
+                            </div>
+
+                            <div className="flex items-center justify-between mt-3">
+                              <div className="flex items-center gap-4">
+                                <div>
+                                  <p className="text-xs text-slate-500">Funding Goal</p>
+                                  <p className="text-sm font-semibold text-slate-900">
+                                    {formatNaira(pitch.fundingGoal)}
+                                  </p>
+                                </div>
+                                <div>
+                                  <p className="text-xs text-slate-500">Views</p>
+                                  <p className="text-sm font-semibold text-slate-900">
+                                    {pitch.views}
+                                  </p>
+                                </div>
+                              </div>
+
+                              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full ${status.color}`}>
+                                <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`}></span>
+                                {status.label}
+                              </span>
+                            </div>
+
+                            {pitch.fundedBy && (
+                              <div className="mt-3 flex items-center gap-2 text-xs text-emerald-700 bg-emerald-50 px-3 py-2 rounded-lg">
+                                <CheckCircle2 size={14} />
+                                <span>Funded by {pitch.fundedBy.funderName}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </motion.div>
           </div>
 
-          <div className="divide-y divide-slate-50">
-            {myPitches.map((pitch, i) => {
-              const progress = Math.round(
-                (pitch.currentFunding / pitch.fundingGoal) * 100,
-              );
-              const status = pitchStatuses[i];
-              const sc = statusColors[status];
-              return (
-                <div
-                  key={pitch.id}
-                  className="flex items-center gap-4 px-5 sm:px-6 py-4 hover:bg-slate-50/50 transition-colors group cursor-pointer"
-                >
-                  <div
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${
-                      i === 0
-                        ? "from-brand-400 to-emerald-500"
-                        : i === 1
-                          ? "from-blue-400 to-cyan-500"
-                          : "from-amber-400 to-orange-500"
-                    }`}
-                  >
-                    <Lightbulb size={16} className="text-white" />
+          {/* Right Sidebar */}
+          <div className="space-y-6">
+            {/* Quick Actions */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="bg-white rounded-2xl border border-slate-200 p-6"
+            >
+              <h3 className="text-base font-semibold text-slate-900 font-[Outfit] mb-4">
+                Quick Actions
+              </h3>
+              <div className="space-y-3">
+                <Link to="/dashboard/entrepreneur/projects">
+                  <button className="w-full flex items-center gap-3 p-3 bg-brand-50 hover:bg-brand-100 rounded-xl transition-colors group">
+                    <div className="w-10 h-10 bg-brand-500 rounded-lg flex items-center justify-center">
+                      <Plus className="text-white" size={20} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <p className="text-sm font-medium text-slate-900">New Project</p>
+                      <p className="text-xs text-slate-500">Create a new pitch</p>
+                    </div>
+                    <ChevronRight className="text-slate-400 group-hover:text-brand-600" size={18} />
+                  </button>
+                </Link>
+
+                <button className="w-full flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors group">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Eye className="text-purple-600" size={20} />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[13px] font-medium text-slate-800 truncate group-hover:text-brand-600 transition-colors">
-                      {pitch.title.split("—")[0].trim()}
-                    </p>
-                    <p className="text-[11px] text-slate-400">
-                      {pitch.category} · {pitch.location}
-                    </p>
+                  <div className="flex-1 text-left">
+                    <p className="text-sm font-medium text-slate-900">View Analytics</p>
+                    <p className="text-xs text-slate-500">Track performance</p>
                   </div>
-                  <span
-                    className={`hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold rounded-full ${sc.bg} ${sc.text}`}
-                  >
-                    <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
-                    {status.charAt(0).toUpperCase() + status.slice(1)}
-                  </span>
-                  <div className="hidden sm:block text-right">
-                    <p className="text-[12px] font-semibold text-slate-700">
-                      {formatNaira(pitch.currentFunding)}
-                    </p>
-                    <div className="flex items-center gap-1.5 mt-1 justify-end">
-                      <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-brand-500 rounded-full"
-                          style={{ width: `${progress}%` }}
-                        />
-                      </div>
-                      <span className="text-[10px] text-slate-400">
-                        {progress}%
-                      </span>
+                  <ChevronRight className="text-slate-400 group-hover:text-purple-600" size={18} />
+                </button>
+
+                <button className="w-full flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors group">
+                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <Users className="text-blue-600" size={20} />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="text-sm font-medium text-slate-900">Messages</p>
+                    <p className="text-xs text-slate-500">Connect with funders</p>
+                  </div>
+                  <ChevronRight className="text-slate-400 group-hover:text-blue-600" size={18} />
+                </button>
+              </div>
+            </motion.div>
+
+            {/* Recent Activity */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="bg-white rounded-2xl border border-slate-200 p-6"
+            >
+              <h3 className="text-base font-semibold text-slate-900 font-[Outfit] mb-4">
+                Recent Activity
+              </h3>
+              <div className="space-y-4">
+                {[
+                  {
+                    action: 'New view on your project',
+                    project: 'AfriWeave',
+                    time: '2 hours ago',
+                    icon: Eye,
+                    color: 'bg-blue-50 text-blue-600',
+                  },
+                  {
+                    action: 'Funding offer received',
+                    project: 'MediTrack',
+                    time: '5 hours ago',
+                    icon: DollarSign,
+                    color: 'bg-emerald-50 text-emerald-600',
+                  },
+                  {
+                    action: 'Project published',
+                    project: 'FarmLink',
+                    time: '1 day ago',
+                    icon: CheckCircle2,
+                    color: 'bg-purple-50 text-purple-600',
+                  },
+                ].map((activity, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${activity.color}`}>
+                      <activity.icon size={16} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-slate-900 font-medium">
+                        {activity.action}
+                      </p>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        {activity.project} • {activity.time}
+                      </p>
                     </div>
                   </div>
-                  <button className="p-1 text-slate-300 hover:text-slate-500 rounded-md hover:bg-slate-100 cursor-pointer">
-                    <MoreHorizontal size={14} />
-                  </button>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Upcoming Events */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              className="bg-gradient-to-br from-brand-500 to-emerald-600 rounded-2xl p-6 text-white"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Calendar size={20} />
+                <h3 className="text-base font-semibold font-[Outfit]">
+                  Upcoming Event
+                </h3>
+              </div>
+              <p className="text-sm text-white/90 mb-4">
+                Investor Pitch Session
+              </p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-white/70">Date</p>
+                  <p className="text-sm font-semibold">Feb 15, 2025</p>
                 </div>
-              );
-            })}
+                <button className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors">
+                  View Details
+                </button>
+              </div>
+            </motion.div>
           </div>
-
-          {myPitches.length === 0 && (
-            <div className="p-10 text-center">
-              <Lightbulb size={32} className="text-slate-300 mx-auto mb-3" />
-              <p className="text-[14px] font-medium text-slate-600">
-                No projects yet
-              </p>
-              <p className="text-[12px] text-slate-400 mt-1">
-                Create your first project to get started
-              </p>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Right column */}
-        <div className="space-y-6">
-          {/* Recent Activity */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-            className="bg-white rounded-2xl border border-slate-100 p-5"
-          >
-            <h3 className="text-[14px] font-semibold text-slate-800 font-[Outfit] mb-4">
-              Recent Activity
-            </h3>
-            <div className="space-y-4">
-              {[
-                {
-                  text: 'Lagos Angel Network viewed "AfriWeave"',
-                  time: "2h ago",
-                  icon: Eye,
-                  color: "text-blue-500 bg-blue-50",
-                },
-                {
-                  text: "Funding inquiry from Venture Partners",
-                  time: "5h ago",
-                  icon: DollarSign,
-                  color: "text-emerald-500 bg-emerald-50",
-                },
-                {
-                  text: "New message from Sarah Williams",
-                  time: "1d ago",
-                  icon: MessageSquare,
-                  color: "text-purple-500 bg-purple-50",
-                },
-                {
-                  text: "Your pitch was approved",
-                  time: "2d ago",
-                  icon: BadgeCheck,
-                  color: "text-brand-500 bg-brand-50",
-                },
-                {
-                  text: '"AfriWeave" trending in Fashion',
-                  time: "3d ago",
-                  icon: TrendingUp,
-                  color: "text-amber-500 bg-amber-50",
-                },
-              ].map((a, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${a.color}`}
-                  >
-                    <a.icon size={14} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[12px] text-slate-700 leading-snug">
-                      {a.text}
-                    </p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1">
-                      <Clock size={9} /> {a.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Upcoming */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.4 }}
-            className="bg-white rounded-2xl border border-slate-100 p-5"
-          >
-            <h3 className="text-[14px] font-semibold text-slate-800 font-[Outfit] mb-4">
-              Upcoming
-            </h3>
-            <div className="space-y-3">
-              {[
-                {
-                  title: "Pitch Review Call",
-                  sub: "Lagos Angel Network",
-                  time: "Tomorrow, 10:00 AM",
-                  border: "border-l-brand-500",
-                },
-                {
-                  title: "Document Submission",
-                  sub: "Financial projections due",
-                  time: "Jan 28, 2025",
-                  border: "border-l-amber-500",
-                },
-                {
-                  title: "Investor Meetup",
-                  sub: "Virtual networking",
-                  time: "Feb 02, 2025",
-                  border: "border-l-blue-500",
-                },
-              ].map((ev, i) => (
-                <div
-                  key={i}
-                  className={`border-l-[3px] ${ev.border} pl-3 py-1`}
-                >
-                  <p className="text-[12px] font-semibold text-slate-800">
-                    {ev.title}
-                  </p>
-                  <p className="text-[11px] text-slate-400">{ev.sub}</p>
-                  <p className="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1">
-                    <Clock size={9} /> {ev.time}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </div>
     </div>

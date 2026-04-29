@@ -6,7 +6,7 @@ import {
   Search, Bell, Clock,
   Compass, MoreHorizontal, BadgeCheck
 } from 'lucide-react';
-import { useAppStore } from '../../lib/store';
+import { usePitches } from '../../lib/hooks/usePitches';
 import { formatNaira } from '../../components/shared/PitchGridCard';
 
 
@@ -17,7 +17,7 @@ const statusColors: Record<string, { bg: string; text: string; dot: string }> = 
 };
 
 export default function FunderDashboardPage() {
-  const { pitches } = useAppStore();
+  const { data: pitches = [], isLoading } = usePitches();
 
   // Simulated funder data — projects they've funded
   const fundedProjects = pitches.slice(0, 5).map((p, i) => ({
@@ -38,6 +38,21 @@ export default function FunderDashboardPage() {
     { text: 'New feedback from FarmLink team', time: '1 day ago', icon: MessageSquare, color: 'text-blue-500 bg-blue-50' },
     { text: 'LearnBridge quarterly dividend paid', time: '3 days ago', icon: DollarSign, color: 'text-purple-500 bg-purple-50' },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-[1200px] mx-auto">
+        <div className="animate-pulse space-y-6">
+          <div className="h-20 bg-slate-200 rounded-2xl"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-32 bg-slate-200 rounded-2xl"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 lg:py-8 max-w-[1200px] mx-auto">

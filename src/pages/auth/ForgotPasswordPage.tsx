@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, ArrowRight, ArrowLeft, KeyRound } from 'lucide-react';
+import { Mail, ArrowRight, ArrowLeft, KeyRound, AlertCircle } from 'lucide-react';
 import AuthLayout from '../../components/auth/AuthLayout';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
+import { useRequestPasswordReset } from '../../lib/hooks/useAuth';
 import type { UserRole } from '../../lib/store';
 
 export default function ForgotPasswordPage() {
@@ -14,11 +15,35 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
+  const [resetToken, setResetToken] = useState('');
+
+  const requestReset = useRequestPasswordReset();
 
   const handleSubmit = () => {
-    if (!email.trim()) { setError('Email is required'); return; }
-    if (!/\S+@\S+\.\S+/.test(email)) { setError('Enter a valid email'); return; }
-    setSent(true);
+    if (!email.trim()) { 
+      setError('Email is required'); 
+      return; 
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) { 
+      setError('Enter a valid email'); 
+      return; 
+    }
+
+    requestReset.mutate(email, {
+      onSuccess: (data) => {
+        setResetToken(data.resetToken);
+        setSent(true);
+      },
+      onError: (err) => {
+        setError(err instanceof Error ? err.message : 'Failed to send reset email');
+      },
+    });
+  };
+
+  const handleContinueToReset = () => {
+    // In a real app, the user would click the link in their email
+    // For demo purposes, we'll navigate with the token in the URL
+    navigate(`/reset-password/${role}?token=${resetToken}`);
   };
 
   if (sent) {
@@ -44,12 +69,32 @@ export default function ForgotPasswordPage() {
             </p>
           </div>
 
-          <Button variant="primary" size="lg" fullWidth onClick={() => navigate(`/reset-password/${role}`)} icon={<ArrowRight size={17} />}>
-            I've Received the Link
+          <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-6 text-left">
+            <div className="flex items-start gap-2">
+              <AlertCircle size={16} className="text-amber-600 mt-0.5 flex-shrink-0" />
+              <p className="text-[12px] text-amber-800 leading-relaxed">
+                <span className="font-semibold">Demo Mode:</span> In a real application, you would click the link in your email. For demo purposes, click the button below to continue.
+              </p>
+            </div>
+          </div>
+
+          <Button 
+            variant="primary" 
+            size="lg" 
+            fullWidth 
+            onClick={handleContinueToReset} 
+            icon={<ArrowRight size={17} />}
+          >
+            Continue to Reset Password
           </Button>
 
           <div className="mt-4">
-            <button onClick={() => setSent(false)} className="text-[13px] font-medium text-brand-600 hover:text-brand-700 cursor-pointer">Try a different email</button>
+            <button 
+              onClick={() => setSent(false)} 
+              className="text-[13px] font-medium text-brand-600 hover:text-brand-700 cursor-pointer"
+            >
+              Try a different email
+            </button>
           </div>
 
           <div className="mt-5 pt-5 border-t border-slate-100">
@@ -78,11 +123,41 @@ export default function ForgotPasswordPage() {
       </div>
 
       <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-1">Forgot Password?</h1>
-      <p className="text-[13px] text-slate-500 mb-6 leading-relaxed">No worries. Enter your email address and we'll send you a link to reset your password.</p>
+      <p className="text-[13px] text-slate-500 mb-6 leading-relaxed">
+        No worries. Enter your email address and we'll send you a link to reset your password.
+      </p>
 
       <div className="space-y-3.5">
-        <Input label="Email Address" type="email" placeholder="you@example.com" icon={<Mail size={17} />} value={email} onChange={(e) => { setEmail(e.target.value); setError(''); }} error={error} />
-        <Button variant="primary" size="lg" fullWidth onClick={handleSubmit} icon={<ArrowRight size={17} />}>Send Reset Link</Button>
+        <Input 
+          label="Email Address" 
+          type="email" 
+          placeholder="you@example.com" 
+          icon={<Mail size={17} />} 
+          value={email} 
+          onChange={(e) => { 
+            setEmail(e.target.value); 
+            setError(''); 
+          }} 
+          error={error} 
+        />
+        
+        {requestReset.error && (
+          <div className="bg-red-50 border border-red-100 rounded-lg p-3 text-sm text-red-600 flex items-start gap-2">
+            <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+            <span>{requestReset.error instanceof Error ? requestReset.error.message : 'An error occurred'}</span>
+          </div>
+        )}
+
+        <Button 
+          variant="primary" 
+          size="lg" 
+          fullWidth 
+          onClick={handleSubmit} 
+          icon={<ArrowRight size={17} />}
+          disabled={requestReset.isPending}
+        >
+          {requestReset.isPending ? 'Sending...' : 'Send Reset Link'}
+        </Button>
       </div>
 
       <div className="mt-6 pt-5 border-t border-slate-100 text-center">

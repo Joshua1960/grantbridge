@@ -48,6 +48,9 @@ const FunderDashboardPage = lazy(
 const DiscoverProjectsPage = lazy(
   () => import("./pages/funder/DiscoverProjectsPage"),
 );
+const ProjectDetailPage = lazy(
+  () => import("./pages/funder/ProjectDetailPage"),
+);
 const HowItWorksPage = lazy(() => import("./pages/funder/HowItWorksPage"));
 
 function DashboardRouter() {
@@ -143,6 +146,7 @@ function AppLayout() {
           <Route path="/dashboard/funder" element={<FunderLayout />}>
             <Route index element={<FunderDashboardPage />} />
             <Route path="discover" element={<DiscoverProjectsPage />} />
+            <Route path="project/:id" element={<ProjectDetailPage />} />
             <Route path="how-it-works" element={<HowItWorksPage />} />
           </Route>
         </Routes>

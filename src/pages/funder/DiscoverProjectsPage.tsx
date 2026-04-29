@@ -8,7 +8,7 @@ import {
   SlidersHorizontal,
   BadgeCheck,
 } from "lucide-react";
-import { useAppStore } from "../../lib/store";
+import { usePitches } from "../../lib/hooks/usePitches";
 import PitchGridCard from "../../components/shared/PitchGridCard";
 import Button from "../../components/ui/Button";
 
@@ -86,7 +86,7 @@ const quickFilters = [
 ];
 
 export default function DiscoverProjectsPage() {
-  const { pitches } = useAppStore();
+  const { data: pitches = [], isLoading } = usePitches();
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<Filters>({ ...defaultFilters });
   const [appliedFilters, setAppliedFilters] = useState<Filters>({
@@ -215,6 +215,17 @@ export default function DiscoverProjectsPage() {
 
   const activeTags = getActiveFilterTags(appliedFilters);
   const totalVerified = pitches.filter((p) => p.verified).length;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading projects...</p>
+        </div>
+      </div>
+    );
+  }
 
   const filterSidebar = (
     <div className="space-y-5">

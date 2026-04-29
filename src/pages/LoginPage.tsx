@@ -4,13 +4,13 @@ import { motion } from "framer-motion";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
-import { useAppStore } from "../lib/store";
+import { useAuth } from "../lib/hooks/useAuth";
 import type { UserRole } from "../lib/store";
 
 export default function LoginPage() {
   const { role } = useParams<{ role: string }>();
   const navigate = useNavigate();
-  const login = useAppStore((s) => s.login);
+  const { login, isLoggingIn, loginError } = useAuth();
   const userRole: UserRole = role === "funder" ? "funder" : "entrepreneur";
   const isEntrepreneur = userRole === "entrepreneur";
 
@@ -29,16 +29,17 @@ export default function LoginPage() {
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
 
-    login({
-      id: "1",
-      email: form.email,
-      fullName: isEntrepreneur ? "Alex Johnson" : "Sarah Williams",
-      role: userRole,
-      company: isEntrepreneur ? "InnovateTech" : "Venture Capital Partners",
-      verificationStatus: "verified",
-    });
-
-    navigate("/dashboard");
+    login(
+      { email: form.email, password: form.password, role: userRole },
+      {
+        onSuccess: () => {
+          navigate("/dashboard");
+        },
+        onError: (error) => {
+          setErrors({ email: error.message });
+        },
+      },
+    );
   };
 
   return (
@@ -118,7 +119,7 @@ export default function LoginPage() {
             {/* Icon */}
             <div className="flex justify-center mb-4">
               <div className="w-10 h-10 rounded-lg bg-brand-50 border border-brand-200 flex items-center justify-center">
-                🔑
+                G
               </div>
             </div>
 
@@ -153,31 +154,35 @@ export default function LoginPage() {
               />
 
               <div className="flex justify-end">
-                <a href="#" className="text-sm text-brand-600 hover:underline">
+                <Link
+                  to={`/forgot-password/${role}`}
+                  className="text-sm text-brand-600 hover:underline"
+                >
                   Forgot password?
-                </a>
+                </Link>
               </div>
+
+              {loginError && (
+                <div className="bg-red-50 border border-red-100 rounded-lg p-3 text-sm text-red-600">
+                  {loginError.message}
+                </div>
+              )}
 
               <Button
                 variant="primary"
                 size="lg"
                 fullWidth
                 onClick={handleLogin}
+                disabled={isLoggingIn}
               >
-                Log in
+                {isLoggingIn ? "Logging in..." : "Log in"}
                 <ArrowRight size={18} />
               </Button>
             </div>
 
-            {/* Info box */}
-            {/* <div className="mt-6 bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-500">
-              ℹ️ You don't need to select your role. We'll take you straight to
-              your dashboard — entrepreneur or funder.
-            </div> */}
-
             {/* Footer */}
             <div className="mt-6 border-t pt-4 text-center text-sm text-slate-500">
-              Don’t have an account?{" "}
+              Don't have an account?{" "}
               <Link
                 to={`/signup/${role}`}
                 className="text-brand-600 font-medium hover:underline"
