@@ -2,12 +2,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PencilLine, Check, Banknote } from "lucide-react";
 import {
-  ArrowRight,
   // Lightbulb,
   // Users,
   // Shield,
   // Globe,
-  // ChevronRight,
   // Rocket,
   DollarSign,
   // Handshake,
@@ -168,14 +166,12 @@ export default function LandingPage() {
                 <Link to="/signup/entrepreneur">
                   <Button variant="primary" size="lg">
                     I am an Entrepreneur
-                    <ArrowRight size={18} style={{ marginLeft: "8px" }} />
                   </Button>
                 </Link>
 
                 <Link to="/signup/funder">
                   <Button variant="outline" size="lg">
                     I am a Funder
-                    <ArrowRight size={18} style={{ marginLeft: "8px" }} />
                   </Button>
                 </Link>
               </motion.div>
@@ -633,7 +629,6 @@ export default function LandingPage() {
               {/* <Link to="/signup/entrepreneur"> */}
               <Button variant="white" size="lg">
                 Submit your project
-                <ArrowRight size={18} />
               </Button>
               {/* </Link> */}
               {/* <Link to="/signup/funder"> */}

@@ -171,9 +171,9 @@ export default function AuthLayout({
         <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/5 rounded-full" />
         <div className="absolute bottom-20 -left-16 w-48 h-48 bg-white/5 rounded-full" />
 
-        <div className="relative z-10 flex flex-col justify-between p-10 xl:p-12 w-full">
+        <div className="relative z-10 flex flex-col justify-center gap-10 p-10 xl:p-12 w-full">
           <div>
-            <Link to="/" className="flex items-center gap-2.5 mb-14">
+            <Link to="/" className="flex items-center gap-2.5 mb-12">
               <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-xl font-[Outfit]">
                   G

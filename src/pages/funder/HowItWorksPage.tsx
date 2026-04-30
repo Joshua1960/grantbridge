@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import {
   Search, Shield, FileText, Handshake, CheckCircle2,
-  ArrowRight, HelpCircle, MessageSquare
+  HelpCircle, MessageSquare
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../../components/ui/Button';
@@ -173,7 +173,7 @@ export default function HowItWorksPage() {
             <p className="mt-3 text-sm text-slate-500 max-w-lg mx-auto">Browse verified projects from innovative entrepreneurs across Nigeria and find your next investment opportunity.</p>
             <div className="mt-6">
               <Link to="/dashboard/funder/discover">
-                <Button variant="primary" size="lg" icon={<ArrowRight size={18} />}>
+                <Button variant="primary" size="lg">
                   Discover Projects
                 </Button>
               </Link>

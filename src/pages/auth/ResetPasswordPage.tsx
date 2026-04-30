@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { Lock, ArrowRight, CheckCircle2, ShieldCheck, AlertCircle, XCircle } from 'lucide-react';
+import { Lock, CheckCircle2, ShieldCheck, AlertCircle, XCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AuthLayout from '../../components/auth/AuthLayout';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
-import { useResetPassword, useValidateResetToken } from '../../lib/hooks/useAuth';
+import { useResetPassword } from '../../lib/hooks/useAuth';
 import type { UserRole } from '../../lib/store';
 
 export default function ResetPasswordPage() {
@@ -18,26 +18,9 @@ export default function ResetPasswordPage() {
   const [form, setForm] = useState({ password: '', confirmPassword: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [success, setSuccess] = useState(false);
-  const [tokenValid, setTokenValid] = useState<boolean | null>(null);
 
-  const validateToken = useValidateResetToken();
   const resetPassword = useResetPassword();
-
-  // Validate token on mount
-  useEffect(() => {
-    if (token) {
-      validateToken.mutate(token, {
-        onSuccess: (data) => {
-          setTokenValid(data.valid);
-        },
-        onError: () => {
-          setTokenValid(false);
-        },
-      });
-    } else {
-      setTokenValid(false);
-    }
-  }, [token]);
+  const tokenValid = Boolean(token);
 
   const getStrength = (pw: string) => {
     let s = 0;
@@ -81,18 +64,6 @@ export default function ResetPasswordPage() {
     );
   };
 
-  // Loading state while validating token
-  if (tokenValid === null) {
-    return (
-      <AuthLayout role={userRole} variant="reset">
-        <div className="text-center py-8">
-          <div className="w-16 h-16 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600 text-sm">Validating reset link...</p>
-        </div>
-      </AuthLayout>
-    );
-  }
-
   // Invalid token
   if (!tokenValid) {
     return (
@@ -117,7 +88,6 @@ export default function ResetPasswordPage() {
             size="lg" 
             fullWidth 
             onClick={() => navigate(`/forgot-password/${role}`)}
-            icon={<ArrowRight size={17} />}
           >
             Request New Link
           </Button>
@@ -159,7 +129,6 @@ export default function ResetPasswordPage() {
             size="lg" 
             fullWidth 
             onClick={() => navigate(`/login/${role}`)} 
-            icon={<ArrowRight size={17} />}
           >
             Go to Login
           </Button>
@@ -242,7 +211,6 @@ export default function ResetPasswordPage() {
           size="lg" 
           fullWidth 
           onClick={handleReset} 
-          icon={<ArrowRight size={17} />}
           disabled={resetPassword.isPending}
         >
           {resetPassword.isPending ? 'Resetting...' : 'Reset Password'}

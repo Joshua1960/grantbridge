@@ -1,7 +1,7 @@
+import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { api } from '../api/mock-api';
+import { api } from '../api/live-api';
 import { useAppStore } from '../store';
-import type { User } from '../store';
 
 interface LoginCredentials {
   email: string;
@@ -12,6 +12,7 @@ interface LoginCredentials {
 interface SignupData extends LoginCredentials {
   fullName: string;
   company?: string;
+  phone?: string;
 }
 
 export function useAuth() {
@@ -20,17 +21,17 @@ export function useAuth() {
 
   const loginMutation = useMutation({
     mutationFn: (credentials: LoginCredentials) => api.login(credentials),
-    onSuccess: (user: User) => {
-      setUser(user);
-      queryClient.setQueryData(['currentUser'], user);
+    onSuccess: (result) => {
+      setUser(result.user);
+      queryClient.setQueryData(['currentUser'], result.user);
     },
   });
 
   const signupMutation = useMutation({
     mutationFn: (data: SignupData) => api.signup(data),
-    onSuccess: (user: User) => {
-      setUser(user);
-      queryClient.setQueryData(['currentUser'], user);
+    onSuccess: (result) => {
+      setUser(result.user);
+      queryClient.setQueryData(['currentUser'], result.user);
     },
   });
 
@@ -59,8 +60,33 @@ export function useCurrentUser() {
     queryKey: ['currentUser'],
     queryFn: () => api.getCurrentUser(),
     initialData: user,
-    enabled: !!user,
+    enabled: true,
   });
+}
+
+export function useRestoreSession() {
+  const queryClient = useQueryClient();
+  const { login: setUser, logout: clearUser } = useAppStore();
+  const query = useQuery({
+    queryKey: ['restoreSession'],
+    queryFn: () => api.restoreSession(),
+    staleTime: Infinity,
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (!query.isSuccess) return;
+
+    if (query.data) {
+      setUser(query.data);
+      queryClient.setQueryData(['currentUser'], query.data);
+    } else {
+      clearUser();
+      queryClient.removeQueries({ queryKey: ['currentUser'] });
+    }
+  }, [clearUser, query.data, query.isSuccess, queryClient, setUser]);
+
+  return query;
 }
 
 export function useRequestPasswordReset() {

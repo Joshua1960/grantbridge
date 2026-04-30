@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lightbulb, MapPin, Heart, Eye, Bookmark, BadgeCheck } from 'lucide-react';
 import type { PitchCard } from '../../lib/store';
+import { formatNaira } from '../../lib/format';
 
 const stageColors: Record<string, string> = {
   idea: 'bg-blue-100 text-blue-700',
@@ -27,12 +28,6 @@ const gradients = [
   'from-indigo-400 to-blue-500',
   'from-emerald-400 to-green-500',
 ];
-
-export function formatNaira(num: number) {
-  if (num >= 1000000) return `₦${(num / 1000000).toFixed(1)}M`;
-  if (num >= 1000) return `₦${(num / 1000).toFixed(0)}K`;
-  return `₦${num}`;
-}
 
 interface PitchGridCardProps {
   pitch: PitchCard;

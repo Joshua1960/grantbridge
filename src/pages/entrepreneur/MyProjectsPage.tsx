@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plus, Search, Lightbulb, Eye, Heart, MapPin,
@@ -7,7 +8,7 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '../../lib/store';
 import { useUserPitches } from '../../lib/hooks/usePitches';
-import { formatNaira } from '../../components/shared/PitchGridCard';
+import { formatNaira } from '../../lib/format';
 import Button from '../../components/ui/Button';
 import type { PitchCard } from '../../lib/store';
 
@@ -67,7 +68,9 @@ export default function MyProjectsPage() {
           <h1 className="text-2xl sm:text-[28px] font-bold text-slate-900 font-[Outfit] tracking-tight">My Projects</h1>
           <p className="text-[13px] text-slate-500 mt-1">{myPitches.length} projects · {myPitches.filter((_: PitchCard, i: number) => pitchStatuses[i] === 'active').length} active</p>
         </div>
-        <Button variant="primary" size="md" icon={<Plus size={16} />}>Create New Project</Button>
+        <Link to="/dashboard/entrepreneur/projects/new">
+          <Button variant="primary" size="md" icon={<Plus size={16} />}>Create New Project</Button>
+        </Link>
       </div>
 
       {/* Filters Bar */}

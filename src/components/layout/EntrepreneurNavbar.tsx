@@ -8,6 +8,8 @@ import {
   Bell,
   LayoutDashboard,
   FolderOpen,
+  FilePlus2,
+  ClipboardList,
 } from "lucide-react";
 import { useState } from "react";
 import { useAppStore } from "../../lib/store";
@@ -22,6 +24,16 @@ const navLinks = [
     label: "My Projects",
     path: "/dashboard/entrepreneur/projects",
     icon: FolderOpen,
+  },
+  {
+    label: "Submit Project",
+    path: "/dashboard/entrepreneur/projects/new",
+    icon: FilePlus2,
+  },
+  {
+    label: "Weekly Updates",
+    path: "/dashboard/entrepreneur/progress",
+    icon: ClipboardList,
   },
 ];
 

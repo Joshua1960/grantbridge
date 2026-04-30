@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { useAppStore } from "./lib/store";
+import { useRestoreSession } from "./lib/hooks/useAuth";
 
 const Navbar = lazy(() => import("./components/layout/Navbar"));
 const Footer = lazy(() => import("./components/layout/Footer"));
@@ -39,6 +40,12 @@ const EntrepreneurOnboarding = lazy(
 const MyProjectsPage = lazy(
   () => import("./pages/entrepreneur/MyProjectsPage"),
 );
+const SubmitProjectPage = lazy(
+  () => import("./pages/entrepreneur/SubmitProjectPage"),
+);
+const WeeklyProgressPage = lazy(
+  () => import("./pages/entrepreneur/WeeklyProgressPage"),
+);
 
 // Funder pages
 const FunderLayout = lazy(() => import("./pages/funder/FunderLayout"));
@@ -54,7 +61,7 @@ const ProjectDetailPage = lazy(
 const HowItWorksPage = lazy(() => import("./pages/funder/HowItWorksPage"));
 
 function DashboardRouter() {
-  const { user, isAuthenticated, isFirstLogin } = useAppStore();
+  const { user, isAuthenticated } = useAppStore();
 
   if (!isAuthenticated || !user) {
     return <Navigate to="/login/entrepreneur" replace />;
@@ -64,14 +71,11 @@ function DashboardRouter() {
     return <Navigate to="/dashboard/funder" replace />;
   }
 
-  if (isFirstLogin) {
-    return <Navigate to="/dashboard/entrepreneur/welcome" replace />;
-  }
-
   return <Navigate to="/dashboard/entrepreneur" replace />;
 }
 
 function AppLayout() {
+  const { isLoading: isRestoringSession } = useRestoreSession();
   const location = useLocation();
   const path = location.pathname;
 
@@ -86,6 +90,10 @@ function AppLayout() {
   const isDashboard = path.startsWith("/dashboard");
   const showNavbar = !isAuthPage && !isDashboard;
   const showFooter = !isAuthPage && !isDashboard;
+
+  if (isRestoringSession) {
+    return <div className="min-h-screen grid place-items-center">GrantBridge...</div>;
+  }
 
   return (
     <>
@@ -140,6 +148,8 @@ function AppLayout() {
           >
             <Route index element={<EntrepreneurDashboard />} />
             <Route path="projects" element={<MyProjectsPage />} />
+            <Route path="projects/new" element={<SubmitProjectPage />} />
+            <Route path="progress" element={<WeeklyProgressPage />} />
           </Route>
 
           {/* Funder */}
@@ -147,6 +157,7 @@ function AppLayout() {
             <Route index element={<FunderDashboardPage />} />
             <Route path="discover" element={<DiscoverProjectsPage />} />
             <Route path="project/:id" element={<ProjectDetailPage />} />
+            <Route path="projects/:id" element={<ProjectDetailPage />} />
             <Route path="how-it-works" element={<HowItWorksPage />} />
           </Route>
         </Routes>

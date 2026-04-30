@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, ArrowRight, ArrowLeft, KeyRound, AlertCircle } from 'lucide-react';
+import { Mail, ArrowLeft, KeyRound, AlertCircle } from 'lucide-react';
 import AuthLayout from '../../components/auth/AuthLayout';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -31,7 +31,7 @@ export default function ForgotPasswordPage() {
 
     requestReset.mutate(email, {
       onSuccess: (data) => {
-        setResetToken(data.resetToken);
+        setResetToken(data.resetToken || '');
         setSent(true);
       },
       onError: (err) => {
@@ -83,7 +83,6 @@ export default function ForgotPasswordPage() {
             size="lg" 
             fullWidth 
             onClick={handleContinueToReset} 
-            icon={<ArrowRight size={17} />}
           >
             Continue to Reset Password
           </Button>
@@ -153,7 +152,6 @@ export default function ForgotPasswordPage() {
           size="lg" 
           fullWidth 
           onClick={handleSubmit} 
-          icon={<ArrowRight size={17} />}
           disabled={requestReset.isPending}
         >
           {requestReset.isPending ? 'Sending...' : 'Send Reset Link'}

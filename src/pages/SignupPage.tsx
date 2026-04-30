@@ -1,6 +1,5 @@
 import { useState } from "react";
-// import { Link, useParams, useNavigate } from "react-router-dom";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Mail,
@@ -8,7 +7,6 @@ import {
   User,
   Building2,
   Phone,
-  ArrowRight,
   ArrowLeft,
   CheckCircle2,
   Clock,
@@ -16,7 +14,7 @@ import {
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Modal from "../components/ui/Modal";
-import { useAppStore } from "../lib/store";
+import { useAuth } from "../lib/hooks/useAuth";
 import type { UserRole } from "../lib/store";
 
 type ModalType =
@@ -26,25 +24,34 @@ type ModalType =
   | "linkExpired"
   | "phoneVerify";
 
+const emptySignupForm = {
+  fullName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  company: "",
+  phone: "",
+  otp: "",
+  agreeTerms: false,
+};
+
 export default function SignupPage() {
   const { role } = useParams<{ role: string }>();
-  // const navigate = useNavigate();
-  const login = useAppStore((s) => s.login);
+  const navigate = useNavigate();
+  const { signup, isSigningUp, signupError } = useAuth();
   const userRole: UserRole = role === "funder" ? "funder" : "entrepreneur";
 
   const [step, setStep] = useState(1);
   const [modal, setModal] = useState<ModalType>("none");
-  const [form, setForm] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    company: "",
-    phone: "",
-    otp: "",
-    agreeTerms: false,
-  });
+  const [form, setForm] = useState(emptySignupForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleRoleSwitch = () => {
+    setForm(emptySignupForm);
+    setErrors({});
+    setStep(1);
+    setModal("none");
+  };
 
   const updateField = (field: string, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -77,8 +84,24 @@ export default function SignupPage() {
       setErrors({ company: "Company/Organization name is required" });
       return;
     }
-    // Show email sent modal
-    setModal("emailSent");
+    signup(
+      {
+        email: form.email,
+        password: form.password,
+        fullName: form.fullName,
+        role: userRole,
+        company: form.company,
+        phone: form.phone,
+      },
+      {
+        onSuccess: () => {
+          navigate("/dashboard");
+        },
+        onError: (error) => {
+          setErrors({ company: error instanceof Error ? error.message : "Unable to create account" });
+        },
+      },
+    );
   };
 
   const handleVerifyEmail = () => {
@@ -91,17 +114,7 @@ export default function SignupPage() {
 
   const handlePhoneVerify = () => {
     if (form.otp.length < 4) return;
-    // Complete signup
-    login({
-      id: "1",
-      email: form.email,
-      fullName: form.fullName,
-      role: userRole,
-      company: form.company,
-      phone: form.phone,
-      verificationStatus: "pending",
-    });
-    // navigate("/dashboard");
+    navigate("/dashboard");
   };
 
   const handleShowExpired = () => {
@@ -124,9 +137,9 @@ export default function SignupPage() {
             }}
           />
         </div>
-        <div className="relative z-10 flex flex-col justify-between p-12">
+        <div className="relative z-10 flex flex-col justify-center gap-12 p-12">
           <div>
-            <Link to="/" className="flex items-center gap-2.5 mb-16">
+            <Link to="/" className="flex items-center gap-2.5 mb-12">
               <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-xl font-[Outfit]">
                   G
@@ -179,12 +192,14 @@ export default function SignupPage() {
           <div className="flex bg-slate-100 rounded-xl p-1 mb-8">
             <Link
               to="/signup/entrepreneur"
+              onClick={handleRoleSwitch}
               className={`flex-1 py-2.5 text-center text-sm font-medium rounded-lg transition-all ${isEntrepreneur ? "bg-white text-slate-800 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
             >
               Entrepreneur
             </Link>
             <Link
               to="/signup/funder"
+              onClick={handleRoleSwitch}
               className={`flex-1 py-2.5 text-center text-sm font-medium rounded-lg transition-all ${!isEntrepreneur ? "bg-white text-slate-800 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
             >
               Funder
@@ -304,7 +319,6 @@ export default function SignupPage() {
                     size="lg"
                     fullWidth
                     onClick={handleStep1Submit}
-                    icon={<ArrowRight size={18} />}
                   >
                     Continue
                   </Button>
@@ -379,18 +393,25 @@ export default function SignupPage() {
                     size="lg"
                     fullWidth
                     onClick={handleStep2Submit}
-                    icon={<ArrowRight size={18} />}
+                    disabled={isSigningUp}
                   >
-                    Create Account
+                    {isSigningUp ? "Creating account..." : "Create Account"}
                   </Button>
 
-                  {/* Demo: Show expired link modal */}
-                  <button
-                    onClick={handleShowExpired}
-                    className="w-full text-center text-xs text-slate-400 hover:text-slate-500 transition-colors cursor-pointer"
-                  >
-                    (Demo: Show expired link modal)
-                  </button>
+                  {signupError && (
+                    <div className="bg-red-50 border border-red-100 rounded-lg p-3 text-sm text-red-600">
+                      {signupError.message}
+                    </div>
+                  )}
+
+                  {import.meta.env.DEV && (
+                    <button
+                      onClick={handleShowExpired}
+                      className="w-full text-center text-xs text-slate-400 hover:text-slate-500 transition-colors cursor-pointer"
+                    >
+                      Show expired link state
+                    </button>
+                  )}
                 </div>
               </motion.div>
             )}

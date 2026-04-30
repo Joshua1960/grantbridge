@@ -2,12 +2,12 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
   DollarSign, FolderOpen, MessageSquare, TrendingUp,
-  ArrowUpRight, ChevronRight, MapPin,
+  ArrowUpRight, MapPin,
   Search, Bell, Clock,
-  Compass, MoreHorizontal, BadgeCheck
+  Compass, BadgeCheck
 } from 'lucide-react';
 import { usePitches } from '../../lib/hooks/usePitches';
-import { formatNaira } from '../../components/shared/PitchGridCard';
+import { formatNaira } from '../../lib/format';
 
 
 const statusColors: Record<string, { bg: string; text: string; dot: string }> = {
@@ -148,7 +148,7 @@ export default function FunderDashboardPage() {
               <p className="text-[11px] text-slate-400 mt-0.5">{fundedProjects.length} projects in your portfolio</p>
             </div>
             <Link to="/dashboard/funder/my-projects" className="text-[12px] font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1 cursor-pointer">
-              View All <ChevronRight size={14} />
+              View All
             </Link>
           </div>
 
@@ -171,53 +171,57 @@ export default function FunderDashboardPage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.25 + i * 0.05, duration: 0.3 }}
-                  className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 items-center px-5 sm:px-6 py-4 hover:bg-slate-50/50 transition-colors group cursor-pointer"
                 >
-                  {/* Project */}
-                  <div className="sm:col-span-4 flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${
-                      ['from-brand-400 to-emerald-500', 'from-blue-400 to-cyan-500', 'from-amber-400 to-orange-500', 'from-purple-400 to-pink-500', 'from-teal-400 to-cyan-500'][i]
-                    }`}>
-                      <span className="text-white text-[12px] font-bold">{project.entrepreneurName.charAt(0)}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1">
-                        <p className="text-[13px] font-medium text-slate-800 truncate group-hover:text-brand-600 transition-colors">{project.title.split('—')[0].trim()}</p>
-                        {project.verified && <BadgeCheck size={12} className="text-brand-500 flex-shrink-0" />}
+                  <Link
+                    to={`/dashboard/funder/project/${project.id}`}
+                    className="grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-3 items-center px-5 sm:px-6 py-4 hover:bg-slate-50/50 transition-colors group cursor-pointer"
+                  >
+                    {/* Project */}
+                    <div className="sm:col-span-4 flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${
+                        ['from-brand-400 to-emerald-500', 'from-blue-400 to-cyan-500', 'from-amber-400 to-orange-500', 'from-purple-400 to-pink-500', 'from-teal-400 to-cyan-500'][i]
+                      }`}>
+                        <span className="text-white text-[12px] font-bold">{project.entrepreneurName.charAt(0)}</span>
                       </div>
-                      <p className="text-[11px] text-slate-400 flex items-center gap-1"><MapPin size={9} /> {project.location}</p>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1">
+                          <p className="text-[13px] font-medium text-slate-800 truncate group-hover:text-brand-600 transition-colors">{project.title.split('—')[0].trim()}</p>
+                          {project.verified && <BadgeCheck size={12} className="text-brand-500 flex-shrink-0" />}
+                        </div>
+                        <p className="text-[11px] text-slate-400 flex items-center gap-1"><MapPin size={9} /> {project.location}</p>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Amount */}
-                  <div className="sm:col-span-2">
-                    <p className="text-[13px] font-semibold text-slate-800">{formatNaira(project.amountFunded)}</p>
-                  </div>
+                    {/* Amount */}
+                    <div className="sm:col-span-2">
+                      <p className="text-[13px] font-semibold text-slate-800">{formatNaira(project.amountFunded)}</p>
+                    </div>
 
-                  {/* Status */}
-                  <div className="sm:col-span-2">
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold rounded-full ${sc.bg} ${sc.text}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
-                      {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
-                    </span>
-                  </div>
+                    {/* Status */}
+                    <div className="sm:col-span-2">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold rounded-full ${sc.bg} ${sc.text}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
+                        {project.status.charAt(0).toUpperCase() + project.status.slice(1)}
+                      </span>
+                    </div>
 
-                  {/* Return */}
-                  <div className="sm:col-span-2">
-                    <span className={`text-[12px] font-semibold ${
-                      project.returnRate.startsWith('+') ? 'text-emerald-600' : 'text-slate-400'
-                    }`}>
-                      {project.returnRate}
-                    </span>
-                  </div>
+                    {/* Return */}
+                    <div className="sm:col-span-2">
+                      <span className={`text-[12px] font-semibold ${
+                        project.returnRate.startsWith('+') ? 'text-emerald-600' : 'text-slate-400'
+                      }`}>
+                        {project.returnRate}
+                      </span>
+                    </div>
 
-                  {/* Date */}
-                  <div className="sm:col-span-2 flex items-center justify-between sm:justify-end gap-2">
-                    <span className="text-[11px] text-slate-400">{project.fundedDate}</span>
-                    <button className="p-1 text-slate-300 hover:text-slate-500 rounded-md hover:bg-slate-100 transition-colors cursor-pointer">
-                      <MoreHorizontal size={14} />
-                    </button>
-                  </div>
+                    {/* Date */}
+                    <div className="sm:col-span-2 flex items-center justify-between sm:justify-end gap-2">
+                      <span className="text-[11px] text-slate-400">{project.fundedDate}</span>
+                      <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                        View Project
+                      </div>
+                    </div>
+                  </Link>
                 </motion.div>
               );
             })}

@@ -1,6 +1,6 @@
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Clock, ArrowRight, RefreshCw } from 'lucide-react';
+import { Clock, RefreshCw } from 'lucide-react';
 import AuthLayout from '../../components/auth/AuthLayout';
 import Button from '../../components/ui/Button';
 import type { UserRole } from '../../lib/store';
@@ -71,7 +71,6 @@ export default function LinkExpiredPage() {
             size="lg" 
             fullWidth 
             onClick={() => navigate(`/login/${role}`)}
-            icon={<ArrowRight size={17} />}
           >
             Back to Login
           </Button>

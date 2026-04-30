@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../api/mock-api';
+import { api } from '../api/live-api';
 import type { PitchCard } from '../store';
 
 export function usePitches() {
@@ -10,10 +10,14 @@ export function usePitches() {
 }
 
 export function usePitch(id: string) {
+  const queryClient = useQueryClient();
+
   return useQuery({
     queryKey: ['pitch', id],
     queryFn: () => api.getPitchById(id),
     enabled: !!id,
+    initialData: () =>
+      queryClient.getQueryData<PitchCard[]>(['pitches'])?.find((pitch) => pitch.id === id),
   });
 }
 

@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Compass, BarChart3, Bookmark,
   User, Settings, LogOut, X, MapPin, BookOpen,
-  FolderOpen, ChevronRight
+  FolderOpen
 } from 'lucide-react';
 import { useAppStore } from '../../lib/store';
 
@@ -93,7 +93,6 @@ export default function FunderSidebar({ isOpen, onClose }: FunderSidebarProps) {
                 <item.icon size={18} />
               </span>
               <span className="flex-1 text-left">{item.label}</span>
-              {active && <ChevronRight size={14} className="text-brand-400" />}
             </Link>
           );
         })}

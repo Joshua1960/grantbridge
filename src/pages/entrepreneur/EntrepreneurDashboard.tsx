@@ -2,12 +2,12 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
   Plus, TrendingUp, DollarSign, Eye, Users,
-  ChevronRight, MoreVertical, Search, Bell,
+  MoreVertical, Search, Bell,
   Calendar, CheckCircle2
 } from 'lucide-react';
 import { useAppStore } from '../../lib/store';
 import { useUserPitches } from '../../lib/hooks/usePitches';
-import { formatNaira } from '../../components/shared/PitchGridCard';
+import { formatNaira } from '../../lib/format';
 import Button from '../../components/ui/Button';
 
 export default function EntrepreneurDashboard() {
@@ -175,7 +175,7 @@ export default function EntrepreneurDashboard() {
                   </p>
                 </div>
                 <Link to="/dashboard/entrepreneur/projects">
-                  <Button variant="outline" size="sm" icon={<ChevronRight size={16} />}>
+                  <Button variant="outline" size="sm">
                     View All
                   </Button>
                 </Link>
@@ -287,7 +287,7 @@ export default function EntrepreneurDashboard() {
                 Quick Actions
               </h3>
               <div className="space-y-3">
-                <Link to="/dashboard/entrepreneur/projects">
+                <Link to="/dashboard/entrepreneur/projects/new">
                   <button className="w-full flex items-center gap-3 p-3 bg-brand-50 hover:bg-brand-100 rounded-xl transition-colors group">
                     <div className="w-10 h-10 bg-brand-500 rounded-lg flex items-center justify-center">
                       <Plus className="text-white" size={20} />
@@ -296,7 +296,18 @@ export default function EntrepreneurDashboard() {
                       <p className="text-sm font-medium text-slate-900">New Project</p>
                       <p className="text-xs text-slate-500">Create a new pitch</p>
                     </div>
-                    <ChevronRight className="text-slate-400 group-hover:text-brand-600" size={18} />
+                  </button>
+                </Link>
+
+                <Link to="/dashboard/entrepreneur/progress">
+                  <button className="w-full flex items-center gap-3 p-3 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-colors group">
+                    <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center">
+                      <Calendar className="text-white" size={20} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <p className="text-sm font-medium text-slate-900">Weekly Update</p>
+                      <p className="text-xs text-slate-500">Submit progress report</p>
+                    </div>
                   </button>
                 </Link>
 
@@ -308,7 +319,6 @@ export default function EntrepreneurDashboard() {
                     <p className="text-sm font-medium text-slate-900">View Analytics</p>
                     <p className="text-xs text-slate-500">Track performance</p>
                   </div>
-                  <ChevronRight className="text-slate-400 group-hover:text-purple-600" size={18} />
                 </button>
 
                 <button className="w-full flex items-center gap-3 p-3 bg-slate-50 hover:bg-slate-100 rounded-xl transition-colors group">
@@ -319,7 +329,6 @@ export default function EntrepreneurDashboard() {
                     <p className="text-sm font-medium text-slate-900">Messages</p>
                     <p className="text-xs text-slate-500">Connect with funders</p>
                   </div>
-                  <ChevronRight className="text-slate-400 group-hover:text-blue-600" size={18} />
                 </button>
               </div>
             </motion.div>

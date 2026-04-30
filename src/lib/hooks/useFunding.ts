@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from '../api/mock-api';
+import { api } from '../api/live-api';
 import type { FundingOffer } from '../store';
 
 export function useSubmitFundingOffer() {

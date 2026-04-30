@@ -5,12 +5,13 @@ import { Smartphone, RefreshCw, ShieldCheck } from "lucide-react";
 import AuthLayout from "../../components/auth/AuthLayout";
 import Button from "../../components/ui/Button";
 import type { UserRole } from "../../lib/store";
+import type { AuthFlowState } from "../../types/navigation";
 
 export default function VerifyPhonePage() {
   const { role } = useParams<{ role: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const state = (location.state as any) || {};
+  const state = (location.state as AuthFlowState | null) || {};
   const userRole: UserRole = role === "funder" ? "funder" : "entrepreneur";
   const phone = state.phone || "+234 800 000 0000";
 

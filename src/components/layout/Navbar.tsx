@@ -4,6 +4,16 @@ import { Menu, X, LogOut, LayoutDashboard, User } from "lucide-react";
 import { useState } from "react";
 import { useAppStore } from "../../lib/store";
 import Button from "../ui/Button";
+import type { User as AppUser } from "../../lib/store";
+
+interface AnimatedMobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+  isAuthenticated: boolean;
+  user: AppUser | null;
+  onLogout: () => void;
+  isLanding: boolean;
+}
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -118,7 +128,7 @@ function AnimatedMobileMenu({
   user,
   onLogout,
   isLanding,
-}: any) {
+}: AnimatedMobileMenuProps) {
   return (
     <motion.div
       initial={false}

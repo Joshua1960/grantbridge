@@ -1,33 +1,20 @@
-// import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { CheckCircle2, ArrowRight, Sparkles } from "lucide-react";
+import { CheckCircle2, Sparkles } from "lucide-react";
 import AuthLayout from "../../components/auth/AuthLayout";
 import Button from "../../components/ui/Button";
-import { useAppStore } from "../../lib/store";
 import type { UserRole } from "../../lib/store";
+import type { AuthFlowState } from "../../types/navigation";
 
 export default function AccountCreatedPage() {
   const { role } = useParams<{ role: string }>();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
-  const state = (location.state as any) || {};
-  const login = useAppStore((s) => s.login);
+  const state = (location.state as AuthFlowState | null) || {};
   const userRole: UserRole = role === "funder" ? "funder" : "entrepreneur";
 
   const handleContinue = () => {
-    login({
-      id: "1",
-      email: state.email || "user@example.com",
-      fullName:
-        state.fullName ||
-        (userRole === "entrepreneur" ? "Onyin Eunice" : "Sochi Nakolisa"),
-      role: userRole,
-      company: state.company || "",
-      phone: state.phone || "",
-      verificationStatus: "pending",
-    });
-    // navigate("/dashboard");
+    navigate("/dashboard");
   };
 
   return (
@@ -136,7 +123,6 @@ export default function AccountCreatedPage() {
             onClick={handleContinue}
           >
             Go to Dashboard
-            <ArrowRight size={17} />
           </Button>
         </motion.div>
       </div>

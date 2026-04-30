@@ -1,7 +1,8 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ReactNode } from "react";
 import { motion } from "framer-motion";
+import type { HTMLMotionProps } from "framer-motion";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends HTMLMotionProps<"button"> {
   variant?:
     | "primary"
     | "secondary"
@@ -51,7 +52,8 @@ export default function Button({
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.98 }}
       className={`${base} ${variants[variant]} ${sizes[size]} ${fullWidth ? "w-full" : ""} ${className}`}
-      {...(props as any)}
+      type="button"
+      {...props}
     >
       {icon && <span className="flex-shrink-0">{icon}</span>}
       {children}

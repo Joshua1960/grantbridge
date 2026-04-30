@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mail, ArrowRight, RefreshCw } from "lucide-react";
+import { Mail, RefreshCw } from "lucide-react";
 import AuthLayout from "../../components/auth/AuthLayout";
 import Button from "../../components/ui/Button";
 import type { UserRole } from "../../lib/store";
+import type { AuthFlowState } from "../../types/navigation";
 
 export default function VerifyEmailPage() {
   const { role } = useParams<{ role: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const state = (location.state as any) || {};
+  const state = (location.state as AuthFlowState | null) || {};
   const userRole: UserRole = role === "funder" ? "funder" : "entrepreneur";
   const email = state.email || "your@email.com";
   const [resent, setResent] = useState(false);
@@ -70,7 +71,6 @@ export default function VerifyEmailPage() {
 
         <Button variant="primary" size="lg" fullWidth onClick={handleVerified}>
           I've Verified My Email
-          <ArrowRight size={17} />
         </Button>
 
         <div className="mt-4 flex items-center justify-center gap-1">
@@ -96,15 +96,16 @@ export default function VerifyEmailPage() {
           </p>
         </div>
 
-        {/* Demo shortcut */}
-        <div className="mt-4">
-          <button
-            onClick={() => navigate(`/link-expired/${role}`, { state })}
-            className="text-[11px] text-slate-300 hover:text-slate-400 cursor-pointer"
-          >
-            (Demo: Show link expired)
-          </button>
-        </div>
+        {import.meta.env.DEV && (
+          <div className="mt-4">
+            <button
+              onClick={() => navigate(`/link-expired/${role}`, { state })}
+              className="text-[11px] text-slate-300 hover:text-slate-400 cursor-pointer"
+            >
+              Show link expired state
+            </button>
+          </div>
+        )}
       </div>
     </AuthLayout>
   );

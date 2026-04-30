@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { clearAuthTokens } from './api/auth-tokens';
 
 export type UserRole = 'entrepreneur' | 'funder';
 
@@ -79,7 +80,10 @@ export const useAppStore = create<AppState>()(
         isAuthenticated: true, 
         isFirstLogin: user.verificationStatus === 'pending'
       }),
-      logout: () => set({ user: null, isAuthenticated: false, isFirstLogin: true }),
+      logout: () => {
+        clearAuthTokens();
+        set({ user: null, isAuthenticated: false, isFirstLogin: true });
+      },
       completeOnboarding: () => set({ isFirstLogin: false }),
       updateUser: (updates) => set((state) => ({
         user: state.user ? { ...state.user, ...updates } : null,

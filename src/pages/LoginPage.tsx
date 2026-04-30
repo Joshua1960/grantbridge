@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mail, Lock, ArrowRight } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { useAuth } from "../lib/hooks/useAuth";
@@ -58,10 +58,10 @@ export default function LoginPage() {
           />
         </div>
 
-        <div className="relative z-10 flex flex-col justify-between p-12 w-full">
+        <div className="relative z-10 flex flex-col justify-center p-12 w-full">
           {/* Logo */}
           <div>
-            <Link to="/" className="flex items-center gap-2.5 mb-16">
+            <Link to="/" className="flex items-center gap-2.5 mb-12">
               <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-xl font-[Outfit]">
                   G
@@ -105,15 +105,6 @@ export default function LoginPage() {
               <h2 className="text-lg font-semibold text-brand-600 font-[Outfit]">
                 GrantBridge
               </h2>
-              <p className="text-sm text-slate-500">
-                New here?{" "}
-                <Link
-                  to={`/signup/${role}`}
-                  className="text-brand-600 font-medium hover:underline"
-                >
-                  Create account
-                </Link>
-              </p>
             </div>
 
             {/* Icon */}
@@ -176,19 +167,7 @@ export default function LoginPage() {
                 disabled={isLoggingIn}
               >
                 {isLoggingIn ? "Logging in..." : "Log in"}
-                <ArrowRight size={18} />
               </Button>
-            </div>
-
-            {/* Footer */}
-            <div className="mt-6 border-t pt-4 text-center text-sm text-slate-500">
-              Don't have an account?{" "}
-              <Link
-                to={`/signup/${role}`}
-                className="text-brand-600 font-medium hover:underline"
-              >
-                Sign up for free
-              </Link>
             </div>
           </div>
         </motion.div>

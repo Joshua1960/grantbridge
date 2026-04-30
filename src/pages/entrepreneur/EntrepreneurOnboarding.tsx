@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   User, Building2, FileText, Upload, Shield, Camera,
-  ArrowRight, ArrowLeft, CheckCircle2, ChevronDown,
+  ArrowLeft, CheckCircle2, ChevronDown,
   MapPin, Phone, Mail, Globe, Briefcase, Calendar,
   CreditCard, AlertCircle, Sparkles, X, Loader2
 } from 'lucide-react';
@@ -201,7 +201,7 @@ export default function EntrepreneurOnboarding() {
               </div>
 
               <div className="flex justify-end mt-6">
-                <Button variant="primary" size="md" onClick={nextStep} icon={<ArrowRight size={16} />}>Continue</Button>
+                <Button variant="primary" size="md" onClick={nextStep}>Continue</Button>
               </div>
             </motion.div>
           )}
@@ -254,7 +254,7 @@ export default function EntrepreneurOnboarding() {
 
               <div className="flex justify-between mt-6">
                 <Button variant="ghost" size="md" onClick={prevStep} icon={<ArrowLeft size={16} />}>Back</Button>
-                <Button variant="primary" size="md" onClick={nextStep} icon={<ArrowRight size={16} />}>Continue</Button>
+                <Button variant="primary" size="md" onClick={nextStep}>Continue</Button>
               </div>
             </motion.div>
           )}
@@ -420,7 +420,7 @@ export default function EntrepreneurOnboarding() {
                 </div>
               </div>
 
-              <Button variant="primary" size="lg" onClick={handleGoToDashboard} icon={<ArrowRight size={17} />}>
+              <Button variant="primary" size="lg" onClick={handleGoToDashboard}>
                 Go to Dashboard
               </Button>
             </motion.div>

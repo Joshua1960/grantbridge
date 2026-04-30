@@ -7,13 +7,12 @@ import {
   DollarSign, Target, TrendingUp, Clock, Globe, Mail,
   Linkedin, ExternalLink, Building2, Award,
   PieChart, Briefcase, CheckCircle2, Copy, X,
-  ShieldCheck, CreditCard, ArrowRight,
+  ShieldCheck, CreditCard,
   Sparkles, Lock
 } from 'lucide-react';
-import { usePitch, usePitches } from '../../lib/hooks/usePitches';
-import { formatNaira } from '../../components/shared/PitchGridCard';
+import { usePitch } from '../../lib/hooks/usePitches';
+import { formatNaira } from '../../lib/format';
 import Button from '../../components/ui/Button';
-import type { PitchCard } from '../../lib/store';
 
 const stageLabels: Record<string, string> = { idea: 'Idea Stage', mvp: 'MVP Stage', growth: 'Growth Stage', scale: 'Scale Stage' };
 const stageColors: Record<string, string> = { idea: 'bg-blue-100 text-blue-700 border-blue-200', mvp: 'bg-amber-100 text-amber-700 border-amber-200', growth: 'bg-brand-100 text-brand-700 border-brand-200', scale: 'bg-purple-100 text-purple-700 border-purple-200' };
@@ -24,7 +23,6 @@ export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: pitch, isLoading } = usePitch(id || '');
-  const { data: allPitches = [] } = usePitches();
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
@@ -36,6 +34,7 @@ export default function ProjectDetailPage() {
   const [fundStep, setFundStep] = useState<FundStep>('closed');
   const [fundAmount, setFundAmount] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [receipt, setReceipt] = useState<{ id: string; date: string } | null>(null);
 
   const mediaItems = [
     { type: 'video' as const, src: '/images/pitch-1.jpg', label: 'Pitch Video' },
@@ -101,6 +100,11 @@ export default function ProjectDetailPage() {
   const handleFlutterwavePay = () => {
     setIsProcessing(true);
     setTimeout(() => {
+      const paidAt = new Date();
+      setReceipt({
+        id: `TXN-${paidAt.getTime().toString(36).toUpperCase()}`,
+        date: paidAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      });
       setIsProcessing(false);
       setFundStep('confirmation');
     }, 3000);
@@ -110,6 +114,7 @@ export default function ProjectDetailPage() {
     setFundStep('closed');
     setFundAmount('');
     setIsProcessing(false);
+    setReceipt(null);
   };
 
   const formatInputAmount = (val: string) => {
@@ -340,18 +345,13 @@ export default function ProjectDetailPage() {
               </div>
             </motion.div>
 
-            {/* Similar */}
+            {/* Discover more */}
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.4 }} className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-6">
-              <h2 className="text-[15px] font-semibold text-slate-800 font-[Outfit] mb-4">Similar Projects</h2>
-              <div className="space-y-3">
-                {allPitches.filter((p: PitchCard) => p.id !== pitch.id && p.category === pitch.category).slice(0, 3).map((p: PitchCard) => (
-                  <Link key={p.id} to={`/dashboard/funder/project/${p.id}`} className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group">
-                    <div className="w-10 h-10 bg-gradient-to-br from-brand-400 to-brand-600 rounded-xl flex items-center justify-center flex-shrink-0"><span className="text-white text-[11px] font-bold">{p.entrepreneurName.charAt(0)}</span></div>
-                    <div className="flex-1 min-w-0"><p className="text-[12px] font-medium text-slate-700 truncate group-hover:text-brand-600 transition-colors">{p.title.split('—')[0].trim()}</p><p className="text-[10px] text-slate-400">{formatNaira(p.fundingGoal)} needed</p></div>
-                    <ExternalLink size={12} className="text-slate-300 group-hover:text-brand-500 transition-colors" />
-                  </Link>
-                ))}
-              </div>
+              <h2 className="text-[15px] font-semibold text-slate-800 font-[Outfit] mb-2">Discover More Projects</h2>
+              <p className="text-[12px] text-slate-500 leading-relaxed mb-4">Browse other verified projects in the marketplace without making another list request on this detail page.</p>
+              <Link to="/dashboard/funder/discover" className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-brand-600 hover:text-brand-700">
+                Explore marketplace <ExternalLink size={13} />
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -472,7 +472,7 @@ export default function ProjectDetailPage() {
                       </motion.div>
                     )}
 
-                    <Button variant="primary" size="lg" fullWidth icon={<ArrowRight size={17} />} onClick={handleProceedToPayment} disabled={!fundAmount || Number(fundAmount) < 1000}>
+                    <Button variant="primary" size="lg" fullWidth onClick={handleProceedToPayment} disabled={!fundAmount || Number(fundAmount) < 1000}>
                       Proceed to Payment
                     </Button>
                     <p className="text-[10px] text-slate-400 text-center mt-3 flex items-center justify-center gap-1"><Lock size={9} /> Secured by GrantBridge Escrow</p>
@@ -599,12 +599,12 @@ export default function ProjectDetailPage() {
 
                         {/* Receipt */}
                         <div className="bg-slate-50 rounded-xl p-4 mb-5 text-left space-y-2">
-                          <div className="flex justify-between text-[12px]"><span className="text-slate-500">Transaction ID</span><span className="font-mono font-semibold text-slate-700">TXN-{Date.now().toString(36).toUpperCase()}</span></div>
+                          <div className="flex justify-between text-[12px]"><span className="text-slate-500">Transaction ID</span><span className="font-mono font-semibold text-slate-700">{receipt?.id || 'Pending'}</span></div>
                           <div className="flex justify-between text-[12px]"><span className="text-slate-500">Amount</span><span className="font-semibold text-slate-700">{formatNaira(Number(fundAmount))}</span></div>
                           <div className="flex justify-between text-[12px]"><span className="text-slate-500">Fee</span><span className="font-semibold text-slate-700">{formatNaira(Number(fundAmount) * 0.015)}</span></div>
                           <div className="flex justify-between text-[12px]"><span className="text-slate-500">Total Paid</span><span className="font-bold text-slate-900">{formatNaira(Number(fundAmount) * 1.015)}</span></div>
                           <div className="border-t border-slate-200 pt-2 flex justify-between text-[12px]"><span className="text-slate-500">Status</span><span className="font-semibold text-brand-600 flex items-center gap-1"><CheckCircle2 size={11} /> Completed</span></div>
-                          <div className="flex justify-between text-[12px]"><span className="text-slate-500">Date</span><span className="font-semibold text-slate-700">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span></div>
+                          <div className="flex justify-between text-[12px]"><span className="text-slate-500">Date</span><span className="font-semibold text-slate-700">{receipt?.date || 'Pending'}</span></div>
                         </div>
 
                         <div className="space-y-2">
