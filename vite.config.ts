@@ -32,9 +32,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import type { ClientRequest, IncomingMessage } from "http";
-// import type { ProxyServer } from "http-proxy";
 
-// https://vite.dev/config/
 export default defineConfig(async () => {
   const plugins = [react(), tailwindcss()];
   try {
