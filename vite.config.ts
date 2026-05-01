@@ -28,12 +28,11 @@
 // //   };
 // // });
 
-
-
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import type { ClientRequest, IncomingMessage } from "http";
+// import type { ProxyServer } from "http-proxy";
 
 // https://vite.dev/config/
 export default defineConfig(async () => {
@@ -53,10 +52,13 @@ export default defineConfig(async () => {
           target: "https://grantbrigde.onrender.com",
           changeOrigin: true,
           secure: true,
-          configure: (proxy) => {
-            proxy.on("proxyReq", (proxyReq: ClientRequest, req: IncomingMessage) => {
-              if (req.method) proxyReq.method = req.method;
-            });
+          configure: (proxy: any) => {
+            proxy.on(
+              "proxyReq",
+              (proxyReq: ClientRequest, req: IncomingMessage) => {
+                if (req.method) proxyReq.method = req.method;
+              },
+            );
           },
         },
       },
