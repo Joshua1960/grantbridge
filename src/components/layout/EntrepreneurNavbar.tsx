@@ -6,10 +6,10 @@ import {
   LogOut,
   User,
   Bell,
-  LayoutDashboard,
-  FolderOpen,
-  FilePlus2,
-  ClipboardList,
+  // LayoutDashboard,
+  // FolderOpen,
+  // FilePlus2,
+  // ClipboardList,
 } from "lucide-react";
 import { useState } from "react";
 import { useAppStore } from "../../lib/store";
@@ -18,22 +18,22 @@ const navLinks = [
   {
     label: "Dashboard",
     path: "/dashboard/entrepreneur",
-    icon: LayoutDashboard,
+    // icon: LayoutDashboard,
   },
   {
     label: "My Projects",
     path: "/dashboard/entrepreneur/projects",
-    icon: FolderOpen,
+    // icon: FolderOpen,
   },
   {
     label: "Submit Project",
     path: "/dashboard/entrepreneur/projects/new",
-    icon: FilePlus2,
+    // icon: FilePlus2,
   },
   {
     label: "Weekly Updates",
     path: "/dashboard/entrepreneur/progress",
-    icon: ClipboardList,
+    // icon: ClipboardList,
   },
 ];
 
@@ -79,7 +79,7 @@ export default function EntrepreneurNavbar() {
                       : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
                   }`}
                 >
-                  <link.icon size={16} />
+                  {/* <link.icon size={16} /> */}
                   {link.label}
                   {isActive && (
                     <motion.div
@@ -158,7 +158,7 @@ export default function EntrepreneurNavbar() {
                     : "text-slate-600 hover:bg-slate-50"
                 }`}
               >
-                <link.icon size={18} />
+                {/* <link.icon size={18} /> */}
                 {link.label}
               </Link>
             );

@@ -22,6 +22,8 @@ export default function LoginPage() {
     setErrors((prev) => ({ ...prev, [field]: "" }));
   };
 
+  
+
   const handleLogin = () => {
     const errs: Record<string, string> = {};
     if (!form.email.trim()) errs.email = "Email is required";
