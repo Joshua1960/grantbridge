@@ -71,7 +71,7 @@ export default function ForgotPasswordPage() {
 
           <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-6 text-left">
             <div className="flex items-start gap-2">
-              <AlertCircle size={16} className="text-amber-600 mt-0.5 flex-shrink-0" />
+              <AlertCircle size={16} className="text-amber-600 mt-0.5 shrink-0" />
               <p className="text-[12px] text-amber-800 leading-relaxed">
                 <span className="font-semibold">Demo Mode:</span> In a real application, you would click the link in your email. For demo purposes, click the button below to continue.
               </p>
@@ -142,7 +142,7 @@ export default function ForgotPasswordPage() {
         
         {requestReset.error && (
           <div className="bg-red-50 border border-red-100 rounded-lg p-3 text-sm text-red-600 flex items-start gap-2">
-            <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+            <AlertCircle size={16} className="shrink-0 mt-0.5" />
             <span>{requestReset.error instanceof Error ? requestReset.error.message : 'An error occurred'}</span>
           </div>
         )}

@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { useAppStore } from "./lib/store";
-import { useRestoreSession } from "./lib/hooks/useAuth";
 
 const Navbar = lazy(() => import("./components/layout/Navbar"));
 const Footer = lazy(() => import("./components/layout/Footer"));
@@ -75,7 +74,6 @@ function DashboardRouter() {
 }
 
 function AppLayout() {
-  const { isLoading: isRestoringSession } = useRestoreSession();
   const location = useLocation();
   const path = location.pathname;
 
@@ -90,10 +88,6 @@ function AppLayout() {
   const isDashboard = path.startsWith("/dashboard");
   const showNavbar = !isAuthPage && !isDashboard;
   const showFooter = !isAuthPage && !isDashboard;
-
-  if (isRestoringSession) {
-    return <div className="min-h-screen grid place-items-center">GrantBridge...</div>;
-  }
 
   return (
     <>

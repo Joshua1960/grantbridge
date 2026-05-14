@@ -1,12 +1,10 @@
-import { useEffect } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { api } from '../api/live-api';
-import { useAppStore } from '../store';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAppStore } from "../store";
 
 interface LoginCredentials {
   email: string;
   password: string;
-  role: 'entrepreneur' | 'funder';
+  role: "entrepreneur" | "funder";
 }
 
 interface SignupData extends LoginCredentials {
@@ -15,28 +13,68 @@ interface SignupData extends LoginCredentials {
   phone?: string;
 }
 
+interface AuthResult {
+  user: {
+    id: string;
+    email: string;
+    fullName: string;
+    role: "entrepreneur" | "funder";
+    company?: string;
+    phone?: string;
+    avatar?: string;
+    verificationStatus: "pending" | "submitted" | "verified" | "rejected";
+  };
+}
+
+function createUserFromCredentials(
+  credentials: LoginCredentials & Partial<SignupData>,
+) {
+  return {
+    id: `user-${Math.random().toString(36).slice(2, 10)}`,
+    email: credentials.email,
+    fullName:
+      "fullName" in credentials && credentials.fullName
+        ? credentials.fullName
+        : credentials.email
+            .split("@")[0]
+            .replace(/\.|_/g, " ")
+            .replace(/\b\w/g, (c) => c.toUpperCase()),
+    role: credentials.role,
+    company: "company" in credentials ? credentials.company : undefined,
+    phone: "phone" in credentials ? credentials.phone : undefined,
+    avatar: "",
+    verificationStatus: "verified" as const,
+  };
+}
+
+function delay<T>(value: T, ms = 150): Promise<T> {
+  return new Promise((resolve) => setTimeout(() => resolve(value), ms));
+}
+
 export function useAuth() {
   const queryClient = useQueryClient();
   const { login: setUser, logout: clearUser } = useAppStore();
 
   const loginMutation = useMutation({
-    mutationFn: (credentials: LoginCredentials) => api.login(credentials),
+    mutationFn: (credentials: LoginCredentials) =>
+      delay({ user: createUserFromCredentials(credentials) } as AuthResult),
     onSuccess: (result) => {
       setUser(result.user);
-      queryClient.setQueryData(['currentUser'], result.user);
+      queryClient.setQueryData(["currentUser"], result.user);
     },
   });
 
   const signupMutation = useMutation({
-    mutationFn: (data: SignupData) => api.signup(data),
+    mutationFn: (data: SignupData) =>
+      delay({ user: createUserFromCredentials(data) } as AuthResult),
     onSuccess: (result) => {
       setUser(result.user);
-      queryClient.setQueryData(['currentUser'], result.user);
+      queryClient.setQueryData(["currentUser"], result.user);
     },
   });
 
   const logoutMutation = useMutation({
-    mutationFn: () => api.logout(),
+    mutationFn: () => delay(true),
     onSuccess: () => {
       clearUser();
       queryClient.clear();
@@ -54,56 +92,30 @@ export function useAuth() {
   };
 }
 
-export function useCurrentUser() {
-  const { user } = useAppStore();
-  return useQuery({
-    queryKey: ['currentUser'],
-    queryFn: () => api.getCurrentUser(),
-    initialData: user,
-    enabled: true,
-  });
-}
-
-export function useRestoreSession() {
-  const queryClient = useQueryClient();
-  const { login: setUser, logout: clearUser } = useAppStore();
-  const query = useQuery({
-    queryKey: ['restoreSession'],
-    queryFn: () => api.restoreSession(),
-    staleTime: Infinity,
-    retry: false,
-  });
-
-  useEffect(() => {
-    if (!query.isSuccess) return;
-
-    if (query.data) {
-      setUser(query.data);
-      queryClient.setQueryData(['currentUser'], query.data);
-    } else {
-      clearUser();
-      queryClient.removeQueries({ queryKey: ['currentUser'] });
-    }
-  }, [clearUser, query.data, query.isSuccess, queryClient, setUser]);
-
-  return query;
-}
-
 export function useRequestPasswordReset() {
   return useMutation({
-    mutationFn: (email: string) => api.requestPasswordReset(email),
+    mutationFn: (_email: string) =>
+      delay({
+        message: "Password reset link sent.",
+        resetToken: "demo-reset-token",
+      }),
   });
 }
 
 export function useValidateResetToken() {
   return useMutation({
-    mutationFn: (token: string) => api.validateResetToken(token),
+    mutationFn: (token: string) => delay({ valid: Boolean(token) }),
   });
 }
 
 export function useResetPassword() {
   return useMutation({
-    mutationFn: ({ token, newPassword }: { token: string; newPassword: string }) =>
-      api.resetPassword(token, newPassword),
+    mutationFn: ({
+      token,
+      newPassword,
+    }: {
+      token: string;
+      newPassword: string;
+    }) => delay({ success: Boolean(token) && newPassword.length >= 8 }),
   });
 }

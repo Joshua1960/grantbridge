@@ -200,7 +200,7 @@ export default function AuthLayout({
               <div key={item} className="flex items-center gap-3">
                 <CheckCircle2
                   size={16}
-                  className="text-brand-200/80 flex-shrink-0"
+                  className="text-brand-200/80 shrink-0"
                 />
                 <span className="text-[13px] text-brand-100/90">{item}</span>
               </div>
@@ -215,7 +215,7 @@ export default function AuthLayout({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="w-full max-w-[440px]"
+          className="w-full max-w-110"
         >
           {children}
         </motion.div>

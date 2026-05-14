@@ -413,7 +413,7 @@ export default function SubmitProjectPage() {
                   </div>
 
                   <div className="rounded-2xl border border-slate-100 overflow-hidden">
-                    <div className="bg-gradient-to-br from-brand-500 to-emerald-600 p-6 text-white">
+                    <div className="bg-linear-to-br from-brand-500 to-emerald-600 p-6 text-white">
                       <p className="text-sm text-white/70">
                         {form.category} ·{" "}
                         {stages.find((s) => s.value === form.stage)?.label}

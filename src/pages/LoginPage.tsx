@@ -22,8 +22,6 @@ export default function LoginPage() {
     setErrors((prev) => ({ ...prev, [field]: "" }));
   };
 
-  
-
   const handleLogin = () => {
     const errs: Record<string, string> = {};
     if (!form.email.trim()) errs.email = "Email is required";
@@ -47,7 +45,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex">
       {/* LEFT PANEL (Desktop only) */}
-      <div className="hidden lg:flex lg:w-[480px] xl:w-[520px] bg-gradient-to-br from-brand-500 via-brand-600 to-emerald-700 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-120 xl:w-130 bg-linear-to-br from-brand-500 via-brand-600 to-emerald-700 relative overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div

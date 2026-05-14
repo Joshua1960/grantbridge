@@ -50,9 +50,9 @@ export default function EntrepreneurNavbar() {
 
   return (
     <nav className="sticky top-0 z-40 bg-white border-b border-slate-100">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2.5 shrink-0">
             <div className="w-9 h-9 bg-brand-500 rounded-xl flex items-center justify-center shadow-md shadow-brand-500/25">
               <span className="text-white font-bold text-lg font-[Outfit]">
                 G

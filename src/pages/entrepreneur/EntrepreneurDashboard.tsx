@@ -1,24 +1,33 @@
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
-  Plus, TrendingUp, DollarSign, Eye, Users,
-  MoreVertical, Search, Bell,
-  Calendar, CheckCircle2
-} from 'lucide-react';
-import { useAppStore } from '../../lib/store';
-import { useUserPitches } from '../../lib/hooks/usePitches';
-import { formatNaira } from '../../lib/format';
-import Button from '../../components/ui/Button';
+  Plus,
+  TrendingUp,
+  DollarSign,
+  Eye,
+  Users,
+  MoreVertical,
+  Search,
+  Bell,
+  Calendar,
+  CheckCircle2,
+} from "lucide-react";
+import { useAppStore } from "../../lib/store";
+import { useUserPitches } from "../../lib/hooks/usePitches";
+import { formatNaira } from "../../lib/format";
+import Button from "../../components/ui/Button";
 
 export default function EntrepreneurDashboard() {
   const { user } = useAppStore();
-  const { data: pitches = [], isLoading } = useUserPitches(user?.id || '');
+  const { data: pitches = [], isLoading } = useUserPitches(user?.id || "");
 
   const myPitches = pitches.slice(0, 5);
   const totalViews = myPitches.reduce((s, p) => s + p.views, 0);
-  const fundedCount = myPitches.filter(p => p.fundingStatus === 'funded').length;
+  const fundedCount = myPitches.filter(
+    (p) => p.fundingStatus === "funded",
+  ).length;
   const totalFundingReceived = myPitches
-    .filter(p => p.fundedBy)
+    .filter((p) => p.fundedBy)
     .reduce((sum, p) => sum + (p.fundedBy?.fundedAmount || 0), 0);
 
   if (isLoading) {
@@ -48,13 +57,16 @@ export default function EntrepreneurDashboard() {
               Dashboard
             </h1>
             <p className="text-sm text-slate-500">
-              Welcome back, {user?.fullName || 'Entrepreneur'} 👋
+              Welcome back, {user?.fullName || "Entrepreneur"} 👋
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                size={18}
+              />
               <input
                 type="text"
                 placeholder="Search projects..."
@@ -194,7 +206,11 @@ export default function EntrepreneurDashboard() {
                       Create your first project to get started
                     </p>
                     <Link to="/dashboard/entrepreneur/projects">
-                      <Button variant="primary" size="sm" icon={<Plus size={16} />}>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        icon={<Plus size={16} />}
+                      >
                         Create Project
                       </Button>
                     </Link>
@@ -202,10 +218,26 @@ export default function EntrepreneurDashboard() {
                 ) : (
                   myPitches.map((pitch, index) => {
                     const statusConfig = {
-                      open: { label: 'Open', color: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
-                      funded: { label: 'Funded', color: 'bg-blue-50 text-blue-700', dot: 'bg-blue-500' },
-                      in_review: { label: 'In Review', color: 'bg-amber-50 text-amber-700', dot: 'bg-amber-500' },
-                      closed: { label: 'Closed', color: 'bg-slate-100 text-slate-600', dot: 'bg-slate-400' },
+                      open: {
+                        label: "Open",
+                        color: "bg-emerald-50 text-emerald-700",
+                        dot: "bg-emerald-500",
+                      },
+                      funded: {
+                        label: "Funded",
+                        color: "bg-blue-50 text-blue-700",
+                        dot: "bg-blue-500",
+                      },
+                      in_review: {
+                        label: "In Review",
+                        color: "bg-amber-50 text-amber-700",
+                        dot: "bg-amber-500",
+                      },
+                      closed: {
+                        label: "Closed",
+                        color: "bg-slate-100 text-slate-600",
+                        dot: "bg-slate-400",
+                      },
                     };
                     const status = statusConfig[pitch.fundingStatus];
 
@@ -215,7 +247,7 @@ export default function EntrepreneurDashboard() {
                         className="p-6 hover:bg-slate-50 transition-colors group cursor-pointer"
                       >
                         <div className="flex items-start gap-4">
-                          <div className="w-12 h-12 bg-gradient-to-br from-brand-400 to-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                          <div className="w-12 h-12 bg-linear-to-br from-brand-400 to-emerald-500 rounded-xl flex items-center justify-center shrink-0">
                             <span className="text-white font-bold text-lg">
                               {index + 1}
                             </span>
@@ -225,35 +257,46 @@ export default function EntrepreneurDashboard() {
                             <div className="flex items-start justify-between gap-4 mb-2">
                               <div className="flex-1">
                                 <h3 className="text-base font-semibold text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-1">
-                                  {pitch.title.split('—')[0].trim()}
+                                  {pitch.title.split("—")[0].trim()}
                                 </h3>
                                 <p className="text-sm text-slate-500 mt-0.5">
                                   {pitch.category} • {pitch.location}
                                 </p>
                               </div>
                               <button className="p-1 hover:bg-slate-100 rounded-lg transition-colors">
-                                <MoreVertical size={18} className="text-slate-400" />
+                                <MoreVertical
+                                  size={18}
+                                  className="text-slate-400"
+                                />
                               </button>
                             </div>
 
                             <div className="flex items-center justify-between mt-3">
                               <div className="flex items-center gap-4">
                                 <div>
-                                  <p className="text-xs text-slate-500">Funding Goal</p>
+                                  <p className="text-xs text-slate-500">
+                                    Funding Goal
+                                  </p>
                                   <p className="text-sm font-semibold text-slate-900">
                                     {formatNaira(pitch.fundingGoal)}
                                   </p>
                                 </div>
                                 <div>
-                                  <p className="text-xs text-slate-500">Views</p>
+                                  <p className="text-xs text-slate-500">
+                                    Views
+                                  </p>
                                   <p className="text-sm font-semibold text-slate-900">
                                     {pitch.views}
                                   </p>
                                 </div>
                               </div>
 
-                              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full ${status.color}`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${status.dot}`}></span>
+                              <span
+                                className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full ${status.color}`}
+                              >
+                                <span
+                                  className={`w-1.5 h-1.5 rounded-full ${status.dot}`}
+                                ></span>
                                 {status.label}
                               </span>
                             </div>
@@ -261,7 +304,9 @@ export default function EntrepreneurDashboard() {
                             {pitch.fundedBy && (
                               <div className="mt-3 flex items-center gap-2 text-xs text-emerald-700 bg-emerald-50 px-3 py-2 rounded-lg">
                                 <CheckCircle2 size={14} />
-                                <span>Funded by {pitch.fundedBy.funderName}</span>
+                                <span>
+                                  Funded by {pitch.fundedBy.funderName}
+                                </span>
                               </div>
                             )}
                           </div>
@@ -293,8 +338,12 @@ export default function EntrepreneurDashboard() {
                       <Plus className="text-white" size={20} />
                     </div>
                     <div className="flex-1 text-left">
-                      <p className="text-sm font-medium text-slate-900">New Project</p>
-                      <p className="text-xs text-slate-500">Create a new pitch</p>
+                      <p className="text-sm font-medium text-slate-900">
+                        New Project
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        Create a new pitch
+                      </p>
                     </div>
                   </button>
                 </Link>
@@ -305,8 +354,12 @@ export default function EntrepreneurDashboard() {
                       <Calendar className="text-white" size={20} />
                     </div>
                     <div className="flex-1 text-left">
-                      <p className="text-sm font-medium text-slate-900">Weekly Update</p>
-                      <p className="text-xs text-slate-500">Submit progress report</p>
+                      <p className="text-sm font-medium text-slate-900">
+                        Weekly Update
+                      </p>
+                      <p className="text-xs text-slate-500">
+                        Submit progress report
+                      </p>
                     </div>
                   </button>
                 </Link>
@@ -316,7 +369,9 @@ export default function EntrepreneurDashboard() {
                     <Eye className="text-purple-600" size={20} />
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="text-sm font-medium text-slate-900">View Analytics</p>
+                    <p className="text-sm font-medium text-slate-900">
+                      View Analytics
+                    </p>
                     <p className="text-xs text-slate-500">Track performance</p>
                   </div>
                 </button>
@@ -326,8 +381,12 @@ export default function EntrepreneurDashboard() {
                     <Users className="text-blue-600" size={20} />
                   </div>
                   <div className="flex-1 text-left">
-                    <p className="text-sm font-medium text-slate-900">Messages</p>
-                    <p className="text-xs text-slate-500">Connect with funders</p>
+                    <p className="text-sm font-medium text-slate-900">
+                      Messages
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Connect with funders
+                    </p>
                   </div>
                 </button>
               </div>
@@ -346,29 +405,31 @@ export default function EntrepreneurDashboard() {
               <div className="space-y-4">
                 {[
                   {
-                    action: 'New view on your project',
-                    project: 'AfriWeave',
-                    time: '2 hours ago',
+                    action: "New view on your project",
+                    project: "AfriWeave",
+                    time: "2 hours ago",
                     icon: Eye,
-                    color: 'bg-blue-50 text-blue-600',
+                    color: "bg-blue-50 text-blue-600",
                   },
                   {
-                    action: 'Funding offer received',
-                    project: 'MediTrack',
-                    time: '5 hours ago',
+                    action: "Funding offer received",
+                    project: "MediTrack",
+                    time: "5 hours ago",
                     icon: DollarSign,
-                    color: 'bg-emerald-50 text-emerald-600',
+                    color: "bg-emerald-50 text-emerald-600",
                   },
                   {
-                    action: 'Project published',
-                    project: 'FarmLink',
-                    time: '1 day ago',
+                    action: "Project published",
+                    project: "FarmLink",
+                    time: "1 day ago",
                     icon: CheckCircle2,
-                    color: 'bg-purple-50 text-purple-600',
+                    color: "bg-purple-50 text-purple-600",
                   },
                 ].map((activity, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${activity.color}`}>
+                    <div
+                      className={`w-9 h-9 rounded-lg flex items-center justify-center ${activity.color}`}
+                    >
                       <activity.icon size={16} />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -389,7 +450,7 @@ export default function EntrepreneurDashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="bg-gradient-to-br from-brand-500 to-emerald-600 rounded-2xl p-6 text-white"
+              className="bg-linear-to-br from-brand-500 to-emerald-600 rounded-2xl p-6 text-white"
             >
               <div className="flex items-center gap-2 mb-3">
                 <Calendar size={20} />

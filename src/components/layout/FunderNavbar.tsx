@@ -1,13 +1,30 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Menu, X, LogOut, User, Bell, Compass, LayoutDashboard, BookOpen } from 'lucide-react';
-import { useState } from 'react';
-import { useAppStore } from '../../lib/store';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Menu,
+  X,
+  LogOut,
+  User,
+  Bell,
+  Compass,
+  LayoutDashboard,
+  BookOpen,
+} from "lucide-react";
+import { useState } from "react";
+import { useAppStore } from "../../lib/store";
 
 const navLinks = [
-  { label: 'Discover Projects', path: '/dashboard/funder/discover', icon: Compass },
-  { label: 'My Dashboard', path: '/dashboard/funder', icon: LayoutDashboard },
-  { label: 'How it Works', path: '/dashboard/funder/how-it-works', icon: BookOpen },
+  {
+    label: "Discover Projects",
+    path: "/dashboard/funder/discover",
+    icon: Compass,
+  },
+  { label: "My Dashboard", path: "/dashboard/funder", icon: LayoutDashboard },
+  {
+    label: "How it Works",
+    path: "/dashboard/funder/how-it-works",
+    icon: BookOpen,
+  },
 ];
 
 export default function FunderNavbar() {
@@ -18,35 +35,40 @@ export default function FunderNavbar() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <nav className="sticky top-0 z-40 bg-white border-b border-slate-100">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-360 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+          <Link to="/" className="flex items-center gap-2.5 shrink-0">
             <div className="w-9 h-9 bg-brand-500 rounded-xl flex items-center justify-center shadow-md shadow-brand-500/25">
-              <span className="text-white font-bold text-lg font-[Outfit]">G</span>
+              <span className="text-white font-bold text-lg font-[Outfit]">
+                G
+              </span>
             </div>
-            <span className="text-xl font-bold text-slate-800 font-[Outfit] tracking-tight hidden sm:block">GrantBridge</span>
+            <span className="text-xl font-bold text-slate-800 font-[Outfit] tracking-tight hidden sm:block">
+              GrantBridge
+            </span>
           </Link>
 
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
-              const isActive = link.path === '/dashboard/funder'
-                ? location.pathname === '/dashboard/funder'
-                : location.pathname.startsWith(link.path);
+              const isActive =
+                link.path === "/dashboard/funder"
+                  ? location.pathname === "/dashboard/funder"
+                  : location.pathname.startsWith(link.path);
               return (
                 <Link
                   key={link.path}
                   to={link.path}
                   className={`relative flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                     isActive
-                      ? 'text-brand-600 bg-brand-50'
-                      : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                      ? "text-brand-600 bg-brand-50"
+                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-50"
                   }`}
                 >
                   <link.icon size={16} />
@@ -55,7 +77,11 @@ export default function FunderNavbar() {
                     <motion.div
                       layoutId="funder-nav-indicator"
                       className="absolute bottom-0 left-3 right-3 h-0.5 bg-brand-500 rounded-full"
-                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 350,
+                        damping: 30,
+                      }}
                     />
                   )}
                 </Link>
@@ -75,8 +101,12 @@ export default function FunderNavbar() {
                 <User size={14} className="text-white" />
               </div>
               <div className="hidden lg:block">
-                <p className="text-sm font-medium text-slate-700 leading-tight">{user?.fullName?.split(' ')[0]}</p>
-                <p className="text-[10px] text-slate-400 capitalize">{user?.role}</p>
+                <p className="text-sm font-medium text-slate-700 leading-tight">
+                  {user?.fullName?.split(" ")[0]}
+                </p>
+                <p className="text-[10px] text-slate-400 capitalize">
+                  {user?.role}
+                </p>
               </div>
             </div>
 
@@ -102,21 +132,28 @@ export default function FunderNavbar() {
       {/* Mobile menu */}
       <motion.div
         initial={false}
-        animate={mobileOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+        animate={
+          mobileOpen
+            ? { height: "auto", opacity: 1 }
+            : { height: 0, opacity: 0 }
+        }
         className="md:hidden overflow-hidden bg-white border-t border-slate-100"
       >
         <div className="px-4 py-3 space-y-1">
           {navLinks.map((link) => {
-            const isActive = link.path === '/dashboard/funder'
-              ? location.pathname === '/dashboard/funder'
-              : location.pathname.startsWith(link.path);
+            const isActive =
+              link.path === "/dashboard/funder"
+                ? location.pathname === "/dashboard/funder"
+                : location.pathname.startsWith(link.path);
             return (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setMobileOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all ${
-                  isActive ? 'text-brand-600 bg-brand-50' : 'text-slate-600 hover:bg-slate-50'
+                  isActive
+                    ? "text-brand-600 bg-brand-50"
+                    : "text-slate-600 hover:bg-slate-50"
                 }`}
               >
                 <link.icon size={18} />
@@ -125,9 +162,14 @@ export default function FunderNavbar() {
             );
           })}
           <div className="pt-2 mt-2 border-t border-slate-100">
-            <div className="px-4 py-2 text-xs text-slate-400">Signed in as {user?.fullName}</div>
+            <div className="px-4 py-2 text-xs text-slate-400">
+              Signed in as {user?.fullName}
+            </div>
             <button
-              onClick={() => { handleLogout(); setMobileOpen(false); }}
+              onClick={() => {
+                handleLogout();
+                setMobileOpen(false);
+              }}
               className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl cursor-pointer"
             >
               <LogOut size={18} /> Logout

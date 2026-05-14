@@ -1,12 +1,15 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { clearAuthTokens } from './api/auth-tokens';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-export type UserRole = 'entrepreneur' | 'funder';
+export type UserRole = "entrepreneur" | "funder";
 
-export type VerificationStatus = 'pending' | 'submitted' | 'verified' | 'rejected';
+export type VerificationStatus =
+  | "pending"
+  | "submitted"
+  | "verified"
+  | "rejected";
 
-export type FundingStatus = 'open' | 'funded' | 'in_review' | 'closed';
+export type FundingStatus = "open" | "funded" | "in_review" | "closed";
 
 export interface User {
   id: string;
@@ -26,7 +29,7 @@ export interface FundingOffer {
   funderCompany: string;
   amount: number;
   message: string;
-  status: 'pending' | 'accepted' | 'rejected';
+  status: "pending" | "accepted" | "rejected";
   createdAt: string;
 }
 
@@ -51,7 +54,7 @@ export interface PitchCard {
   location: string;
   createdAt: string;
   tags: string[];
-  stage: 'idea' | 'mvp' | 'growth' | 'scale';
+  stage: "idea" | "mvp" | "growth" | "scale";
   likes: number;
   views: number;
   image: string;
@@ -75,27 +78,31 @@ export const useAppStore = create<AppState>()(
       user: null,
       isAuthenticated: false,
       isFirstLogin: true,
-      login: (user) => set({ 
-        user: { ...user, verificationStatus: user.verificationStatus || 'pending' }, 
-        isAuthenticated: true, 
-        isFirstLogin: user.verificationStatus === 'pending'
-      }),
+      login: (user) =>
+        set({
+          user: {
+            ...user,
+            verificationStatus: user.verificationStatus || "pending",
+          },
+          isAuthenticated: true,
+          isFirstLogin: user.verificationStatus === "pending",
+        }),
       logout: () => {
-        clearAuthTokens();
         set({ user: null, isAuthenticated: false, isFirstLogin: true });
       },
       completeOnboarding: () => set({ isFirstLogin: false }),
-      updateUser: (updates) => set((state) => ({
-        user: state.user ? { ...state.user, ...updates } : null,
-      })),
+      updateUser: (updates) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, ...updates } : null,
+        })),
     }),
     {
-      name: 'grantbridge-auth',
-      partialize: (state) => ({ 
-        user: state.user, 
+      name: "grantbridge-auth",
+      partialize: (state) => ({
+        user: state.user,
         isAuthenticated: state.isAuthenticated,
-        isFirstLogin: state.isFirstLogin 
+        isFirstLogin: state.isFirstLogin,
       }),
-    }
-  )
+    },
+  ),
 );

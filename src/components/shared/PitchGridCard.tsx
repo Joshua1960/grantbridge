@@ -51,7 +51,7 @@ export default function PitchGridCard({ pitch, index, isLiked, isBookmarked, onL
       className="group bg-white rounded-2xl border border-slate-100 overflow-hidden hover:shadow-xl hover:shadow-slate-200/60 transition-all duration-300 hover:-translate-y-1"
     >
       <Link to={`/dashboard/funder/project/${pitch.id}`} className="block">
-        <div className={`h-32 bg-gradient-to-br ${gradients[index % gradients.length]} relative p-5`}>
+        <div className={`h-32 bg-linear-to-br ${gradients[index % gradients.length]} relative p-5`}>
           <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
           <div className="relative flex items-start justify-between">
             <span className={`px-2.5 py-1 text-[10px] font-semibold rounded-lg ${stageColors[pitch.stage]} backdrop-blur-sm`}>
