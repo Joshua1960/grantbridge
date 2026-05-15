@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, User, CheckCircle2, Clock, ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
+import { Mail, Lock, User, CheckCircle2, Clock } from "lucide-react";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Modal from "../components/ui/Modal";
@@ -83,9 +83,9 @@ export default function SignupPage() {
     navigate("/dashboard");
   };
 
-  const handleShowExpired = () => {
-    setModal("linkExpired");
-  };
+  // const handleShowExpired = () => {
+  //   setModal("linkExpired");
+  // };
 
   const isEntrepreneur = userRole === "entrepreneur";
 

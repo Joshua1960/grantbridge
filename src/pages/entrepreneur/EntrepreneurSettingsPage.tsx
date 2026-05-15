@@ -6,12 +6,10 @@ import {
   Bell,
   Shield,
   Camera,
-  X,
   Check,
   Save,
   Eye,
   EyeOff,
-  Building,
 } from "lucide-react";
 import { useAppStore } from "../../lib/store";
 import Button from "../../components/ui/Button";
