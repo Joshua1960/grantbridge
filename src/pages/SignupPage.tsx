@@ -1,14 +1,7 @@
 import { useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Mail,
-  Lock,
-  User,
-  CheckCircle2,
-  Clock,
-  ArrowLeft,
-} from "lucide-react";
+import { Mail, Lock, User, CheckCircle2, Clock, ArrowLeft } from "lucide-react";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Modal from "../components/ui/Modal";
@@ -99,7 +92,7 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex">
       {/* Left panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-brand-500 via-emerald-600 to-teal-700 relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/3 bg-gradient-to-br from-brand-500 via-emerald-600 to-teal-700 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
