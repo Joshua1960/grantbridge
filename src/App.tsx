@@ -33,6 +33,9 @@ const EntrepreneurLayout = lazy(
 const EntrepreneurDashboard = lazy(
   () => import("./pages/entrepreneur/EntrepreneurDashboard"),
 );
+const EntrepreneurProfilePage = lazy(
+  () => import("./pages/entrepreneur/EntrepreneurProfilePage"),
+);
 const EntrepreneurOnboarding = lazy(
   () => import("./pages/entrepreneur/EntrepreneurOnboarding"),
 );
@@ -50,6 +53,9 @@ const WeeklyProgressPage = lazy(
 const FunderLayout = lazy(() => import("./pages/funder/FunderLayout"));
 const FunderDashboardPage = lazy(
   () => import("./pages/funder/FunderDashboardPage"),
+);
+const FunderProfilePage = lazy(
+  () => import("./pages/funder/FunderProfilePage"),
 );
 const DiscoverProjectsPage = lazy(
   () => import("./pages/funder/DiscoverProjectsPage"),
@@ -141,6 +147,7 @@ function AppLayout() {
             element={<EntrepreneurLayout />}
           >
             <Route index element={<EntrepreneurDashboard />} />
+            <Route path="profile" element={<EntrepreneurProfilePage />} />
             <Route path="projects" element={<MyProjectsPage />} />
             <Route path="projects/new" element={<SubmitProjectPage />} />
             <Route path="progress" element={<WeeklyProgressPage />} />
@@ -149,6 +156,7 @@ function AppLayout() {
           {/* Funder */}
           <Route path="/dashboard/funder" element={<FunderLayout />}>
             <Route index element={<FunderDashboardPage />} />
+            <Route path="profile" element={<FunderProfilePage />} />
             <Route path="discover" element={<DiscoverProjectsPage />} />
             <Route path="project/:id" element={<ProjectDetailPage />} />
             <Route path="projects/:id" element={<ProjectDetailPage />} />

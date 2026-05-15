@@ -20,6 +20,7 @@ export interface User {
   phone?: string;
   avatar?: string;
   verificationStatus: VerificationStatus;
+  profileCompleted?: boolean;
 }
 
 export interface FundingOffer {

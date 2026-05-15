@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -11,6 +12,8 @@ import {
   Bell,
   Calendar,
   CheckCircle2,
+  AlertCircle,
+  X,
 } from "lucide-react";
 import { useAppStore } from "../../lib/store";
 import { useUserPitches } from "../../lib/hooks/usePitches";
@@ -18,8 +21,9 @@ import { formatNaira } from "../../lib/format";
 import Button from "../../components/ui/Button";
 
 export default function EntrepreneurDashboard() {
-  const { user } = useAppStore();
+  const { user, updateUser } = useAppStore();
   const { data: pitches = [], isLoading } = useUserPitches(user?.id || "");
+  const [showProfilePrompt, setShowProfilePrompt] = useState(!user?.profileCompleted);
 
   const myPitches = pitches.slice(0, 5);
   const totalViews = myPitches.reduce((s, p) => s + p.views, 0);
@@ -79,6 +83,49 @@ export default function EntrepreneurDashboard() {
             </button>
           </div>
         </div>
+
+        {/* Complete Profile Prompt */}
+        {showProfilePrompt && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="bg-gradient-to-r from-brand-500 to-purple-600 rounded-2xl p-5 mb-8 flex items-start gap-4"
+          >
+            <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center shrink-0">
+              <AlertCircle size={24} className="text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-white font-[Outfit] mb-1">
+                Complete Your Profile
+              </h3>
+              <p className="text-sm text-brand-100 mb-3">
+                Complete your profile to increase your chances of getting funded by top investors.
+              </p>
+              <div className="flex items-center gap-3">
+                <Link
+                  to="/dashboard/entrepreneur/profile"
+                  onClick={() => {
+                    updateUser({ profileCompleted: true });
+                    setShowProfilePrompt(false);
+                  }}
+                  className="px-5 py-2.5 bg-white hover:bg-brand-50 text-brand-700 text-sm font-semibold rounded-xl transition-colors cursor-pointer"
+                >
+                  Complete Profile
+                </Link>
+                <button
+                  onClick={() => {
+                    updateUser({ profileCompleted: true });
+                    setShowProfilePrompt(false);
+                  }}
+                  className="p-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

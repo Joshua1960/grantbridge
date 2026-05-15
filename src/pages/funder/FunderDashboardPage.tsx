@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -12,8 +13,11 @@ import {
   Clock,
   Compass,
   BadgeCheck,
+  AlertCircle,
+  X,
 } from "lucide-react";
 import { usePitches } from "../../lib/hooks/usePitches";
+import { useAppStore } from "../../lib/store";
 import { formatNaira } from "../../lib/format";
 
 const statusColors: Record<string, { bg: string; text: string; dot: string }> =
@@ -32,7 +36,9 @@ const statusColors: Record<string, { bg: string; text: string; dot: string }> =
   };
 
 export default function FunderDashboardPage() {
+  const { user, updateUser } = useAppStore();
   const { data: pitches = [], isLoading } = usePitches();
+  const [showProfilePrompt, setShowProfilePrompt] = useState(!user?.profileCompleted);
 
   // Simulated funder data — projects they've funded
   const fundedProjects = pitches.slice(0, 5).map((p, i) => ({
@@ -130,6 +136,49 @@ export default function FunderDashboardPage() {
           </button>
         </div>
       </div>
+
+      {/* Complete Profile Prompt */}
+      {showProfilePrompt && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="bg-gradient-to-r from-brand-500 to-emerald-600 rounded-2xl p-5 mb-8 flex items-start gap-4"
+        >
+          <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center shrink-0">
+            <AlertCircle size={24} className="text-white" />
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold text-white font-[Outfit] mb-1">
+              Complete Your Profile
+            </h3>
+            <p className="text-sm text-brand-100 mb-3">
+              Complete your profile to unlock all features and get discovered by more entrepreneurs.
+            </p>
+            <div className="flex items-center gap-3">
+              <Link
+                to="/dashboard/funder/profile"
+                onClick={() => {
+                  updateUser({ profileCompleted: true });
+                  setShowProfilePrompt(false);
+                }}
+                className="px-5 py-2.5 bg-white hover:bg-brand-50 text-brand-700 text-sm font-semibold rounded-xl transition-colors cursor-pointer"
+              >
+                Complete Profile
+              </Link>
+              <button
+                onClick={() => {
+                  updateUser({ profileCompleted: true });
+                  setShowProfilePrompt(false);
+                }}
+                className="p-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+              >
+                <X size={18} />
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">

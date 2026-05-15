@@ -35,6 +35,11 @@ const navLinks = [
     path: "/dashboard/entrepreneur/progress",
     // icon: ClipboardList,
   },
+  {
+    label: "Profile",
+    path: "/dashboard/entrepreneur/profile",
+    // icon: User,
+  },
 ];
 
 export default function EntrepreneurNavbar() {

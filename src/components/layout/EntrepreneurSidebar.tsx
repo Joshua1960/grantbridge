@@ -1,56 +1,52 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
-  Compass,
-  // BarChart3,
-  // Bookmark,
+  FolderOpen,
+  FilePlus2,
+  ClipboardList,
   User,
   Settings,
   LogOut,
   X,
   MapPin,
-  BookOpen,
-  // FolderOpen,
 } from "lucide-react";
 import { useAppStore } from "../../lib/store";
 
-interface FunderSidebarProps {
+interface EntrepreneurSidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 const navItems = [
   {
-    label: "Overview",
-    path: "/dashboard/funder",
+    label: "Dashboard",
+    path: "/dashboard/entrepreneur",
     icon: LayoutDashboard,
     exact: true,
   },
   {
-    label: "Discover Projects",
-    path: "/dashboard/funder/discover",
-    icon: Compass,
+    label: "My Projects",
+    path: "/dashboard/entrepreneur/projects",
+    icon: FolderOpen,
   },
-  // {
-  //   label: "My Projects",
-  //   path: "/dashboard/funder/my-projects",
-  //   icon: FolderOpen,
-  // },
-  // { label: "Impact Report", path: "/dashboard/funder/impact", icon: BarChart3 },
-  // { label: "Saved Projects", path: "/dashboard/funder/saved", icon: Bookmark },
   {
-    label: "How it Works",
-    path: "/dashboard/funder/how-it-works",
-    icon: BookOpen,
+    label: "Submit Project",
+    path: "/dashboard/entrepreneur/projects/new",
+    icon: FilePlus2,
+  },
+  {
+    label: "Weekly Updates",
+    path: "/dashboard/entrepreneur/progress",
+    icon: ClipboardList,
   },
 ];
 
 const accountItems = [
-  { label: "Profile", path: "/dashboard/funder/profile", icon: User },
-  { label: "Settings", path: "/dashboard/funder/settings", icon: Settings },
+  { label: "Profile", path: "/dashboard/entrepreneur/profile", icon: User },
+  { label: "Settings", path: "/dashboard/entrepreneur/settings", icon: Settings },
 ];
 
-export default function FunderSidebar({ isOpen, onClose }: FunderSidebarProps) {
+export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSidebarProps) {
   const { user, logout } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
@@ -91,22 +87,22 @@ export default function FunderSidebar({ isOpen, onClose }: FunderSidebarProps) {
 
       {/* User Profile Card */}
       <Link
-        to="/dashboard/funder/profile"
+        to="/dashboard/entrepreneur/profile"
         onClick={onClose}
         className="px-4 py-5 border-b border-slate-100 shrink-0 hover:bg-slate-50 transition-colors cursor-pointer"
       >
         <div className="flex items-center gap-3">
           <img
-            src="/images/avatar-funder.jpg"
+            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&h=100&fit=crop&crop=face"
             alt="Avatar"
             className="w-12 h-12 rounded-2xl object-cover ring-2 ring-brand-100"
           />
           <div className="flex-1 min-w-0">
             <p className="text-[14px] font-semibold text-slate-800 truncate">
-              {user?.company || user?.fullName || "Lagos Angel Network"}
+              {user?.fullName || "Amina Ibrahim"}
             </p>
             <p className="text-[12px] text-slate-500 truncate">
-              {user?.fullName || "Sarah Williams"}
+              {user?.company || "TechStart Africa"}
             </p>
             <p className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
               <MapPin size={10} /> Lagos, Nigeria
