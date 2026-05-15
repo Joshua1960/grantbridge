@@ -159,10 +159,10 @@ export default function SignupPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 p-8 sm:p-10">
+            <div className="bg-white rounded-3xl shadow-lg border border-slate-100 p-8 sm:p-10">
               {/* Header */}
               <div className="text-center mb-8">
-                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-500/30">
+                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <span className="text-white font-bold text-2xl font-[Outfit]">
                     G
                   </span>
