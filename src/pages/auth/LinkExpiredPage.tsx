@@ -35,10 +35,10 @@ export default function LinkExpiredPage() {
           <Clock size={36} className="text-amber-500" />
         </motion.div>
 
-        <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-2">
+        <h1 className="text-xl font-bold text-slate-900 font-[Outfit] mb-2">
           Link Expired
         </h1>
-        <p className="text-[13px] text-slate-500 leading-relaxed mb-6 max-w-sm mx-auto">
+        <p className="text-sm text-slate-500 leading-relaxed mb-6 max-w-sm mx-auto">
           {isPasswordReset 
             ? 'This password reset link has expired. Reset links are valid for 1 hour. Please request a new one.'
             : 'This verification link has expired. Verification links are valid for 24 hours. Please request a new one.'
@@ -46,7 +46,7 @@ export default function LinkExpiredPage() {
         </p>
 
         <div className="bg-slate-50 rounded-xl p-4 mb-6 text-left">
-          <p className="text-[12px] text-slate-600 leading-relaxed">
+          <p className="text-xs text-slate-600 leading-relaxed">
             <span className="font-semibold text-slate-800">Security Note:</span> Links expire for your security. 
             {isPasswordReset 
               ? ' Password reset links are single-use and expire after 1 hour.'
@@ -77,7 +77,7 @@ export default function LinkExpiredPage() {
         </div>
 
         <div className="mt-6 pt-5 border-t border-slate-100">
-          <p className="text-[11px] text-slate-400">
+          <p className="text-xs text-slate-400">
             Need help? Contact{' '}
             <a href="mailto:support@grantbridge.com" className="text-brand-600 hover:underline">
               support@grantbridge.com

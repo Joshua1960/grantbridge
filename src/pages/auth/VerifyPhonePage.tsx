@@ -83,13 +83,13 @@ export default function VerifyPhonePage() {
           <Smartphone size={36} className="text-brand-500" />
         </motion.div>
 
-        <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-2">
+        <h1 className="text-xl font-bold text-slate-900 font-[Outfit] mb-2">
           Verify Phone Number
         </h1>
-        <p className="text-[13px] text-slate-500 mb-1">
+        <p className="text-sm text-slate-500 mb-1">
           Enter the 6-digit code sent to
         </p>
-        <p className="text-[14px] font-semibold text-slate-800 mb-6 bg-slate-50 inline-block px-4 py-1.5 rounded-lg">
+        <p className="text-sm font-semibold text-slate-800 mb-6 bg-slate-50 inline-block px-4 py-1.5 rounded-lg">
           {phone}
         </p>
 
@@ -119,11 +119,11 @@ export default function VerifyPhonePage() {
           ))}
         </div>
 
-        {error && <p className="text-[12px] text-red-500 mb-4">{error}</p>}
+        {error && <p className="text-xs text-red-500 mb-4">{error}</p>}
 
         <div className="flex items-center justify-center gap-1 mb-6 mt-3">
           <ShieldCheck size={13} className="text-slate-400" />
-          <p className="text-[11px] text-slate-400">
+          <p className="text-xs text-slate-400">
             Code expires in{" "}
             <span className="font-semibold text-slate-500">10:00</span>
           </p>
@@ -137,7 +137,7 @@ export default function VerifyPhonePage() {
           <button
             onClick={handleResend}
             disabled={resent}
-            className="text-[13px] font-medium text-brand-600 hover:text-brand-700 disabled:text-slate-400 flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed transition-colors"
+            className="text-sm font-medium text-brand-600 hover:text-brand-700 disabled:text-slate-400 flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed transition-colors"
           >
             <RefreshCw size={13} className={resent ? "animate-spin" : ""} />
             {resent ? "Code sent!" : "Resend code"}

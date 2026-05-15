@@ -21,6 +21,14 @@ export interface User {
   avatar?: string;
   verificationStatus: VerificationStatus;
   profileCompleted?: boolean;
+  verificationDocuments?: {
+    idType?: string;
+    idNumber?: string;
+    idFront?: string;
+    idBack?: string;
+    selfie?: string;
+    submittedAt?: string;
+  };
 }
 
 export interface FundingOffer {
@@ -39,7 +47,7 @@ export interface PitchCard {
   title: string;
   description: string;
   category: string;
-  fundingGoal: number;
+  amountNeeded: number;
   fundingStatus: FundingStatus;
   fundedBy?: {
     funderId: string;
@@ -59,6 +67,7 @@ export interface PitchCard {
   likes: number;
   views: number;
   image: string;
+  media?: string[];
   verified: boolean;
   offers?: FundingOffer[];
 }
@@ -84,9 +93,10 @@ export const useAppStore = create<AppState>()(
           user: {
             ...user,
             verificationStatus: user.verificationStatus || "pending",
+            profileCompleted: user.profileCompleted || false,
           },
           isAuthenticated: true,
-          isFirstLogin: user.verificationStatus === "pending",
+          isFirstLogin: !user.profileCompleted,
         }),
       logout: () => {
         set({ user: null, isAuthenticated: false, isFirstLogin: true });

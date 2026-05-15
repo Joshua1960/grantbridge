@@ -54,7 +54,7 @@ export default function PitchGridCard({ pitch, index, isLiked, isBookmarked, onL
         <div className={`h-32 bg-linear-to-br ${gradients[index % gradients.length]} relative p-5`}>
           <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
           <div className="relative flex items-start justify-between">
-            <span className={`px-2.5 py-1 text-[10px] font-semibold rounded-lg ${stageColors[pitch.stage]} backdrop-blur-sm`}>
+            <span className={`px-2.5 py-1 text-xs font-semibold rounded-lg ${stageColors[pitch.stage]} backdrop-blur-sm`}>
               {pitch.stage.toUpperCase()}
             </span>
             <div className="flex gap-1.5">
@@ -75,7 +75,7 @@ export default function PitchGridCard({ pitch, index, isLiked, isBookmarked, onL
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs font-medium text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md">{pitch.category}</span>
             {pitch.verified && (
-              <span className="flex items-center gap-0.5 text-[10px] font-medium text-brand-600">
+              <span className="flex items-center gap-0.5 text-xs font-medium text-brand-600">
                 <BadgeCheck size={12} className="text-brand-500" /> Verified
               </span>
             )}
@@ -91,19 +91,19 @@ export default function PitchGridCard({ pitch, index, isLiked, isBookmarked, onL
           <div className="mb-4">
             <div className="flex justify-between items-center mb-3">
               <div>
-                <p className="text-[10px] text-slate-400 mb-0.5">Funding Required</p>
-                <p className="font-bold text-lg text-slate-800">{formatNaira(pitch.fundingGoal)}</p>
+                <p className="text-xs text-slate-400 mb-0.5">Funding Required</p>
+                <p className="font-bold text-lg text-slate-800">{formatNaira(pitch.amountNeeded)}</p>
               </div>
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-full ${statusConfig.color}`}>
+              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full ${statusConfig.color}`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${statusConfig.dot}`} />
                 {statusConfig.label}
               </span>
             </div>
             {pitch.fundedBy && (
               <div className="bg-brand-50 rounded-lg p-2.5 border border-brand-100">
-                <p className="text-[10px] text-brand-600 font-medium mb-0.5">✓ Funded by</p>
+                <p className="text-xs text-brand-600 font-medium mb-0.5">✓ Funded by</p>
                 <p className="text-xs font-semibold text-brand-700">{pitch.fundedBy.funderName}</p>
-                <p className="text-[10px] text-brand-500">{pitch.fundedBy.funderCompany}</p>
+                <p className="text-xs text-brand-500">{pitch.fundedBy.funderCompany}</p>
               </div>
             )}
           </div>

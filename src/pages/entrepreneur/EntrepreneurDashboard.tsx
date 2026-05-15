@@ -322,10 +322,10 @@ export default function EntrepreneurDashboard() {
                               <div className="flex items-center gap-4">
                                 <div>
                                   <p className="text-xs text-slate-500">
-                                    Funding Goal
+                                    Amount Needed
                                   </p>
                                   <p className="text-sm font-semibold text-slate-900">
-                                    {formatNaira(pitch.fundingGoal)}
+                                    {formatNaira(pitch.amountNeeded)}
                                   </p>
                                 </div>
                                 <div>

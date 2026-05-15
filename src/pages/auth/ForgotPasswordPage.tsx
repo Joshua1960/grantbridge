@@ -59,12 +59,12 @@ export default function ForgotPasswordPage() {
             <Mail size={36} className="text-brand-500" />
           </motion.div>
 
-          <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-2">Check Your Email</h1>
-          <p className="text-[13px] text-slate-500 mb-1">We've sent a password reset link to</p>
-          <p className="text-[14px] font-semibold text-slate-800 mb-6 bg-slate-50 inline-block px-4 py-1.5 rounded-lg">{email}</p>
+          <h1 className="text-xl font-bold text-slate-900 font-[Outfit] mb-2">Check Your Email</h1>
+          <p className="text-sm text-slate-500 mb-1">We've sent a password reset link to</p>
+          <p className="text-sm font-semibold text-slate-800 mb-6 bg-slate-50 inline-block px-4 py-1.5 rounded-lg">{email}</p>
 
           <div className="bg-slate-50 rounded-xl p-4 mb-6 text-left">
-            <p className="text-[12px] text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed">
               Click the link in the email to reset your password. The link will expire in <span className="font-semibold text-slate-800">1 hour</span>.
             </p>
           </div>
@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
           <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 mb-6 text-left">
             <div className="flex items-start gap-2">
               <AlertCircle size={16} className="text-amber-600 mt-0.5 shrink-0" />
-              <p className="text-[12px] text-amber-800 leading-relaxed">
+              <p className="text-xs text-amber-800 leading-relaxed">
                 <span className="font-semibold">Demo Mode:</span> In a real application, you would click the link in your email. For demo purposes, click the button below to continue.
               </p>
             </div>
@@ -90,14 +90,14 @@ export default function ForgotPasswordPage() {
           <div className="mt-4">
             <button 
               onClick={() => setSent(false)} 
-              className="text-[13px] font-medium text-brand-600 hover:text-brand-700 cursor-pointer"
+              className="text-sm font-medium text-brand-600 hover:text-brand-700 cursor-pointer"
             >
               Try a different email
             </button>
           </div>
 
           <div className="mt-5 pt-5 border-t border-slate-100">
-            <Link to={`/login/${role}`} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-slate-500 hover:text-slate-700 transition-colors">
+            <Link to={`/login/${role}`} className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">
               <ArrowLeft size={14} /> Back to login
             </Link>
           </div>
@@ -121,8 +121,8 @@ export default function ForgotPasswordPage() {
         <KeyRound size={28} className="text-brand-500" />
       </div>
 
-      <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-1">Forgot Password?</h1>
-      <p className="text-[13px] text-slate-500 mb-6 leading-relaxed">
+      <h1 className="text-xl font-bold text-slate-900 font-[Outfit] mb-1">Forgot Password?</h1>
+      <p className="text-sm text-slate-500 mb-6 leading-relaxed">
         No worries. Enter your email address and we'll send you a link to reset your password.
       </p>
 
@@ -159,7 +159,7 @@ export default function ForgotPasswordPage() {
       </div>
 
       <div className="mt-6 pt-5 border-t border-slate-100 text-center">
-        <Link to={`/login/${role}`} className="inline-flex items-center gap-1.5 text-[13px] font-medium text-slate-500 hover:text-slate-700 transition-colors">
+        <Link to={`/login/${role}`} className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors">
           <ArrowLeft size={14} /> Back to login
         </Link>
       </div>

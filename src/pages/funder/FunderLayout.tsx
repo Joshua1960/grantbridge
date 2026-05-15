@@ -26,7 +26,7 @@ export default function FunderLayout() {
             <div className="w-7 h-7 bg-brand-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm font-[Outfit]">G</span>
             </div>
-            <span className="text-[15px] font-bold text-slate-800 font-[Outfit]">GrantBridge</span>
+            <span className="text-sm font-bold text-slate-800 font-[Outfit]">GrantBridge</span>
           </div>
         </div>
 

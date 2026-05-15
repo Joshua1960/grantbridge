@@ -41,9 +41,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex">
-      {/* LEFT PANEL (Desktop only) */}
-      <div className="hidden lg:flex lg:w-1/3 bg-gradient-to-br from-brand-500 via-emerald-600 to-teal-700 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 lg:flex">
+      {/* LEFT PANEL (Desktop only) - FIXED */}
+      <div className="hidden lg:flex lg:w-1/3 lg:fixed lg:inset-y-0 lg:left-0 bg-gradient-to-br from-brand-500 via-emerald-600 to-teal-700 overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div
@@ -101,8 +101,8 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* RIGHT PANEL (Always visible) */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6">
+      {/* RIGHT PANEL (Always visible) - SCROLLABLE */}
+      <div className="flex-1 lg:ml-[33.333333%] min-h-screen flex items-center justify-center px-4 sm:px-6 py-12 lg:py-16 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -148,6 +148,22 @@ export default function EntrepreneurOnboarding() {
   const handleSubmit = () => {
     setSubmitting(true);
     setTimeout(() => {
+      // Save verification documents to user
+      const { updateUser } = useAppStore.getState();
+      updateUser({
+        profileCompleted: true,
+        verificationStatus: "submitted",
+        verificationDocuments: {
+          idType,
+          idNumber,
+          idFront: idFrontName,
+          idBack: idBackName,
+          selfie: selfieName,
+          submittedAt: new Date().toISOString(),
+        },
+        company: business.companyName,
+        phone: personal.phone,
+      });
       setSubmitting(false);
       setStep(4);
     }, 2000);
@@ -176,13 +192,13 @@ export default function EntrepreneurOnboarding() {
                 G
               </span>
             </div>
-            <span className="text-[17px] font-bold text-slate-800 font-[Outfit] tracking-tight">
+            <span className="text-base font-bold text-slate-800 font-[Outfit] tracking-tight">
               GrantBridge
             </span>
           </Link>
           <button
             onClick={handleLogout}
-            className="text-[13px] text-slate-500 hover:text-red-500 cursor-pointer transition-colors"
+            className="text-sm text-slate-500 hover:text-red-500 cursor-pointer transition-colors"
           >
             Sign out
           </button>
@@ -196,10 +212,10 @@ export default function EntrepreneurOnboarding() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-8"
         >
-          <h1 className="text-2xl sm:text-[28px] font-bold text-slate-900 font-[Outfit] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 font-[Outfit] tracking-tight">
             Complete Your Profile
           </h1>
-          <p className="text-[13px] text-slate-500 mt-1.5">
+          <p className="text-sm text-slate-500 mt-1.5">
             Verify your identity to start posting projects on GrantBridge
           </p>
         </motion.div>
@@ -210,7 +226,7 @@ export default function EntrepreneurOnboarding() {
             <div key={s.num} className="flex items-center">
               <div className="flex flex-col items-center">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-[13px] font-bold transition-all border-2 ${
+                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all border-2 ${
                     step > s.num
                       ? "bg-brand-500 border-brand-500 text-white"
                       : step === s.num
@@ -225,7 +241,7 @@ export default function EntrepreneurOnboarding() {
                   )}
                 </div>
                 <span
-                  className={`text-[10px] font-medium mt-1.5 hidden sm:block ${step >= s.num ? "text-slate-700" : "text-slate-400"}`}
+                  className={`text-xs font-medium mt-1.5 hidden sm:block ${step >= s.num ? "text-slate-700" : "text-slate-400"}`}
                 >
                   {s.label}
                 </span>
@@ -256,10 +272,10 @@ export default function EntrepreneurOnboarding() {
                   <User size={18} className="text-brand-600" />
                 </div>
                 <div>
-                  <h2 className="text-[16px] font-semibold text-slate-800 font-[Outfit]">
+                  <h2 className="text-base font-semibold text-slate-800 font-[Outfit]">
                     Personal Information
                   </h2>
-                  <p className="text-[12px] text-slate-400">
+                  <p className="text-xs text-slate-400">
                     Tell us about yourself
                   </p>
                 </div>
@@ -357,10 +373,10 @@ export default function EntrepreneurOnboarding() {
                   <Building2 size={18} className="text-blue-600" />
                 </div>
                 <div>
-                  <h2 className="text-[16px] font-semibold text-slate-800 font-[Outfit]">
+                  <h2 className="text-base font-semibold text-slate-800 font-[Outfit]">
                     Business Details
                   </h2>
-                  <p className="text-[12px] text-slate-400">
+                  <p className="text-xs text-slate-400">
                     Tell us about your company or startup
                   </p>
                 </div>
@@ -507,10 +523,10 @@ export default function EntrepreneurOnboarding() {
                   <Shield size={18} className="text-purple-600" />
                 </div>
                 <div>
-                  <h2 className="text-[16px] font-semibold text-slate-800 font-[Outfit]">
+                  <h2 className="text-base font-semibold text-slate-800 font-[Outfit]">
                     Identity Verification
                   </h2>
-                  <p className="text-[12px] text-slate-400">
+                  <p className="text-xs text-slate-400">
                     Upload a valid government-issued ID
                   </p>
                 </div>
@@ -521,7 +537,7 @@ export default function EntrepreneurOnboarding() {
                   size={16}
                   className="text-amber-600 mt-0.5 shrink-0"
                 />
-                <p className="text-[12px] text-amber-700 leading-relaxed">
+                <p className="text-xs text-amber-700 leading-relaxed">
                   Your ID details must match the personal information you
                   provided in Step 1. Verification typically takes 24–48 hours.
                 </p>
@@ -557,11 +573,11 @@ export default function EntrepreneurOnboarding() {
                       </div>
                       <div>
                         <p
-                          className={`text-[12px] font-semibold ${idType === t.value ? "text-brand-700" : "text-slate-700"}`}
+                          className={`text-xs font-semibold ${idType === t.value ? "text-brand-700" : "text-slate-700"}`}
                         >
                           {t.label}
                         </p>
-                        <p className="text-[10px] text-slate-400">{t.desc}</p>
+                        <p className="text-xs text-slate-400">{t.desc}</p>
                       </div>
                     </button>
                   ))}
@@ -606,7 +622,7 @@ export default function EntrepreneurOnboarding() {
                   {idFrontName ? (
                     <div className="flex items-center justify-center gap-2">
                       <CheckCircle2 size={16} className="text-brand-500" />
-                      <span className="text-[12px] font-medium text-brand-700">
+                      <span className="text-xs font-medium text-brand-700">
                         {idFrontName}
                       </span>
                       <button
@@ -625,10 +641,10 @@ export default function EntrepreneurOnboarding() {
                         size={20}
                         className="text-slate-400 mx-auto mb-1.5"
                       />
-                      <p className="text-[12px] font-medium text-slate-600">
+                      <p className="text-xs font-medium text-slate-600">
                         Front of ID
                       </p>
-                      <p className="text-[10px] text-slate-400">
+                      <p className="text-xs text-slate-400">
                         Click to upload · JPG, PNG or PDF · Max 5MB
                       </p>
                     </>
@@ -650,7 +666,7 @@ export default function EntrepreneurOnboarding() {
                   {idBackName ? (
                     <div className="flex items-center justify-center gap-2">
                       <CheckCircle2 size={16} className="text-brand-500" />
-                      <span className="text-[12px] font-medium text-brand-700">
+                      <span className="text-xs font-medium text-brand-700">
                         {idBackName}
                       </span>
                       <button
@@ -669,11 +685,11 @@ export default function EntrepreneurOnboarding() {
                         size={20}
                         className="text-slate-400 mx-auto mb-1.5"
                       />
-                      <p className="text-[12px] font-medium text-slate-600">
+                      <p className="text-xs font-medium text-slate-600">
                         Back of ID{" "}
                         <span className="text-slate-400">(optional)</span>
                       </p>
-                      <p className="text-[10px] text-slate-400">
+                      <p className="text-xs text-slate-400">
                         Click to upload · JPG, PNG or PDF · Max 5MB
                       </p>
                     </>
@@ -692,7 +708,7 @@ export default function EntrepreneurOnboarding() {
                   {selfieName ? (
                     <div className="flex items-center justify-center gap-2">
                       <CheckCircle2 size={16} className="text-brand-500" />
-                      <span className="text-[12px] font-medium text-brand-700">
+                      <span className="text-xs font-medium text-brand-700">
                         {selfieName}
                       </span>
                       <button
@@ -711,11 +727,11 @@ export default function EntrepreneurOnboarding() {
                         size={20}
                         className="text-slate-400 mx-auto mb-1.5"
                       />
-                      <p className="text-[12px] font-medium text-slate-600">
+                      <p className="text-xs font-medium text-slate-600">
                         Selfie with ID{" "}
                         <span className="text-slate-400">(optional)</span>
                       </p>
-                      <p className="text-[10px] text-slate-400">
+                      <p className="text-xs text-slate-400">
                         Hold your ID next to your face · Clear lighting
                       </p>
                     </>
@@ -800,7 +816,7 @@ export default function EntrepreneurOnboarding() {
 
               <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 rounded-full mb-3">
                 <Sparkles size={12} className="text-brand-500" />
-                <span className="text-[11px] font-semibold text-brand-700">
+                <span className="text-xs font-semibold text-brand-700">
                   Documents Submitted
                 </span>
               </div>
@@ -808,7 +824,7 @@ export default function EntrepreneurOnboarding() {
               <h2 className="text-xl font-bold text-slate-900 font-[Outfit] mb-2">
                 Verification In Progress
               </h2>
-              <p className="text-[13px] text-slate-500 leading-relaxed max-w-md mx-auto mb-6">
+              <p className="text-sm text-slate-500 leading-relaxed max-w-md mx-auto mb-6">
                 Your documents have been submitted for review. Our team will
                 verify your identity within{" "}
                 <span className="font-semibold text-slate-700">
@@ -823,10 +839,10 @@ export default function EntrepreneurOnboarding() {
                     <AlertCircle size={18} className="text-amber-600" />
                   </div>
                   <div>
-                    <p className="text-[12px] font-semibold text-slate-700">
+                    <p className="text-xs font-semibold text-slate-700">
                       What happens next?
                     </p>
-                    <p className="text-[11px] text-slate-400 leading-snug">
+                    <p className="text-xs text-slate-400 leading-snug">
                       You can explore the dashboard while we review your
                       documents. Some features require verification.
                     </p>

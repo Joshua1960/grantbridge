@@ -44,11 +44,12 @@ const initialForm = {
   description: "",
   problem: "",
   solution: "",
-  fundingGoal: "",
+  amountNeeded: "",
   useOfFunds: "",
   timeline: "",
   milestones: "",
   tags: "",
+  media: [] as string[],
 };
 
 const steps = [
@@ -74,7 +75,7 @@ export default function SubmitProjectPage() {
     [form.tags],
   );
 
-  const updateField = (field: keyof typeof form, value: string) => {
+  const updateField = (field: keyof typeof form, value: string | string[]) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: "" }));
   };
@@ -96,8 +97,8 @@ export default function SubmitProjectPage() {
     }
 
     if (step === 1) {
-      if (!form.fundingGoal || Number(form.fundingGoal) <= 0)
-        nextErrors.fundingGoal = "Enter a valid funding goal";
+      if (!form.amountNeeded || Number(form.amountNeeded) <= 0)
+        nextErrors.amountNeeded = "Enter a valid amount needed";
       if (!form.useOfFunds.trim())
         nextErrors.useOfFunds = "Explain how the funds will be used";
       if (!form.timeline.trim())
@@ -130,8 +131,9 @@ export default function SubmitProjectPage() {
         location: form.location,
         companyName: form.companyName,
         description: `${form.description}\n\nProblem: ${form.problem}\n\nSolution: ${form.solution}\n\nUse of funds: ${form.useOfFunds}\n\nTimeline: ${form.timeline}\n\nMilestones: ${form.milestones}`,
-        fundingGoal: Number(form.fundingGoal),
+        amountNeeded: Number(form.amountNeeded),
         tags,
+        media: form.media,
         entrepreneurId: user?.id,
         entrepreneurName: user?.fullName,
       },
@@ -356,16 +358,16 @@ export default function SubmitProjectPage() {
 
                   <div className="grid sm:grid-cols-2 gap-4">
                     <Input
-                      label="Funding goal (NGN)"
+                      label="Amount needed (NGN)"
                       type="number"
                       min="0"
                       placeholder="10000000"
                       icon={<Target size={17} />}
-                      value={form.fundingGoal}
+                      value={form.amountNeeded}
                       onChange={(e) =>
-                        updateField("fundingGoal", e.target.value)
+                        updateField("amountNeeded", e.target.value)
                       }
-                      error={errors.fundingGoal}
+                      error={errors.amountNeeded}
                     />
                     <Input
                       label="Funding timeline"
@@ -391,6 +393,57 @@ export default function SubmitProjectPage() {
                     error={errors.milestones}
                     rows={5}
                   />
+                  
+                  {/* Media Upload */}
+                  <div>
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Project Media (Photos/Videos) - Max 5 files
+                    </label>
+                    <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-slate-300 transition-colors">
+                      <input
+                        type="file"
+                        accept="image/*,video/*"
+                        multiple
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files || []);
+                          if (form.media.length + files.length > 5) {
+                            setErrors({ ...errors, media: "Maximum 5 files allowed" });
+                            return;
+                          }
+                          const newMedia = files.map(f => URL.createObjectURL(f));
+                          updateField("media", [...form.media, ...newMedia].slice(0, 5));
+                        }}
+                        className="hidden"
+                        id="media-upload"
+                      />
+                      <label htmlFor="media-upload" className="cursor-pointer">
+                        <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                          <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <p className="text-sm font-medium text-slate-700">Click to upload photos or videos</p>
+                        <p className="text-xs text-slate-400 mt-1">PNG, JPG, MP4 up to 10MB each</p>
+                      </label>
+                    </div>
+                    {errors.media && <p className="mt-1.5 text-xs text-red-500">{errors.media}</p>}
+                    {form.media.length > 0 && (
+                      <div className="grid grid-cols-5 gap-2 mt-3">
+                        {form.media.map((url, idx) => (
+                          <div key={idx} className="relative group aspect-square">
+                            <img src={url} alt="" className="w-full h-full object-cover rounded-lg" />
+                            <button
+                              onClick={() => updateField("media", form.media.filter((_, i) => i !== idx))}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <p className="text-xs text-slate-400 mt-2">{form.media.length}/5 files uploaded</p>
+                  </div>
                 </motion.div>
               )}
 
@@ -428,8 +481,8 @@ export default function SubmitProjectPage() {
                     </div>
                     <div className="p-5 grid sm:grid-cols-3 gap-4 border-b border-slate-100">
                       <ReviewMetric
-                        label="Funding goal"
-                        value={`₦${Number(form.fundingGoal || 0).toLocaleString()}`}
+                        label="Amount needed"
+                        value={`₦${Number(form.amountNeeded || 0).toLocaleString()}`}
                       />
                       <ReviewMetric
                         label="Timeline"

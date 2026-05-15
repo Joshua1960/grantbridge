@@ -90,9 +90,9 @@ export default function SignupPage() {
   const isEntrepreneur = userRole === "entrepreneur";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 flex">
-      {/* Left panel */}
-      <div className="hidden lg:flex lg:w-1/3 bg-gradient-to-br from-brand-500 via-emerald-600 to-teal-700 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 lg:flex">
+      {/* Left panel - FIXED */}
+      <div className="hidden lg:flex lg:w-1/3 lg:fixed lg:inset-y-0 lg:left-0 bg-gradient-to-br from-brand-500 via-emerald-600 to-teal-700 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
@@ -151,8 +151,8 @@ export default function SignupPage() {
         </div>
       </div>
 
-      {/* Right panel - Form */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
+      {/* Right panel - Form - SCROLLABLE */}
+      <div className="flex-1 lg:ml-[33.333333%] min-h-screen flex items-start justify-center p-6 sm:p-12 py-12 lg:py-16 overflow-y-auto">
         <div className="w-full max-w-md">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

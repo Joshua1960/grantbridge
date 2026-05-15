@@ -78,15 +78,15 @@ export default function AccountCreatedPage() {
         >
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-50 rounded-full mb-3">
             <Sparkles size={12} className="text-brand-500" />
-            <span className="text-[11px] font-semibold text-brand-700">
+            <span className="text-xs font-semibold text-brand-700">
               Account Verified
             </span>
           </div>
 
-          <h1 className="text-[24px] font-bold text-slate-900 font-[Outfit] mb-2">
+          <h1 className="text-2xl font-bold text-slate-900 font-[Outfit] mb-2">
             Account Created!
           </h1>
-          <p className="text-[13px] text-slate-500 leading-relaxed mb-8 max-w-sm mx-auto">
+          <p className="text-sm text-slate-500 leading-relaxed mb-8 max-w-sm mx-auto">
             Congratulations! Your {userRole} account has been successfully
             created and verified. You're all set to{" "}
             {userRole === "entrepreneur"
@@ -108,8 +108,8 @@ export default function AccountCreatedPage() {
                 key={item.label}
                 className="flex items-center justify-between"
               >
-                <span className="text-[12px] text-slate-400">{item.label}</span>
-                <span className="text-[12px] font-medium text-slate-700">
+                <span className="text-xs text-slate-400">{item.label}</span>
+                <span className="text-xs font-medium text-slate-700">
                   {item.value}
                 </span>
               </div>

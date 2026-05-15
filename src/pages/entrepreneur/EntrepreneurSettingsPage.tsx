@@ -101,10 +101,10 @@ export default function EntrepreneurSettingsPage() {
       <div className="max-w-5xl mx-auto p-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-[26px] sm:text-[30px] font-bold text-slate-900 font-[Outfit] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 font-[Outfit] tracking-tight">
             Settings
           </h1>
-          <p className="text-[13px] text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             Manage your account settings and preferences
           </p>
         </div>
@@ -154,7 +154,7 @@ export default function EntrepreneurSettingsPage() {
               {/* Profile Tab */}
               {activeTab === "profile" && (
                 <div className="space-y-6">
-                  <h2 className="text-[18px] font-semibold text-slate-800 font-[Outfit] mb-6">
+                  <h2 className="text-lg font-semibold text-slate-800 font-[Outfit] mb-6">
                     Profile Information
                   </h2>
 
@@ -187,7 +187,7 @@ export default function EntrepreneurSettingsPage() {
                   {/* Form Fields */}
                   <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-[12px] font-medium text-slate-600 mb-2">
+                      <label className="block text-xs font-medium text-slate-600 mb-2">
                         Full Name
                       </label>
                       <Input
@@ -199,7 +199,7 @@ export default function EntrepreneurSettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[12px] font-medium text-slate-600 mb-2">
+                      <label className="block text-xs font-medium text-slate-600 mb-2">
                         Email Address
                       </label>
                       <Input
@@ -211,7 +211,7 @@ export default function EntrepreneurSettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[12px] font-medium text-slate-600 mb-2">
+                      <label className="block text-xs font-medium text-slate-600 mb-2">
                         Phone Number
                       </label>
                       <Input
@@ -223,7 +223,7 @@ export default function EntrepreneurSettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[12px] font-medium text-slate-600 mb-2">
+                      <label className="block text-xs font-medium text-slate-600 mb-2">
                         Company / Startup
                       </label>
                       <Input
@@ -250,13 +250,13 @@ export default function EntrepreneurSettingsPage() {
               {/* Security Tab */}
               {activeTab === "security" && (
                 <div className="space-y-6">
-                  <h2 className="text-[18px] font-semibold text-slate-800 font-[Outfit] mb-6">
+                  <h2 className="text-lg font-semibold text-slate-800 font-[Outfit] mb-6">
                     Change Password
                   </h2>
 
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-[12px] font-medium text-slate-600 mb-2">
+                      <label className="block text-xs font-medium text-slate-600 mb-2">
                         Current Password
                       </label>
                       <div className="relative">
@@ -278,7 +278,7 @@ export default function EntrepreneurSettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[12px] font-medium text-slate-600 mb-2">
+                      <label className="block text-xs font-medium text-slate-600 mb-2">
                         New Password
                       </label>
                       <div className="relative">
@@ -300,7 +300,7 @@ export default function EntrepreneurSettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[12px] font-medium text-slate-600 mb-2">
+                      <label className="block text-xs font-medium text-slate-600 mb-2">
                         Confirm New Password
                       </label>
                       <div className="relative">
@@ -350,7 +350,7 @@ export default function EntrepreneurSettingsPage() {
               {/* Notifications Tab */}
               {activeTab === "notifications" && (
                 <div className="space-y-6">
-                  <h2 className="text-[18px] font-semibold text-slate-800 font-[Outfit] mb-6">
+                  <h2 className="text-lg font-semibold text-slate-800 font-[Outfit] mb-6">
                     Notification Preferences
                   </h2>
 
@@ -399,7 +399,7 @@ export default function EntrepreneurSettingsPage() {
               {/* Privacy Tab */}
               {activeTab === "privacy" && (
                 <div className="space-y-6">
-                  <h2 className="text-[18px] font-semibold text-slate-800 font-[Outfit] mb-6">
+                  <h2 className="text-lg font-semibold text-slate-800 font-[Outfit] mb-6">
                     Privacy Settings
                   </h2>
 

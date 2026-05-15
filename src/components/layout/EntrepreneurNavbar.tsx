@@ -115,7 +115,7 @@ export default function EntrepreneurNavbar() {
                 <p className="text-sm font-medium text-slate-700 leading-tight">
                   {user?.fullName?.split(" ")[0]}
                 </p>
-                <p className="text-[10px] text-slate-400 capitalize">
+                <p className="text-xs text-slate-400 capitalize">
                   {user?.role}
                 </p>
               </div>

@@ -91,10 +91,10 @@ export default function ResetPasswordPage() {
             <XCircle size={40} className="text-red-500" />
           </motion.div>
 
-          <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-2">
+          <h1 className="text-xl font-bold text-slate-900 font-[Outfit] mb-2">
             Invalid or Expired Link
           </h1>
-          <p className="text-[13px] text-slate-500 leading-relaxed mb-6 max-w-sm mx-auto">
+          <p className="text-sm text-slate-500 leading-relaxed mb-6 max-w-sm mx-auto">
             This password reset link is invalid or has expired. Please request a
             new one.
           </p>
@@ -111,7 +111,7 @@ export default function ResetPasswordPage() {
           <div className="mt-4">
             <button
               onClick={() => navigate(`/login/${role}`)}
-              className="text-[13px] font-medium text-slate-500 hover:text-slate-700 cursor-pointer"
+              className="text-sm font-medium text-slate-500 hover:text-slate-700 cursor-pointer"
             >
               Back to login
             </button>
@@ -135,10 +135,10 @@ export default function ResetPasswordPage() {
             <CheckCircle2 size={40} className="text-brand-500" />
           </motion.div>
 
-          <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-2">
+          <h1 className="text-xl font-bold text-slate-900 font-[Outfit] mb-2">
             Password Reset!
           </h1>
-          <p className="text-[13px] text-slate-500 leading-relaxed mb-6 max-w-sm mx-auto">
+          <p className="text-sm text-slate-500 leading-relaxed mb-6 max-w-sm mx-auto">
             Your password has been successfully reset. You can now log in with
             your new password.
           </p>
@@ -163,10 +163,10 @@ export default function ResetPasswordPage() {
         <ShieldCheck size={28} className="text-brand-500" />
       </div>
 
-      <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-1">
+      <h1 className="text-xl font-bold text-slate-900 font-[Outfit] mb-1">
         Reset Password
       </h1>
-      <p className="text-[13px] text-slate-500 mb-6 leading-relaxed">
+      <p className="text-sm text-slate-500 mb-6 leading-relaxed">
         Enter your new password below. Make sure it's at least 8 characters and
         includes a mix of letters, numbers, and symbols.
       </p>
@@ -196,7 +196,7 @@ export default function ResetPasswordPage() {
                 ))}
               </div>
               <span
-                className={`text-[10px] font-semibold ${
+                className={`text-xs font-semibold ${
                   strength >= 3
                     ? "text-brand-600"
                     : strength >= 2
@@ -248,7 +248,7 @@ export default function ResetPasswordPage() {
       <div className="mt-6 pt-5 border-t border-slate-100 text-center">
         <button
           onClick={() => navigate(`/login/${role}`)}
-          className="text-[13px] font-medium text-slate-500 hover:text-slate-700 cursor-pointer"
+          className="text-sm font-medium text-slate-500 hover:text-slate-700 cursor-pointer"
         >
           Back to login
         </button>

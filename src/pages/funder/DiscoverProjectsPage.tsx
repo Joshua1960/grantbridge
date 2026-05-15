@@ -186,12 +186,12 @@ export default function DiscoverProjectsPage() {
 
     if (appliedFilters.fundingMin) {
       const min = Number(appliedFilters.fundingMin);
-      result = result.filter((p) => p.fundingGoal >= min);
+      result = result.filter((p) => p.amountNeeded >= min);
     }
 
     if (appliedFilters.fundingMax) {
       const max = Number(appliedFilters.fundingMax);
-      result = result.filter((p) => p.fundingGoal <= max);
+      result = result.filter((p) => p.amountNeeded <= max);
     }
 
     return result;

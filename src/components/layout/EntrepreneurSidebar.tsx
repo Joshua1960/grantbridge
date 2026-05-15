@@ -73,7 +73,7 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
               G
             </span>
           </div>
-          <span className="text-[17px] font-bold text-slate-800 font-[Outfit] tracking-tight">
+          <span className="text-base font-bold text-slate-800 font-[Outfit] tracking-tight">
             GrantBridge
           </span>
         </Link>
@@ -98,13 +98,13 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
             className="w-12 h-12 rounded-2xl object-cover ring-2 ring-brand-100"
           />
           <div className="flex-1 min-w-0">
-            <p className="text-[14px] font-semibold text-slate-800 truncate">
+            <p className="text-sm font-semibold text-slate-800 truncate">
               {user?.fullName || "Amina Ibrahim"}
             </p>
-            <p className="text-[12px] text-slate-500 truncate">
+            <p className="text-xs text-slate-500 truncate">
               {user?.company || "TechStart Africa"}
             </p>
-            <p className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
+            <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
               <MapPin size={10} /> Lagos, Nigeria
             </p>
           </div>
@@ -113,7 +113,7 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
 
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-        <p className="px-3 pt-1 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-[0.08em]">
+        <p className="px-3 pt-1 pb-2 text-xs font-bold text-slate-400 uppercase tracking-[0.08em]">
           Menu
         </p>
         {navItems.map((item) => {
@@ -123,7 +123,7 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
               key={item.path}
               to={item.path}
               onClick={onClose}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 active
                   ? "bg-brand-50 text-brand-700 shadow-sm shadow-brand-100/50"
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
@@ -137,7 +137,7 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
           );
         })}
 
-        <p className="px-3 pt-5 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-[0.08em]">
+        <p className="px-3 pt-5 pb-2 text-xs font-bold text-slate-400 uppercase tracking-[0.08em]">
           Account
         </p>
         {accountItems.map((item) => {
@@ -147,7 +147,7 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
               key={item.path}
               to={item.path}
               onClick={onClose}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 active
                   ? "bg-brand-50 text-brand-700 shadow-sm shadow-brand-100/50"
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
@@ -166,7 +166,7 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
       <div className="px-4 py-3 border-t border-slate-100 shrink-0">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all cursor-pointer"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all cursor-pointer"
         >
           <LogOut size={18} />
           <span>Logout</span>

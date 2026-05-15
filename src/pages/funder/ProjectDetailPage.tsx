@@ -292,7 +292,7 @@ export default function ProjectDetailPage() {
               <div className="mb-5">
                 <div className="flex items-baseline justify-between mb-2">
                   <p className="text-2xl font-bold text-slate-900 font-[Outfit]">
-                    {formatNaira(pitch.fundingGoal)}
+                    {formatNaira(pitch.amountNeeded)}
                   </p>
                   <p className="text-[12px] text-slate-400">Funding Required</p>
                 </div>
@@ -516,7 +516,7 @@ export default function ProjectDetailPage() {
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-[13px] font-semibold text-slate-800">
-                        {formatNaira((pitch.fundingGoal * item.percent) / 100)}
+                        {formatNaira((pitch.amountNeeded * item.percent) / 100)}
                       </span>
                       <span className="text-[11px] text-slate-400 w-8 text-right">
                         {item.percent}%
@@ -541,7 +541,7 @@ export default function ProjectDetailPage() {
                 {[
                   {
                     label: "Monthly Revenue",
-                    value: formatNaira(pitch.fundingGoal * 0.05),
+                    value: formatNaira(pitch.amountNeeded * 0.05),
                     icon: TrendingUp,
                     color: "bg-brand-50 text-brand-600",
                   },
@@ -896,7 +896,7 @@ export default function ProjectDetailPage() {
                       </h3>
                       <p className="text-[12px] text-slate-400 mt-1">
                         {pitch.title.split("—")[0].trim()} ·{" "}
-                        {formatNaira(pitch.fundingGoal)} required
+                        {formatNaira(pitch.amountNeeded)} required
                       </p>
                     </div>
 

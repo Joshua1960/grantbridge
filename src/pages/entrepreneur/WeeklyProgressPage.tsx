@@ -339,7 +339,7 @@ export default function WeeklyProgressPage() {
                     <p className="text-xs font-semibold text-slate-800">
                       {update.title}
                     </p>
-                    <p className="text-[11px] text-slate-500 mt-0.5">
+                    <p className="text-xs text-slate-500 mt-0.5">
                       {update.week} · {update.status} · {update.metric}
                     </p>
                   </div>
@@ -423,7 +423,7 @@ function PreviewStat({
   return (
     <div className="rounded-xl bg-slate-50 p-3">
       <Icon size={16} className="text-brand-600 mb-2" />
-      <p className="text-[11px] text-slate-400">{label}</p>
+      <p className="text-xs text-slate-400">{label}</p>
       <p className="text-sm font-bold text-slate-800 truncate">{value}</p>
     </div>
   );

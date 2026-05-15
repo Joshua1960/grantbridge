@@ -102,10 +102,10 @@ export default function MyProjectsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl sm:text-[28px] font-bold text-slate-900 font-[Outfit] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 font-[Outfit] tracking-tight">
             My Projects
           </h1>
-          <p className="text-[13px] text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             {myPitches.length} projects ·{" "}
             {
               myPitches.filter(
@@ -130,7 +130,7 @@ export default function MyProjectsPage() {
               <button
                 key={s}
                 onClick={() => setFilterStatus(s)}
-                className={`px-4 py-1.5 text-[13px] font-medium rounded-lg whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg whitespace-nowrap transition-all cursor-pointer ${
                   filterStatus === s
                     ? "bg-brand-500 text-white"
                     : "bg-slate-50 text-slate-600 hover:bg-slate-100"
@@ -151,7 +151,7 @@ export default function MyProjectsPage() {
                 placeholder="Search projects..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full sm:w-56 pl-9 pr-3 py-2 text-[13px] border border-slate-200 rounded-lg bg-white placeholder:text-slate-400 outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all"
+                className="w-full sm:w-56 pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg bg-white placeholder:text-slate-400 outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all"
               />
             </div>
             <div className="flex items-center gap-1 bg-slate-50 rounded-lg p-1">
@@ -211,7 +211,7 @@ export default function MyProjectsPage() {
                       <div className="absolute inset-0 bg-black/10" />
                       <div className="absolute top-3 right-3 flex items-center gap-2">
                         <span
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold rounded-full backdrop-blur-sm ${sc.bg} ${sc.text} border border-white/20`}
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full backdrop-blur-sm ${sc.bg} ${sc.text} border border-white/20`}
                         >
                           <span
                             className={`w-1.5 h-1.5 rounded-full ${sc.dot}`}
@@ -226,25 +226,25 @@ export default function MyProjectsPage() {
                       </div>
                     </div>
                     <div className="p-5">
-                      <h3 className="text-[15px] font-semibold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors line-clamp-1">
+                      <h3 className="text-sm font-semibold text-slate-800 mb-1 group-hover:text-brand-600 transition-colors line-clamp-1">
                         {pitch.title.split("—")[0].trim()}
                       </h3>
-                      <p className="text-[12px] text-slate-400 mb-3 flex items-center gap-1">
+                      <p className="text-xs text-slate-400 mb-3 flex items-center gap-1">
                         <MapPin size={11} /> {pitch.location} ·{" "}
                         {stageLabels[pitch.stage]}
                       </p>
                       <div className="mb-4">
                         <div className="flex items-center justify-between mb-2">
                           <div>
-                            <p className="text-[11px] text-slate-400">
-                              Funding Goal
+                            <p className="text-xs text-slate-400">
+                              Amount Needed
                             </p>
-                            <p className="text-[16px] font-bold text-slate-800">
-                              {formatNaira(pitch.fundingGoal)}
+                            <p className="text-base font-bold text-slate-800">
+                              {formatNaira(pitch.amountNeeded)}
                             </p>
                           </div>
                           <span
-                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-full ${sc.bg} ${sc.text}`}
+                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full ${sc.bg} ${sc.text}`}
                           >
                             <span
                               className={`w-1.5 h-1.5 rounded-full ${sc.dot}`}
@@ -260,20 +260,20 @@ export default function MyProjectsPage() {
                         </div>
                         {pitch.fundedBy ? (
                           <div className="bg-brand-50 rounded-lg p-2 border border-brand-100">
-                            <p className="text-[10px] text-brand-600 font-medium">
+                            <p className="text-xs text-brand-600 font-medium">
                               ✓ Funded by {pitch.fundedBy.funderName}
                             </p>
                           </div>
                         ) : pitch.offers?.length ? (
                           <div className="bg-amber-50 rounded-lg p-2 border border-amber-100">
-                            <p className="text-[10px] text-amber-700 font-medium">
+                            <p className="text-xs text-amber-700 font-medium">
                               {pitch.offers.length} funding offer(s) pending
                             </p>
                           </div>
                         ) : null}
                       </div>
                       <div className="flex items-center justify-between pt-3 border-t border-slate-100">
-                        <div className="flex items-center gap-3 text-[12px] text-slate-500">
+                        <div className="flex items-center gap-3 text-xs text-slate-500">
                           <span className="flex items-center gap-1">
                             <Eye size={12} /> {pitch.views}
                           </span>
@@ -295,13 +295,13 @@ export default function MyProjectsPage() {
                           </button>
                           {openMenu === pitch.id && (
                             <div className="absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-xl border border-slate-100 py-1 z-10">
-                              <button className="w-full px-3 py-2 text-left text-[13px] text-slate-700 hover:bg-slate-50 flex items-center gap-2 cursor-pointer">
+                              <button className="w-full px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2 cursor-pointer">
                                 <Edit size={13} /> Edit
                               </button>
-                              <button className="w-full px-3 py-2 text-left text-[13px] text-slate-700 hover:bg-slate-50 flex items-center gap-2 cursor-pointer">
+                              <button className="w-full px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2 cursor-pointer">
                                 <ExternalLink size={13} /> View Public
                               </button>
-                              <button className="w-full px-3 py-2 text-left text-[13px] text-red-600 hover:bg-red-50 flex items-center gap-2 cursor-pointer">
+                              <button className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 cursor-pointer">
                                 <Trash2 size={13} /> Delete
                               </button>
                             </div>
@@ -341,11 +341,11 @@ export default function MyProjectsPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-3 mb-1">
-                          <h3 className="text-[15px] font-semibold text-slate-800 group-hover:text-brand-600 transition-colors truncate">
+                          <h3 className="text-sm font-semibold text-slate-800 group-hover:text-brand-600 transition-colors truncate">
                             {pitch.title.split("—")[0].trim()}
                           </h3>
                           <span
-                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold rounded-full ${sc.bg} ${sc.text} shrink-0`}
+                            className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-full ${sc.bg} ${sc.text} shrink-0`}
                           >
                             <span
                               className={`w-1.5 h-1.5 rounded-full ${sc.dot}`}
@@ -353,39 +353,39 @@ export default function MyProjectsPage() {
                             {status.charAt(0).toUpperCase() + status.slice(1)}
                           </span>
                         </div>
-                        <p className="text-[12px] text-slate-400 mb-2">
+                        <p className="text-xs text-slate-400 mb-2">
                           {pitch.category} · {pitch.location} ·{" "}
                           {stageLabels[pitch.stage]}
                         </p>
                         <div className="flex items-center gap-6">
                           <div>
-                            <p className="text-[10px] text-slate-400">
-                              Funding Goal
+                            <p className="text-xs text-slate-400">
+                              Amount Needed
                             </p>
-                            <p className="text-[14px] font-bold text-slate-800">
-                              {formatNaira(pitch.fundingGoal)}
+                            <p className="text-sm font-bold text-slate-800">
+                              {formatNaira(pitch.amountNeeded)}
                             </p>
                           </div>
                           <div className="flex-1">
                             {pitch.fundedBy ? (
                               <div className="bg-brand-50 rounded-lg p-2 border border-brand-100">
-                                <p className="text-[10px] text-brand-600 font-medium">
+                                <p className="text-xs text-brand-600 font-medium">
                                   ✓ Funded by {pitch.fundedBy.funderName}
                                 </p>
                               </div>
                             ) : pitch.offers?.length ? (
                               <div className="bg-amber-50 rounded-lg p-2 border border-amber-100">
-                                <p className="text-[10px] text-amber-700 font-medium">
+                                <p className="text-xs text-amber-700 font-medium">
                                   {pitch.offers.length} offer(s) pending
                                 </p>
                               </div>
                             ) : (
-                              <p className="text-[11px] text-slate-400">
+                              <p className="text-xs text-slate-400">
                                 Seeking funding
                               </p>
                             )}
                           </div>
-                          <div className="flex items-center gap-3 text-[12px] text-slate-500">
+                          <div className="flex items-center gap-3 text-xs text-slate-500">
                             <span className="flex items-center gap-1">
                               <Eye size={12} /> {pitch.views}
                             </span>

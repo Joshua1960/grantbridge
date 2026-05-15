@@ -17,7 +17,7 @@ const initialPitches: PitchCard[] = [
     description:
       'A digital marketplace that connects smallholder farmers to ethical capital for crop production, input financing, and market access.',
     category: 'AgriTech',
-    fundingGoal: 4200000,
+    amountNeeded: 4200000,
     fundingStatus: 'open',
     entrepreneurId: 'user-01',
     entrepreneurName: 'Sochi Nakolisa',
@@ -38,7 +38,7 @@ const initialPitches: PitchCard[] = [
     description:
       'A mobile-first logistics platform that delivers pharmaceutical products and healthcare supplies directly to clinics and patients in underserved communities.',
     category: 'HealthTech',
-    fundingGoal: 6500000,
+    amountNeeded: 6500000,
     fundingStatus: 'in_review',
     entrepreneurId: 'user-02',
     entrepreneurName: 'Adaeze Okafor',
@@ -59,7 +59,7 @@ const initialPitches: PitchCard[] = [
     description:
       'A circular economy startup turning industrial waste into clean energy for manufacturing plants and local communities.',
     category: 'Clean Energy',
-    fundingGoal: 8200000,
+    amountNeeded: 8200000,
     fundingStatus: 'funded',
     entrepreneurId: 'user-03',
     entrepreneurName: 'Kemi Adeyemi',
@@ -87,7 +87,7 @@ const initialPitches: PitchCard[] = [
     description:
       'An adaptive learning platform that delivers personalized curricula and mentorship for students across secondary and vocational schools.',
     category: 'EdTech',
-    fundingGoal: 3100000,
+    amountNeeded: 3100000,
     fundingStatus: 'open',
     entrepreneurId: 'user-04',
     entrepreneurName: 'Chinedu Emeka',
@@ -108,7 +108,7 @@ const initialPitches: PitchCard[] = [
     description:
       'A responsible fashion marketplace for resale, rental, and circular apparel designed for the African market.',
     category: 'Fashion & Textile',
-    fundingGoal: 2300000,
+    amountNeeded: 2300000,
     fundingStatus: 'closed',
     entrepreneurId: 'user-05',
     entrepreneurName: 'Tara Bello',
@@ -129,7 +129,7 @@ const initialPitches: PitchCard[] = [
     description:
       'A marketplace connecting trusted construction contractors with SMEs and property developers for project delivery and capacity building.',
     category: 'Construction',
-    fundingGoal: 5400000,
+    amountNeeded: 5400000,
     fundingStatus: 'open',
     entrepreneurId: 'user-06',
     entrepreneurName: 'Musa Ibrahim',
@@ -162,7 +162,7 @@ function createPitchRecord(pitch: Partial<PitchCard>): PitchCard {
     title: pitch.title?.trim() || 'Untitled project',
     description: pitch.description?.trim() || 'No project description available.',
     category: pitch.category || 'Other',
-    fundingGoal: pitch.fundingGoal || 0,
+    amountNeeded: pitch.amountNeeded || 0,
     fundingStatus: 'open',
     entrepreneurId: pitch.entrepreneurId || 'user-unknown',
     entrepreneurName: pitch.entrepreneurName || 'Unknown Founder',

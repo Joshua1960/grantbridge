@@ -155,9 +155,9 @@ export default function AuthLayout({
   const Icon = content.icon;
 
   return (
-    <div className="min-h-screen bg-white flex">
-      {/* Left Panel */}
-      <div className="hidden lg:flex lg:w-130 xl:w-130 bg-linear-to-br from-brand-500 via-brand-600 to-emerald-700 relative overflow-hidden shrink-0">
+    <div className="min-h-screen bg-white lg:flex">
+      {/* Left Panel - FIXED */}
+      <div className="hidden lg:flex lg:w-[520px] xl:w-[520px] lg:fixed lg:inset-y-0 lg:left-0 bg-linear-to-br from-brand-500 via-brand-600 to-emerald-700 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.07]">
           <div
             className="absolute inset-0"
@@ -186,10 +186,10 @@ export default function AuthLayout({
 
             <div className="mb-8">
               <Icon size={44} className="text-white/70 mb-5" />
-              <h2 className="text-[28px] xl:text-[32px] font-bold text-white font-[Outfit] leading-tight whitespace-pre-line">
+              <h2 className="text-3xl xl:text-3xl font-bold text-white font-[Outfit] leading-tight whitespace-pre-line">
                 {content.title}
               </h2>
-              <p className="mt-4 text-[14px] text-brand-100/90 leading-relaxed max-w-sm">
+              <p className="mt-4 text-sm text-brand-100/90 leading-relaxed max-w-sm">
                 {content.subtitle}
               </p>
             </div>
@@ -202,15 +202,15 @@ export default function AuthLayout({
                   size={16}
                   className="text-brand-200/80 shrink-0"
                 />
-                <span className="text-[13px] text-brand-100/90">{item}</span>
+                <span className="text-sm text-brand-100/90">{item}</span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Right Panel */}
-      <div className="flex-1 flex items-center justify-center p-5 sm:p-8 lg:p-12 overflow-y-auto">
+      {/* Right Panel - SCROLLABLE */}
+      <div className="flex-1 lg:ml-[520px] xl:ml-[520px] min-h-screen flex items-center justify-center p-5 sm:p-8 lg:p-12 py-12 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

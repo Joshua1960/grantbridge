@@ -64,6 +64,12 @@ const ProjectDetailPage = lazy(
   () => import("./pages/funder/ProjectDetailPage"),
 );
 const HowItWorksPage = lazy(() => import("./pages/funder/HowItWorksPage"));
+const FunderSettingsPage = lazy(
+  () => import("./pages/funder/FunderSettingsPage"),
+);
+const EntrepreneurSettingsPage = lazy(
+  () => import("./pages/entrepreneur/EntrepreneurSettingsPage"),
+);
 
 function DashboardRouter() {
   const { user, isAuthenticated } = useAppStore();
@@ -140,6 +146,10 @@ function AppLayout() {
             path="/dashboard/entrepreneur/welcome"
             element={<EntrepreneurOnboarding />}
           />
+          <Route
+            path="/dashboard/funder/welcome"
+            element={<EntrepreneurOnboarding />}
+          />
 
           {/* Entrepreneur — main dashboard with top navbar */}
           <Route
@@ -151,6 +161,7 @@ function AppLayout() {
             <Route path="projects" element={<MyProjectsPage />} />
             <Route path="projects/new" element={<SubmitProjectPage />} />
             <Route path="progress" element={<WeeklyProgressPage />} />
+            <Route path="settings" element={<EntrepreneurSettingsPage />} />
           </Route>
 
           {/* Funder */}
@@ -161,6 +172,7 @@ function AppLayout() {
             <Route path="project/:id" element={<ProjectDetailPage />} />
             <Route path="projects/:id" element={<ProjectDetailPage />} />
             <Route path="how-it-works" element={<HowItWorksPage />} />
+            <Route path="settings" element={<FunderSettingsPage />} />
           </Route>
         </Routes>
       </Suspense>

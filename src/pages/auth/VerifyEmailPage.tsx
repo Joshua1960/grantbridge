@@ -48,23 +48,23 @@ export default function VerifyEmailPage() {
           </motion.div>
         </motion.div>
 
-        <h1 className="text-[22px] font-bold text-slate-900 font-[Outfit] mb-2">
+        <h1 className="text-xl font-bold text-slate-900 font-[Outfit] mb-2">
           Check Your Email
         </h1>
-        <p className="text-[13px] text-slate-500 mb-1">
+        <p className="text-sm text-slate-500 mb-1">
           We've sent a verification link to
         </p>
-        <p className="text-[14px] font-semibold text-slate-800 mb-6 bg-slate-50 inline-block px-4 py-1.5 rounded-lg">
+        <p className="text-sm font-semibold text-slate-800 mb-6 bg-slate-50 inline-block px-4 py-1.5 rounded-lg">
           {email}
         </p>
 
         <div className="bg-slate-50 rounded-xl p-4 mb-6 text-left">
-          <p className="text-[12px] text-slate-600 leading-relaxed">
+          <p className="text-xs text-slate-600 leading-relaxed">
             Click the verification link in the email to confirm your account.
             The link will expire in{" "}
             <span className="font-semibold text-slate-800">24 hours</span>.
           </p>
-          <p className="text-[11px] text-slate-400 mt-2">
+          <p className="text-xs text-slate-400 mt-2">
             Can't find the email? Check your spam or junk folder.
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function VerifyEmailPage() {
           <button
             onClick={handleResend}
             disabled={resent}
-            className="text-[13px] font-medium text-brand-600 hover:text-brand-700 disabled:text-slate-400 flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed transition-colors"
+            className="text-sm font-medium text-brand-600 hover:text-brand-700 disabled:text-slate-400 flex items-center gap-1.5 cursor-pointer disabled:cursor-not-allowed transition-colors"
           >
             <RefreshCw size={13} className={resent ? "animate-spin" : ""} />
             {resent ? "Email sent!" : "Resend verification email"}
@@ -85,7 +85,7 @@ export default function VerifyEmailPage() {
         </div>
 
         <div className="mt-6 pt-5 border-t border-slate-100">
-          <p className="text-[12px] text-slate-400">
+          <p className="text-xs text-slate-400">
             Wrong email?{" "}
             <Link
               to={`/signup/${role}`}
@@ -100,7 +100,7 @@ export default function VerifyEmailPage() {
           <div className="mt-4">
             <button
               onClick={() => navigate(`/link-expired/${role}`, { state })}
-              className="text-[11px] text-slate-300 hover:text-slate-400 cursor-pointer"
+              className="text-xs text-slate-300 hover:text-slate-400 cursor-pointer"
             >
               Show link expired state
             </button>
