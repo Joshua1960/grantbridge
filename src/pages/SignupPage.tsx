@@ -5,7 +5,6 @@ import {
   Mail,
   Lock,
   User,
-  ArrowRight,
   CheckCircle2,
   Clock,
   ArrowLeft,
@@ -73,7 +72,10 @@ export default function SignupPage() {
         },
         onError: (error) => {
           setErrors({
-            email: error instanceof Error ? error.message : "Unable to create account",
+            email:
+              error instanceof Error
+                ? error.message
+                : "Unable to create account",
           });
         },
       },
@@ -167,7 +169,7 @@ export default function SignupPage() {
             <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 p-8 sm:p-10">
               {/* Header */}
               <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-brand-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-500/30">
+                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-500/30">
                   <span className="text-white font-bold text-2xl font-[Outfit]">
                     G
                   </span>
@@ -282,7 +284,6 @@ export default function SignupPage() {
                   fullWidth
                   onClick={handleSubmit}
                   disabled={isSigningUp}
-                  icon={isSigningUp ? undefined : <ArrowRight size={18} />}
                 >
                   {isSigningUp ? "Creating account..." : "Create Account"}
                 </Button>
@@ -367,7 +368,6 @@ export default function SignupPage() {
             size="lg"
             fullWidth
             onClick={handleContinueToDashboard}
-            icon={<ArrowRight size={18} />}
           >
             Continue to Dashboard
           </Button>
