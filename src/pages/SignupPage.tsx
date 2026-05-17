@@ -90,9 +90,9 @@ export default function SignupPage() {
   const isEntrepreneur = userRole === "entrepreneur";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 lg:flex">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 lg:flex">
       {/* Left panel - FIXED */}
-      <div className="hidden lg:flex lg:w-1/3 lg:fixed lg:inset-y-0 lg:left-0 bg-gradient-to-br from-brand-500 via-emerald-600 to-teal-700 overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/3 lg:fixed lg:inset-y-0 lg:left-0 bg-linear-to-br from-brand-500 via-emerald-600 to-teal-700 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
@@ -129,25 +129,6 @@ export default function SignupPage() {
               </p>
             </div>
           </div>
-
-          <div className="space-y-4">
-            {[
-              isEntrepreneur
-                ? "Pitch to 500+ verified funders"
-                : "Browse 2,400+ verified startups",
-              isEntrepreneur
-                ? "Free pitch creation tools"
-                : "AI-powered deal matching",
-              isEntrepreneur
-                ? "Average funding time: 45 days"
-                : "Avg. portfolio return: 3.2x",
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <CheckCircle2 size={18} className="text-brand-200 shrink-0" />
-                <span className="text-sm text-brand-100">{item}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
@@ -162,7 +143,7 @@ export default function SignupPage() {
             <div className="bg-white rounded-3xl shadow-lg border border-slate-100 p-8 sm:p-10">
               {/* Header */}
               <div className="text-center mb-8">
-                <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 bg-linear-to-br from-brand-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <span className="text-white font-bold text-2xl font-[Outfit]">
                     G
                   </span>

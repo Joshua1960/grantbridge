@@ -9,13 +9,8 @@ import {
   Edit2,
   Camera,
   ShieldCheck,
-  TrendingUp,
-  Award,
   Target,
-  DollarSign,
-  Calendar,
   Globe,
-  Briefcase,
   Link2,
   Save,
   X,
@@ -26,7 +21,8 @@ export default function FunderProfilePage() {
   const { user, updateUser } = useAppStore();
   const [isEditing, setIsEditing] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState(
-    user?.avatar || "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face"
+    user?.avatar ||
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face",
   );
   const [formData, setFormData] = useState({
     fullName: user?.fullName || "Michael Johnson",
@@ -43,54 +39,6 @@ export default function FunderProfilePage() {
     portfolioSize: 12,
     joinedDate: "January 2024",
   });
-
-  const stats = [
-    {
-      label: "Total Invested",
-      value: "$12.5M",
-      icon: DollarSign,
-      color: "bg-emerald-50 text-emerald-600 border-emerald-200",
-    },
-    {
-      label: "Portfolio Size",
-      value: "12",
-      icon: Briefcase,
-      color: "bg-blue-50 text-blue-600 border-blue-200",
-    },
-    {
-      label: "Active Deals",
-      value: "8",
-      icon: TrendingUp,
-      color: "bg-purple-50 text-purple-600 border-purple-200",
-    },
-    {
-      label: "Member Since",
-      value: "Jan 2024",
-      icon: Calendar,
-      color: "bg-amber-50 text-amber-600 border-amber-200",
-    },
-  ];
-
-  const achievements = [
-    {
-      title: "Top Funder",
-      description: "Top 10% of funders in Q4 2024",
-      icon: Award,
-      color: "from-amber-400 to-orange-500",
-    },
-    {
-      title: "Early Adopter",
-      description: "Among the first 100 funders",
-      icon: ShieldCheck,
-      color: "from-blue-400 to-cyan-500",
-    },
-    {
-      title: "Impact Maker",
-      description: "Funded 5+ social impact projects",
-      icon: Target,
-      color: "from-emerald-400 to-teal-500",
-    },
-  ];
 
   const handleSave = () => {
     updateUser({
@@ -167,7 +115,7 @@ export default function FunderProfilePage() {
           {/* Profile Card */}
           <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
             {/* Cover Image */}
-            <div className="h-32 bg-gradient-to-r from-brand-500 via-emerald-500 to-teal-500 relative">
+            <div className="h-32 bg-linear-to-r from-brand-500 via-emerald-500 to-teal-500 relative">
               {isEditing && (
                 <button className="absolute top-3 right-3 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg transition-colors cursor-pointer">
                   <Camera size={16} className="text-white" />
@@ -178,7 +126,7 @@ export default function FunderProfilePage() {
             {/* Avatar */}
             <div className="px-6 pb-6">
               <div className="relative -mt-16 mb-4">
-                <div className="w-28 h-28 rounded-2xl border-4 border-white shadow-lg overflow-hidden bg-slate-100">
+                <div className="w-28 h-28 rounded-full border-4 border-white shadow-lg overflow-hidden bg-slate-100">
                   <img
                     src={avatarUrl}
                     alt="Profile"
@@ -251,60 +199,32 @@ export default function FunderProfilePage() {
             </div>
           </div>
 
-          {/* Stats Card */}
-          <div className="bg-white rounded-2xl border border-slate-100 p-5">
-            <h3 className="text-sm font-semibold text-slate-800 font-[Outfit] mb-4">
-              Investment Stats
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-              {stats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.08 }}
-                  className={`p-3 rounded-xl border ${stat.color}`}
-                >
-                  <stat.icon size={18} className="mb-2" />
-                  <p className="text-lg font-bold text-slate-900 font-[Outfit]">
-                    {stat.value}
-                  </p>
-                  <p className="text-xs text-slate-600 mt-0.5">
-                    {stat.label}
-                  </p>
-                </motion.div>
-              ))}
+          <div className="bg-white rounded-2xl border border-slate-100 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-base font-semibold text-slate-800 font-[Outfit]">
+                Account Settings
+              </h3>
+              <ShieldCheck size={18} className="text-slate-400" />
             </div>
-          </div>
 
-          {/* Achievements */}
-          <div className="bg-white rounded-2xl border border-slate-100 p-5">
-            <h3 className="text-sm font-semibold text-slate-800 font-[Outfit] mb-4">
-              Achievements
-            </h3>
             <div className="space-y-3">
-              {achievements.map((achievement, i) => (
-                <motion.div
-                  key={achievement.title}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"
+              {[
+                { label: "Change Password", action: "Coming Soon" },
+                { label: "Two-Factor Authentication", action: "Coming Soon" },
+                { label: "Email Notifications", action: "Coming Soon" },
+                { label: "Privacy Settings", action: "Coming Soon" },
+              ].map((setting, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer group"
                 >
-                  <div
-                    className={`w-10 h-10 rounded-lg bg-gradient-to-br ${achievement.color} flex items-center justify-center shrink-0`}
-                  >
-                    <achievement.icon size={16} className="text-white" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-slate-800">
-                      {achievement.title}
-                    </p>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      {achievement.description}
-                    </p>
-                  </div>
-                </motion.div>
+                  <span className="text-sm font-medium text-slate-700">
+                    {setting.label}
+                  </span>
+                  <span className="text-xs font-medium text-brand-600 group-hover:text-brand-700 transition-colors">
+                    {setting.action} →
+                  </span>
+                </div>
               ))}
             </div>
           </div>
@@ -557,35 +477,6 @@ export default function FunderProfilePage() {
           </div>
 
           {/* Account Settings */}
-          <div className="bg-white rounded-2xl border border-slate-100 p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-base font-semibold text-slate-800 font-[Outfit]">
-                Account Settings
-              </h3>
-              <ShieldCheck size={18} className="text-slate-400" />
-            </div>
-
-            <div className="space-y-3">
-              {[
-                { label: "Change Password", action: "Update" },
-                { label: "Two-Factor Authentication", action: "Enable" },
-                { label: "Email Notifications", action: "Manage" },
-                { label: "Privacy Settings", action: "Configure" },
-              ].map((setting, i) => (
-                <div
-                  key={i}
-                  className="flex items-center justify-between p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer group"
-                >
-                  <span className="text-sm font-medium text-slate-700">
-                    {setting.label}
-                  </span>
-                  <span className="text-xs font-medium text-brand-600 group-hover:text-brand-700 transition-colors">
-                    {setting.action} →
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
         </motion.div>
       </div>
     </div>

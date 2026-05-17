@@ -41,9 +41,9 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 lg:flex">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 lg:flex">
       {/* LEFT PANEL (Desktop only) - FIXED */}
-      <div className="hidden lg:flex lg:w-1/3 lg:fixed lg:inset-y-0 lg:left-0 bg-gradient-to-br from-brand-500 via-emerald-600 to-teal-700 overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/3 lg:fixed lg:inset-y-0 lg:left-0 bg-linear-to-br from-brand-500 via-emerald-600 to-teal-700 overflow-hidden">
         {/* Background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div
@@ -78,26 +78,6 @@ export default function LoginPage() {
               Connect, fund, and grow with Africa's leading startup ecosystem.
             </p>
           </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-4 mt-8">
-            {[
-              { label: "Active Funders", value: "500+" },
-              { label: "Startups Funded", value: "2,400+" },
-              { label: "Total Funding", value: "$12.5M" },
-              { label: "Success Rate", value: "78%" },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="bg-white/10 backdrop-blur rounded-xl p-4"
-              >
-                <p className="text-2xl font-bold text-white font-[Outfit]">
-                  {stat.value}
-                </p>
-                <p className="text-xs text-brand-100 mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
@@ -113,7 +93,7 @@ export default function LoginPage() {
           <div className="bg-white rounded-3xl shadow-lg border border-slate-100 p-8 sm:p-10">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="w-12 h-12 bg-gradient-to-br from-brand-500 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <div className="w-12 h-12 bg-linear-to-br from-brand-500 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <span className="text-white font-bold text-2xl font-[Outfit]">
                   G
                 </span>

@@ -5,12 +5,9 @@ import {
   DollarSign,
   FolderOpen,
   MessageSquare,
-  TrendingUp,
-  ArrowUpRight,
   MapPin,
   Search,
   Bell,
-  Clock,
   Compass,
   BadgeCheck,
   AlertCircle,
@@ -38,7 +35,9 @@ const statusColors: Record<string, { bg: string; text: string; dot: string }> =
 export default function FunderDashboardPage() {
   const { user, updateUser } = useAppStore();
   const { data: pitches = [], isLoading } = usePitches();
-  const [showProfilePrompt, setShowProfilePrompt] = useState(!user?.profileCompleted);
+  const [showProfilePrompt, setShowProfilePrompt] = useState(
+    !user?.profileCompleted,
+  );
 
   // Simulated funder data — projects they've funded
   const fundedProjects = pitches.slice(0, 5).map((p, i) => ({
@@ -63,33 +62,6 @@ export default function FunderDashboardPage() {
   );
   const projectsFunded = fundedProjects.length;
   const feedbackReceived = 18;
-
-  const recentActivity = [
-    {
-      text: "AfriWeave submitted Q1 progress report",
-      time: "2 hours ago",
-      icon: FolderOpen,
-      color: "text-brand-500 bg-brand-50",
-    },
-    {
-      text: "MediTrack reached 65% funding milestone",
-      time: "5 hours ago",
-      icon: TrendingUp,
-      color: "text-emerald-500 bg-emerald-50",
-    },
-    {
-      text: "New feedback from FarmLink team",
-      time: "1 day ago",
-      icon: MessageSquare,
-      color: "text-blue-500 bg-blue-50",
-    },
-    {
-      text: "LearnBridge quarterly dividend paid",
-      time: "3 days ago",
-      icon: DollarSign,
-      color: "text-purple-500 bg-purple-50",
-    },
-  ];
 
   if (isLoading) {
     return (
@@ -143,7 +115,7 @@ export default function FunderDashboardPage() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="bg-gradient-to-r from-brand-500 to-emerald-600 rounded-2xl p-5 mb-8 flex items-start gap-4"
+          className="bg-linear-to-r from-brand-500 to-emerald-600 rounded-2xl p-5 mb-8 flex items-start gap-4"
         >
           <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center shrink-0">
             <AlertCircle size={24} className="text-white" />
@@ -153,7 +125,8 @@ export default function FunderDashboardPage() {
               Complete Your Profile
             </h3>
             <p className="text-sm text-brand-100 mb-3">
-              Complete your profile to unlock all features and get discovered by more entrepreneurs.
+              Complete your profile to unlock all features and get discovered by
+              more entrepreneurs.
             </p>
             <div className="flex items-center gap-3">
               <Link
@@ -218,17 +191,6 @@ export default function FunderDashboardPage() {
             transition={{ delay: i * 0.06, duration: 0.35 }}
             className={`bg-white rounded-2xl border ${stat.borderColor} p-5 sm:p-6 hover:shadow-lg hover:shadow-slate-100/80 transition-all duration-200`}
           >
-            <div className="flex items-center justify-between mb-4">
-              <div
-                className={`w-11 h-11 ${stat.color} rounded-xl flex items-center justify-center`}
-              >
-                <stat.icon size={20} />
-              </div>
-              <span className="inline-flex items-center gap-0.5 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                <ArrowUpRight size={11} />
-                {stat.change.split(" ")[0]}
-              </span>
-            </div>
             <p className="text-[26px] sm:text-[30px] font-bold text-slate-900 font-[Outfit] leading-none">
               {stat.value}
             </p>
@@ -373,95 +335,6 @@ export default function FunderDashboardPage() {
 
         {/* Right Column */}
         <div className="space-y-6">
-          {/* Portfolio Summary */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.4 }}
-            className="bg-white rounded-2xl border border-slate-100 p-5"
-          >
-            <h3 className="text-[14px] font-semibold text-slate-800 font-[Outfit] mb-4">
-              Portfolio Summary
-            </h3>
-
-            <div className="space-y-3 mb-4">
-              {[
-                {
-                  label: "Active Investments",
-                  value: "3",
-                  color: "bg-emerald-500",
-                },
-                { label: "Completed", value: "1", color: "bg-brand-500" },
-                { label: "Pending Review", value: "1", color: "bg-amber-500" },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2.5 h-2.5 rounded-full ${item.color}`} />
-                    <span className="text-[12px] text-slate-600">
-                      {item.label}
-                    </span>
-                  </div>
-                  <span className="text-[13px] font-semibold text-slate-800">
-                    {item.value}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            {/* Mini bar chart */}
-            <div className="flex h-3 rounded-full overflow-hidden">
-              <div className="bg-emerald-500" style={{ width: "60%" }} />
-              <div className="bg-brand-500" style={{ width: "20%" }} />
-              <div className="bg-amber-500" style={{ width: "20%" }} />
-            </div>
-          </motion.div>
-
-          {/* Recent Activity */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.4 }}
-            className="bg-white rounded-2xl border border-slate-100 p-5"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-[14px] font-semibold text-slate-800 font-[Outfit]">
-                Recent Activity
-              </h3>
-              <button className="text-[11px] font-medium text-brand-600 hover:text-brand-700 cursor-pointer">
-                View All
-              </button>
-            </div>
-
-            <div className="space-y-3.5">
-              {recentActivity.map((activity, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + i * 0.05, duration: 0.3 }}
-                  className="flex items-start gap-3"
-                >
-                  <div
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activity.color}`}
-                  >
-                    <activity.icon size={14} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[12px] text-slate-700 leading-snug">
-                      {activity.text}
-                    </p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1">
-                      <Clock size={9} /> {activity.time}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-
           {/* Discover CTA */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
