@@ -70,6 +70,7 @@ export interface PitchCard {
   media?: string[];
   verified: boolean;
   offers?: FundingOffer[];
+  verificationStatus?: "pending" | "approved" | "rejected";
 }
 
 interface AppState {

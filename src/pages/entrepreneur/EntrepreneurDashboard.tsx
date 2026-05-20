@@ -76,14 +76,79 @@ export default function EntrepreneurDashboard() {
                 className="w-64 pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm placeholder:text-slate-400 focus:outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
               />
             </div>
-            <button className="relative p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
-              <Bell size={20} className="text-slate-600" />
-              <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
-            </button>
+            <div className="relative group">
+              <button className="relative p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors">
+                <Bell size={20} className="text-slate-600" />
+                {myPitches.some(
+                  (p) =>
+                    p.verificationStatus === "approved" ||
+                    p.verificationStatus === "rejected",
+                ) && (
+                  <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                )}
+              </button>
+
+              {/* Notifications Dropdown */}
+              <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden">
+                <div className="p-3 border-b border-slate-100 bg-slate-50">
+                  <h4 className="font-semibold text-slate-800 text-sm">
+                    Notifications
+                  </h4>
+                </div>
+                <div className="max-h-64 overflow-y-auto">
+                  {myPitches.filter(
+                    (p) =>
+                      p.verificationStatus === "approved" ||
+                      p.verificationStatus === "rejected",
+                  ).length > 0 ? (
+                    myPitches
+                      .filter(
+                        (p) =>
+                          p.verificationStatus === "approved" ||
+                          p.verificationStatus === "rejected",
+                      )
+                      .map((pitch, idx) => (
+                        <div
+                          key={idx}
+                          className="p-3 border-b border-slate-50 hover:bg-slate-50 transition-colors"
+                        >
+                          <div className="flex items-start gap-3">
+                            <div
+                              className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${pitch.verificationStatus === "approved" ? "bg-emerald-100 text-emerald-600" : "bg-red-100 text-red-600"}`}
+                            >
+                              {pitch.verificationStatus === "approved" ? (
+                                <CheckCircle2 size={16} />
+                              ) : (
+                                <AlertCircle size={16} />
+                              )}
+                            </div>
+                            <div>
+                              <p className="text-sm text-slate-800 font-medium">
+                                Project{" "}
+                                {pitch.verificationStatus === "approved"
+                                  ? "Approved"
+                                  : "Rejected"}
+                              </p>
+                              <p className="text-xs text-slate-500 mt-0.5 line-clamp-2">
+                                Your project "{pitch.title}" has been{" "}
+                                {pitch.verificationStatus}.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                  ) : (
+                    <div className="p-6 text-center text-sm text-slate-500">
+                      No new notifications
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Complete Profile Prompt */}
+        {/* Verify Account Prompt */}
         {showProfilePrompt && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -96,22 +161,23 @@ export default function EntrepreneurDashboard() {
             </div>
             <div className="flex-1">
               <h3 className="text-lg font-semibold text-white font-[Outfit] mb-1">
-                Complete Your Profile
+                Verify Your Account
               </h3>
               <p className="text-sm text-brand-100 mb-3">
-                Complete your profile to increase your chances of getting funded
-                by top investors.
+                Verify your identity by uploading a valid ID (National ID,
+                Driver's License, or Voter's Card) to increase your chances of
+                getting funded.
               </p>
               <div className="flex items-center gap-3">
                 <Link
-                  to="/dashboard/entrepreneur/profile"
+                  to="welcome"
                   onClick={() => {
                     updateUser({ profileCompleted: true });
                     setShowProfilePrompt(false);
                   }}
                   className="px-5 py-2.5 bg-white hover:bg-brand-50 text-brand-700 text-sm font-semibold rounded-xl transition-colors cursor-pointer"
                 >
-                  Complete Profile
+                  Verify Account
                 </Link>
                 <button
                   onClick={() => {
@@ -128,7 +194,7 @@ export default function EntrepreneurDashboard() {
         )}
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
           {/* Total Projects */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -140,6 +206,19 @@ export default function EntrepreneurDashboard() {
               {myPitches.length}
             </h3>
             <p className="text-sm text-slate-500">Total Projects</p>
+          </motion.div>
+
+          {/* Under Review */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="bg-white rounded-2xl p-6 border border-slate-200"
+          >
+            <h3 className="text-2xl font-bold text-slate-900 font-[Outfit] mb-1">
+              {myPitches.filter((p) => p.fundingStatus === "in_review").length}
+            </h3>
+            <p className="text-sm text-slate-500">Under Review</p>
           </motion.div>
 
           {/* Total Funding */}
@@ -254,7 +333,24 @@ export default function EntrepreneurDashboard() {
                         dot: "bg-slate-400",
                       },
                     };
-                    const status = statusConfig[pitch.fundingStatus];
+                    const status =
+                      pitch.verificationStatus === "pending" ||
+                      pitch.verificationStatus === "rejected"
+                        ? {
+                            label:
+                              pitch.verificationStatus === "pending"
+                                ? "Admin Review"
+                                : "Rejected",
+                            color:
+                              pitch.verificationStatus === "pending"
+                                ? "bg-amber-50 text-amber-700"
+                                : "bg-red-50 text-red-700",
+                            dot:
+                              pitch.verificationStatus === "pending"
+                                ? "bg-amber-500"
+                                : "bg-red-500",
+                          }
+                        : statusConfig[pitch.fundingStatus];
 
                     return (
                       <div

@@ -5,10 +5,8 @@ import {
   AlertCircle,
   CheckCircle2,
   ClipboardList,
-  FileUp,
   LineChart,
   Send,
-  Sparkles,
   Target,
 } from "lucide-react";
 import Button from "../../components/ui/Button";
@@ -119,9 +117,6 @@ export default function WeeklyProgressPage() {
       <div className="grid lg:grid-cols-[1fr_360px] gap-6">
         <main className="space-y-6">
           <div className="bg-white rounded-2xl border border-slate-100 p-5 sm:p-7">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold mb-4">
-              <Sparkles size={14} /> Weekly investor update
-            </div>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 font-[Outfit]">
@@ -254,21 +249,6 @@ export default function WeeklyProgressPage() {
                 onChange={(value) => updateField("fundingSpent", value)}
                 placeholder="₦250,000"
               />
-            </div>
-
-            <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5 flex flex-col sm:flex-row sm:items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-white border border-slate-100 flex items-center justify-center">
-                <FileUp size={22} className="text-slate-500" />
-              </div>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-slate-800">
-                  Attachments coming soon
-                </p>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  The report is API-ready; your backend can add upload URLs for
-                  photos, receipts, or KPI screenshots.
-                </p>
-              </div>
             </div>
 
             {errors.submit && (

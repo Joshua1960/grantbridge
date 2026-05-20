@@ -31,13 +31,7 @@ const navItems = [
     path: "/dashboard/funder/discover",
     icon: Compass,
   },
-  // {
-  //   label: "My Projects",
-  //   path: "/dashboard/funder/my-projects",
-  //   icon: FolderOpen,
-  // },
-  // { label: "Impact Report", path: "/dashboard/funder/impact", icon: BarChart3 },
-  // { label: "Saved Projects", path: "/dashboard/funder/saved", icon: Bookmark },
+
   {
     label: "How it Works",
     path: "/dashboard/funder/how-it-works",
@@ -133,9 +127,6 @@ export default function FunderSidebar({ isOpen, onClose }: FunderSidebarProps) {
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
               }`}
             >
-              <span className={active ? "text-brand-600" : "text-slate-400"}>
-                <item.icon size={18} />
-              </span>
               <span className="flex-1 text-left">{item.label}</span>
             </Link>
           );
@@ -157,9 +148,6 @@ export default function FunderSidebar({ isOpen, onClose }: FunderSidebarProps) {
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
               }`}
             >
-              <span className={active ? "text-brand-600" : "text-slate-400"}>
-                <item.icon size={18} />
-              </span>
               <span className="flex-1 text-left">{item.label}</span>
             </Link>
           );

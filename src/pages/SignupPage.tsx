@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Mail, Lock, User, CheckCircle2, Clock } from "lucide-react";
 import Button from "../components/ui/Button";
@@ -19,14 +19,19 @@ const emptySignupForm = {
 };
 
 export default function SignupPage() {
-  const { role } = useParams<{ role: string }>();
   const navigate = useNavigate();
   const { signup, isSigningUp, signupError } = useAuth();
-  const userRole: UserRole = role === "funder" ? "funder" : "entrepreneur";
-
+  
+  const [selectedRole, setSelectedRole] = useState<UserRole>("entrepreneur");
   const [modal, setModal] = useState<ModalType>("none");
   const [form, setForm] = useState(emptySignupForm);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleRoleChange = (role: UserRole) => {
+    setSelectedRole(role);
+    setForm(emptySignupForm);
+    setErrors({});
+  };
 
   const updateField = (field: string, value: string | boolean) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -42,6 +47,8 @@ export default function SignupPage() {
     if (!form.password) errs.password = "Password is required";
     else if (form.password.length < 8)
       errs.password = "Password must be at least 8 characters";
+    else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(form.password))
+      errs.password = "Choose a stronger password (must contain uppercase, lowercase, and a number)";
     if (form.password !== form.confirmPassword)
       errs.confirmPassword = "Passwords do not match";
     if (!form.agreeTerms) errs.agreeTerms = "You must agree to the terms";
@@ -57,7 +64,7 @@ export default function SignupPage() {
         email: form.email,
         password: form.password,
         fullName: form.fullName,
-        role: userRole,
+        role: selectedRole,
       },
       {
         onSuccess: () => {
@@ -87,7 +94,7 @@ export default function SignupPage() {
   //   setModal("linkExpired");
   // };
 
-  const isEntrepreneur = userRole === "entrepreneur";
+  const isEntrepreneur = selectedRole === "entrepreneur";
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-100 lg:flex">
@@ -158,28 +165,28 @@ export default function SignupPage() {
                 </p>
               </div>
 
-              {/* Role indicator */}
-              <div className="bg-brand-50 border border-brand-200 rounded-xl p-3 mb-6 flex items-center gap-3">
-                <div className="w-10 h-10 bg-brand-500 rounded-lg flex items-center justify-center">
-                  {isEntrepreneur ? (
-                    <User size={18} className="text-white" />
-                  ) : (
-                    <CheckCircle2 size={18} className="text-white" />
-                  )}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-800">
-                    Signing up as{" "}
-                    <span className="text-brand-600">
-                      {isEntrepreneur ? "Entrepreneur" : "Funder"}
-                    </span>
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    {isEntrepreneur
-                      ? "You'll be able to submit project pitches"
-                      : "You'll be able to discover and fund projects"}
-                  </p>
-                </div>
+              {/* Role Selection */}
+              <div className="flex bg-slate-100 rounded-2xl p-1.5 mb-6">
+                <button
+                  onClick={() => handleRoleChange("entrepreneur")}
+                  className={`flex-1 py-3 text-center text-sm font-semibold rounded-xl transition-all ${
+                    selectedRole === "entrepreneur"
+                      ? "bg-white text-slate-800 shadow-sm"
+                      : "text-slate-500 hover:text-slate-700"
+                  }`}
+                >
+                  Entrepreneur
+                </button>
+                <button
+                  onClick={() => handleRoleChange("funder")}
+                  className={`flex-1 py-3 text-center text-sm font-semibold rounded-xl transition-all ${
+                    selectedRole === "funder"
+                      ? "bg-white text-slate-800 shadow-sm"
+                      : "text-slate-500 hover:text-slate-700"
+                  }`}
+                >
+                  Funder
+                </button>
               </div>
 
               {/* Form */}
@@ -267,7 +274,7 @@ export default function SignupPage() {
               <p className="mt-6 text-center text-sm text-slate-500">
                 Already have an account?{" "}
                 <Link
-                  to={`/login/${role}`}
+                  to={`/login/${selectedRole}`}
                   className="text-brand-600 font-semibold hover:text-brand-700"
                 >
                   Log in
@@ -335,7 +342,7 @@ export default function SignupPage() {
           </h3>
           <p className="text-sm text-slate-500 mb-6">
             Your email has been successfully verified. You can now access your
-            dashboard and complete your profile.
+            dashboard and verify your account.
           </p>
           <Button
             variant="primary"

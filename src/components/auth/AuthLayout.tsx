@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { CheckCircle2, Rocket, DollarSign } from "lucide-react";
+
 import type { ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -12,136 +12,64 @@ interface AuthLayoutProps {
 const leftContent = {
   entrepreneur: {
     signup: {
-      icon: Rocket,
       title: "Turn Your Vision\nInto Reality",
       subtitle:
         "Join thousands of entrepreneurs who have found funding for their innovative ideas on GrantBridge.",
-      bullets: [
-        "Pitch to 500+ verified funders",
-        "Free pitch creation tools",
-        "Average funding time: 45 days",
-      ],
     },
     login: {
-      icon: Rocket,
       title: "Welcome Back,\nInnovator",
       subtitle:
         "Continue building your dream. Your pitches and connections are waiting.",
-      bullets: [
-        "12 new funder views on your pitch",
-        "3 funding requests pending",
-        "Your pitch is trending in FinTech",
-      ],
     },
     verify: {
-      icon: Rocket,
       title: "Almost There!\nVerify Your Account",
       subtitle:
         "We need to confirm your identity to keep the platform safe for everyone.",
-      bullets: [
-        "Verified profiles get 5x more visibility",
-        "Funders trust verified entrepreneurs",
-        "One-time verification process",
-      ],
     },
     success: {
-      icon: Rocket,
       title: "You're All Set!\nWelcome Aboard",
       subtitle:
         "Your account is ready. Start building your pitch and connect with funders today.",
-      bullets: [
-        "Create your first pitch in minutes",
-        "Get matched with relevant funders",
-        "Track your funding progress live",
-      ],
     },
     error: {
-      icon: Rocket,
       title: "Oops!\nSomething Went Wrong",
       subtitle: "Don't worry, we can fix this. Let's get you back on track.",
-      bullets: [
-        "Request a new verification link",
-        "Contact support if issues persist",
-        "Your data is safe and secure",
-      ],
     },
     reset: {
-      icon: Rocket,
       title: "Reset Your\nPassword",
       subtitle:
         "It happens to the best of us. Let's get you back into your account.",
-      bullets: [
-        "Secure password reset process",
-        "Link expires in 1 hour",
-        "Your data remains safe",
-      ],
     },
   },
   funder: {
     signup: {
-      icon: DollarSign,
       title: "Discover the Next\nBig Opportunity",
       subtitle:
         "Access a curated pipeline of verified startups and innovative projects ready for investment.",
-      bullets: [
-        "Browse 2,400+ verified startups",
-        "AI-powered deal matching",
-        "Avg. portfolio return: 3.2x",
-      ],
     },
     login: {
-      icon: DollarSign,
       title: "Welcome Back,\nInvestor",
       subtitle:
         "New opportunities await. Check out the latest pitches from top entrepreneurs.",
-      bullets: [
-        "8 new pitches matching your criteria",
-        "2 entrepreneurs want to connect",
-        "Portfolio up 12% this quarter",
-      ],
     },
     verify: {
-      icon: DollarSign,
       title: "Verify Your\nInvestor Account",
       subtitle:
         "Verification ensures you access only legitimate, vetted projects.",
-      bullets: [
-        "Access exclusive deal flow",
-        "Priority support for investors",
-        "Secure transaction environment",
-      ],
     },
     success: {
-      icon: DollarSign,
       title: "Welcome to\nGrantBridge!",
       subtitle:
         "Your investor account is ready. Start discovering high-potential projects.",
-      bullets: [
-        "Browse curated pitch marketplace",
-        "Set your investment preferences",
-        "Connect with entrepreneurs directly",
-      ],
     },
     error: {
-      icon: DollarSign,
       title: "Oops!\nSomething Went Wrong",
       subtitle: "Don't worry, we can fix this. Let's get you back on track.",
-      bullets: [
-        "Request a new verification link",
-        "Contact support if issues persist",
-        "Your data is safe and secure",
-      ],
     },
     reset: {
-      icon: DollarSign,
       title: "Reset Your\nPassword",
       subtitle:
         "It happens to the best of us. Let's get you back into your account.",
-      bullets: [
-        "Secure password reset process",
-        "Link expires in 1 hour",
-        "Your data remains safe",
-      ],
     },
   },
 };
@@ -152,12 +80,11 @@ export default function AuthLayout({
   variant = "signup",
 }: AuthLayoutProps) {
   const content = leftContent[role][variant];
-  const Icon = content.icon;
 
   return (
     <div className="min-h-screen bg-white lg:flex">
       {/* Left Panel - FIXED */}
-      <div className="hidden lg:flex lg:w-[520px] xl:w-[520px] lg:fixed lg:inset-y-0 lg:left-0 bg-linear-to-br from-brand-500 via-brand-600 to-emerald-700 overflow-hidden">
+      <div className="hidden lg:flex lg:w-130 xl:w-130 lg:fixed lg:inset-y-0 lg:left-0 bg-linear-to-br from-brand-500 via-brand-600 to-emerald-700 overflow-hidden">
         <div className="absolute inset-0 opacity-[0.07]">
           <div
             className="absolute inset-0"
@@ -185,7 +112,6 @@ export default function AuthLayout({
             </Link>
 
             <div className="mb-8">
-              <Icon size={44} className="text-white/70 mb-5" />
               <h2 className="text-3xl xl:text-3xl font-bold text-white font-[Outfit] leading-tight whitespace-pre-line">
                 {content.title}
               </h2>
@@ -194,23 +120,11 @@ export default function AuthLayout({
               </p>
             </div>
           </div>
-
-          <div className="space-y-3.5">
-            {content.bullets.map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <CheckCircle2
-                  size={16}
-                  className="text-brand-200/80 shrink-0"
-                />
-                <span className="text-sm text-brand-100/90">{item}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
       {/* Right Panel - SCROLLABLE */}
-      <div className="flex-1 lg:ml-[520px] xl:ml-[520px] min-h-screen flex items-center justify-center p-5 sm:p-8 lg:p-12 py-12 overflow-y-auto">
+      <div className="flex-1 lg:ml-130 xl:ml-130 min-h-screen flex items-center justify-center p-5 sm:p-8 lg:p-12 py-12 overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

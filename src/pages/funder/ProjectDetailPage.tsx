@@ -66,7 +66,6 @@ export default function ProjectDetailPage() {
 
   // Funding flow state
   const [fundStep, setFundStep] = useState<FundStep>("closed");
-  const [fundAmount, setFundAmount] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [receipt, setReceipt] = useState<{ id: string; date: string } | null>(
     null,
@@ -120,6 +119,8 @@ export default function ProjectDetailPage() {
     );
   }
 
+  const fundingAmount = pitch.amountNeeded;
+
   // Funding status helpers
   const isFunded = pitch.fundingStatus === "funded";
   const isOpen = pitch.fundingStatus === "open";
@@ -138,12 +139,7 @@ export default function ProjectDetailPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSelectAmount = (amount: string) => {
-    setFundAmount(amount.replace(/[^0-9]/g, ""));
-  };
-
   const handleProceedToPayment = () => {
-    if (!fundAmount || Number(fundAmount) < 1000) return;
     setFundStep("payment");
   };
 
@@ -168,15 +164,8 @@ export default function ProjectDetailPage() {
 
   const handleCloseFlow = () => {
     setFundStep("closed");
-    setFundAmount("");
     setIsProcessing(false);
     setReceipt(null);
-  };
-
-  const formatInputAmount = (val: string) => {
-    const num = Number(val);
-    if (!val || isNaN(num)) return "";
-    return num.toLocaleString();
   };
 
   return (
@@ -903,91 +892,55 @@ export default function ProjectDetailPage() {
                     {/* Amount input */}
                     <div className="mb-4">
                       <label className="block text-[12px] font-medium text-slate-700 mb-1.5">
-                        Enter Amount (₦)
+                        Funding Amount
                       </label>
-                      <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[15px] font-semibold text-slate-400">
-                          ₦
-                        </span>
-                        <input
-                          type="text"
-                          placeholder="0"
-                          value={formatInputAmount(fundAmount)}
-                          onChange={(e) =>
-                            setFundAmount(e.target.value.replace(/[^0-9]/g, ""))
-                          }
-                          className="w-full pl-9 pr-4 py-3.5 text-[18px] font-bold text-slate-800 border-2 border-slate-200 rounded-xl outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all text-center font-[Outfit]"
-                        />
-                      </div>
-                      {fundAmount && Number(fundAmount) < 1000 && (
-                        <p className="text-[11px] text-red-500 mt-1.5">
-                          Minimum funding amount is ₦1,000
+                      <div className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-4 text-center">
+                        <p className="text-[12px] text-slate-500 mb-2">
+                          This project requires the exact requested amount.
                         </p>
-                      )}
-                    </div>
-
-                    {/* Quick amounts */}
-                    <div className="grid grid-cols-4 gap-2 mb-5">
-                      {[
-                        { label: "₦100K", value: "100000" },
-                        { label: "₦500K", value: "500000" },
-                        { label: "₦1M", value: "1000000" },
-                        { label: "₦5M", value: "5000000" },
-                      ].map((opt) => (
-                        <button
-                          key={opt.value}
-                          onClick={() => handleSelectAmount(opt.value)}
-                          className={`py-2.5 rounded-xl text-[12px] font-semibold transition-all cursor-pointer border ${
-                            fundAmount === opt.value
-                              ? "bg-brand-50 text-brand-600 border-brand-200"
-                              : "bg-slate-50 text-slate-600 border-slate-100 hover:bg-slate-100"
-                          }`}
-                        >
-                          {opt.label}
-                        </button>
-                      ))}
+                        <p className="text-[28px] font-bold text-slate-900 font-[Outfit]">
+                          {formatNaira(fundingAmount)}
+                        </p>
+                      </div>
                     </div>
 
                     {/* Summary */}
-                    {fundAmount && Number(fundAmount) >= 1000 && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        className="bg-slate-50 rounded-xl p-4 mb-5 space-y-2"
-                      >
-                        <div className="flex justify-between text-[12px]">
-                          <span className="text-slate-500">
-                            Investment Amount
-                          </span>
-                          <span className="font-semibold text-slate-700">
-                            {formatNaira(Number(fundAmount))}
-                          </span>
-                        </div>
-                        <div className="flex justify-between text-[12px]">
-                          <span className="text-slate-500">
-                            Processing Fee (1.5%)
-                          </span>
-                          <span className="font-semibold text-slate-700">
-                            {formatNaira(Number(fundAmount) * 0.015)}
-                          </span>
-                        </div>
-                        <div className="border-t border-slate-200 pt-2 flex justify-between text-[13px]">
-                          <span className="font-semibold text-slate-700">
-                            Total
-                          </span>
-                          <span className="font-bold text-slate-900">
-                            {formatNaira(Number(fundAmount) * 1.015)}
-                          </span>
-                        </div>
-                      </motion.div>
-                    )}
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      className="bg-slate-50 rounded-xl p-4 mb-5 space-y-2"
+                    >
+                      <div className="flex justify-between text-[12px]">
+                        <span className="text-slate-500">
+                          Investment Amount
+                        </span>
+                        <span className="font-semibold text-slate-700">
+                          {formatNaira(fundingAmount)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-[12px]">
+                        <span className="text-slate-500">
+                          Processing Fee (1.5%)
+                        </span>
+                        <span className="font-semibold text-slate-700">
+                          {formatNaira(fundingAmount * 0.015)}
+                        </span>
+                      </div>
+                      <div className="border-t border-slate-200 pt-2 flex justify-between text-[13px]">
+                        <span className="font-semibold text-slate-700">
+                          Total
+                        </span>
+                        <span className="font-bold text-slate-900">
+                          {formatNaira(fundingAmount * 1.015)}
+                        </span>
+                      </div>
+                    </motion.div>
 
                     <Button
                       variant="primary"
                       size="lg"
                       fullWidth
                       onClick={handleProceedToPayment}
-                      disabled={!fundAmount || Number(fundAmount) < 1000}
                     >
                       Proceed to Payment
                     </Button>
@@ -1041,7 +994,7 @@ export default function ProjectDetailPage() {
                             Amount to pay
                           </p>
                           <p className="text-[28px] font-bold font-[Outfit]">
-                            {formatNaira(Number(fundAmount) * 1.015)}
+                            {formatNaira(fundingAmount * 1.015)}
                           </p>
                           <p className="text-[11px] text-white/50 mt-2">
                             To: {pitch.companyName} via GrantBridge Escrow
@@ -1118,7 +1071,7 @@ export default function ProjectDetailPage() {
                             onClick={handleFlutterwavePay}
                             className="flex-1"
                           >
-                            Pay {formatNaira(Number(fundAmount) * 1.015)}
+                            Pay {formatNaira(fundingAmount * 1.015)}
                           </Button>
                         </div>
                         <p className="text-[10px] text-slate-400 text-center mt-3 flex items-center justify-center gap-1">
@@ -1243,7 +1196,7 @@ export default function ProjectDetailPage() {
                         <p className="text-[13px] text-slate-500 leading-relaxed mb-5 max-w-xs mx-auto">
                           Your investment of{" "}
                           <span className="font-semibold text-slate-800">
-                            {formatNaira(Number(fundAmount))}
+                            {formatNaira(fundingAmount)}
                           </span>{" "}
                           in{" "}
                           <span className="font-semibold text-slate-800">
@@ -1265,19 +1218,19 @@ export default function ProjectDetailPage() {
                           <div className="flex justify-between text-[12px]">
                             <span className="text-slate-500">Amount</span>
                             <span className="font-semibold text-slate-700">
-                              {formatNaira(Number(fundAmount))}
+                              {formatNaira(fundingAmount)}
                             </span>
                           </div>
                           <div className="flex justify-between text-[12px]">
                             <span className="text-slate-500">Fee</span>
                             <span className="font-semibold text-slate-700">
-                              {formatNaira(Number(fundAmount) * 0.015)}
+                              {formatNaira(fundingAmount * 0.015)}
                             </span>
                           </div>
                           <div className="flex justify-between text-[12px]">
                             <span className="text-slate-500">Total Paid</span>
                             <span className="font-bold text-slate-900">
-                              {formatNaira(Number(fundAmount) * 1.015)}
+                              {formatNaira(fundingAmount * 1.015)}
                             </span>
                           </div>
                           <div className="border-t border-slate-200 pt-2 flex justify-between text-[12px]">

@@ -1,16 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  Menu,
-  X,
-  LogOut,
-  User,
-  Bell,
-  // LayoutDashboard,
-  // FolderOpen,
-  // FilePlus2,
-  // ClipboardList,
-} from "lucide-react";
+import { Menu, X, LogOut, User, Bell } from "lucide-react";
 import { useState } from "react";
 import { useAppStore } from "../../lib/store";
 
@@ -18,27 +8,27 @@ const navLinks = [
   {
     label: "Dashboard",
     path: "/dashboard/entrepreneur",
-    // icon: LayoutDashboard,
+    
   },
   {
     label: "My Projects",
     path: "/dashboard/entrepreneur/projects",
-    // icon: FolderOpen,
+    
   },
   {
     label: "Submit Project",
     path: "/dashboard/entrepreneur/projects/new",
-    // icon: FilePlus2,
+    
   },
   {
     label: "Weekly Updates",
     path: "/dashboard/entrepreneur/progress",
-    // icon: ClipboardList,
+    
   },
   {
     label: "Profile",
     path: "/dashboard/entrepreneur/profile",
-    // icon: User,
+    
   },
 ];
 

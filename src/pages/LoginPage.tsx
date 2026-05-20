@@ -15,6 +15,12 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const handleRoleChange = (role: UserRole) => {
+    setSelectedRole(role);
+    setForm({ email: "", password: "" });
+    setErrors({});
+  };
+
   const updateField = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: "" }));
@@ -109,7 +115,7 @@ export default function LoginPage() {
             {/* Role Selection */}
             <div className="flex bg-slate-100 rounded-2xl p-1.5 mb-6">
               <button
-                onClick={() => setSelectedRole("entrepreneur")}
+                onClick={() => handleRoleChange("entrepreneur")}
                 className={`flex-1 py-3 text-center text-sm font-semibold rounded-xl transition-all ${
                   selectedRole === "entrepreneur"
                     ? "bg-white text-slate-800 shadow-sm"
@@ -119,7 +125,7 @@ export default function LoginPage() {
                 Entrepreneur
               </button>
               <button
-                onClick={() => setSelectedRole("funder")}
+                onClick={() => handleRoleChange("funder")}
                 className={`flex-1 py-3 text-center text-sm font-semibold rounded-xl transition-all ${
                   selectedRole === "funder"
                     ? "bg-white text-slate-800 shadow-sm"

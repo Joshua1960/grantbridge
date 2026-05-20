@@ -5,13 +5,11 @@ import {
   ArrowLeft,
   CheckCircle2,
   FileText,
-  Layers,
-  MapPin,
-  Rocket,
   Send,
   Sparkles,
-  Target,
   Wallet,
+  Upload,
+  X,
 } from "lucide-react";
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
@@ -136,6 +134,8 @@ export default function SubmitProjectPage() {
         media: form.media,
         entrepreneurId: user?.id,
         entrepreneurName: user?.fullName,
+        fundingStatus: "in_review",
+        verificationStatus: "pending",
       },
       {
         onSuccess: () => navigate("/dashboard/entrepreneur/projects"),
@@ -246,7 +246,6 @@ export default function SubmitProjectPage() {
                     <Input
                       label="Project title"
                       placeholder="e.g. Solar Cold Rooms for Farmers"
-                      icon={<Rocket size={17} />}
                       value={form.title}
                       onChange={(e) => updateField("title", e.target.value)}
                       error={errors.title}
@@ -254,7 +253,6 @@ export default function SubmitProjectPage() {
                     <Input
                       label="Company / Startup"
                       placeholder="Your company name"
-                      icon={<Layers size={17} />}
                       value={form.companyName}
                       onChange={(e) =>
                         updateField("companyName", e.target.value)
@@ -299,7 +297,6 @@ export default function SubmitProjectPage() {
                     <Input
                       label="Location"
                       placeholder="Lagos, Nigeria"
-                      icon={<MapPin size={17} />}
                       value={form.location}
                       onChange={(e) => updateField("location", e.target.value)}
                       error={errors.location}
@@ -335,6 +332,106 @@ export default function SubmitProjectPage() {
                       error={errors.solution}
                     />
                   </div>
+
+                  {/* Media Upload Section */}
+                  <div className="mt-6">
+                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                      Media (Max 4 photos, 1 video)
+                    </label>
+                    <p className="text-xs text-slate-500 mb-3">
+                      The first image will be used as the project thumbnail. Max
+                      size 5MB per file.
+                    </p>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                      {form.media.map((url, idx) => (
+                        <div
+                          key={idx}
+                          className="relative aspect-square rounded-xl overflow-hidden border border-slate-200 bg-slate-50 group"
+                        >
+                          {url.startsWith("data:video") ? (
+                            <video
+                              src={url}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <img
+                              src={url}
+                              alt={`Media ${idx + 1}`}
+                              className="w-full h-full object-cover"
+                            />
+                          )}
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newMedia = [...form.media];
+                                newMedia.splice(idx, 1);
+                                updateField("media", newMedia);
+                              }}
+                              className="p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                          {idx === 0 && !url.startsWith("data:video") && (
+                            <div className="absolute top-1.5 left-1.5 px-2 py-0.5 bg-brand-500 text-white text-[10px] font-bold rounded-md">
+                              Thumbnail
+                            </div>
+                          )}
+                        </div>
+                      ))}
+
+                      {form.media.length < 5 && (
+                        <label className="aspect-square rounded-xl border-2 border-dashed border-slate-200 hover:border-brand-400 hover:bg-brand-50 transition-colors flex flex-col items-center justify-center cursor-pointer text-slate-400 hover:text-brand-600">
+                          <Upload size={20} className="mb-1" />
+                          <span className="text-[10px] font-medium text-center px-2">
+                            Upload
+                          </span>
+                          <input
+                            type="file"
+                            accept="image/*,video/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+
+                              // Check limits
+                              const isVideo = file.type.startsWith("video/");
+                              const currentVideos = form.media.filter((m) =>
+                                m.startsWith("data:video"),
+                              ).length;
+                              const currentPhotos = form.media.filter(
+                                (m) => !m.startsWith("data:video"),
+                              ).length;
+
+                              if (isVideo && currentVideos >= 1) {
+                                alert("You can only upload 1 video.");
+                                return;
+                              }
+                              if (!isVideo && currentPhotos >= 4) {
+                                alert("You can only upload up to 4 photos.");
+                                return;
+                              }
+                              if (file.size > 5 * 1024 * 1024) {
+                                alert("File size must be less than 5MB.");
+                                return;
+                              }
+
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                updateField("media", [
+                                  ...form.media,
+                                  reader.result as string,
+                                ]);
+                              };
+                              reader.readAsDataURL(file);
+                            }}
+                          />
+                        </label>
+                      )}
+                    </div>
+                  </div>
                 </motion.div>
               )}
 
@@ -362,7 +459,6 @@ export default function SubmitProjectPage() {
                       type="number"
                       min="0"
                       placeholder="10000000"
-                      icon={<Target size={17} />}
                       value={form.amountNeeded}
                       onChange={(e) =>
                         updateField("amountNeeded", e.target.value)
@@ -393,57 +489,6 @@ export default function SubmitProjectPage() {
                     error={errors.milestones}
                     rows={5}
                   />
-                  
-                  {/* Media Upload */}
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Project Media (Photos/Videos) - Max 5 files
-                    </label>
-                    <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-slate-300 transition-colors">
-                      <input
-                        type="file"
-                        accept="image/*,video/*"
-                        multiple
-                        onChange={(e) => {
-                          const files = Array.from(e.target.files || []);
-                          if (form.media.length + files.length > 5) {
-                            setErrors({ ...errors, media: "Maximum 5 files allowed" });
-                            return;
-                          }
-                          const newMedia = files.map(f => URL.createObjectURL(f));
-                          updateField("media", [...form.media, ...newMedia].slice(0, 5));
-                        }}
-                        className="hidden"
-                        id="media-upload"
-                      />
-                      <label htmlFor="media-upload" className="cursor-pointer">
-                        <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                          <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                        </div>
-                        <p className="text-sm font-medium text-slate-700">Click to upload photos or videos</p>
-                        <p className="text-xs text-slate-400 mt-1">PNG, JPG, MP4 up to 10MB each</p>
-                      </label>
-                    </div>
-                    {errors.media && <p className="mt-1.5 text-xs text-red-500">{errors.media}</p>}
-                    {form.media.length > 0 && (
-                      <div className="grid grid-cols-5 gap-2 mt-3">
-                        {form.media.map((url, idx) => (
-                          <div key={idx} className="relative group aspect-square">
-                            <img src={url} alt="" className="w-full h-full object-cover rounded-lg" />
-                            <button
-                              onClick={() => updateField("media", form.media.filter((_, i) => i !== idx))}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-                            >
-                              ×
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    <p className="text-xs text-slate-400 mt-2">{form.media.length}/5 files uploaded</p>
-                  </div>
                 </motion.div>
               )}
 
@@ -463,6 +508,44 @@ export default function SubmitProjectPage() {
                       Confirm the details before publishing your project for
                       funder review.
                     </p>
+                  </div>
+
+                  {/* Pre-submission Summary Box */}
+                  <div className="bg-brand-50 border border-brand-200 rounded-2xl p-5">
+                    <h3 className="text-sm font-bold text-brand-900 mb-2 flex items-center gap-2">
+                      <CheckCircle2 size={16} className="text-brand-600" />
+                      Before you submit
+                    </h3>
+                    <ul className="text-sm text-brand-800 space-y-2">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-400 mt-1.5 shrink-0" />
+                        <span>
+                          Our admin team will review your project within 24-48
+                          hours.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-400 mt-1.5 shrink-0" />
+                        <span>
+                          Ensure your funding amount and timeline are realistic
+                          and clearly justified.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-400 mt-1.5 shrink-0" />
+                        <span>
+                          Once approved, your project will be visible to all
+                          verified funders on the platform.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-400 mt-1.5 shrink-0" />
+                        <span>
+                          You will receive an in-app notification and email
+                          regarding the decision.
+                        </span>
+                      </li>
+                    </ul>
                   </div>
 
                   <div className="rounded-2xl border border-slate-100 overflow-hidden">

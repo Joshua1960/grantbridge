@@ -38,13 +38,13 @@ export default function VerifyEmailPage() {
             stiffness: 200,
             delay: 0.1,
           }}
-          className="w-20 h-20 bg-brand-50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-brand-100"
+          className="w-12 h-12 bg-brand-50 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-brand-100"
         >
           <motion.div
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <Mail size={36} className="text-brand-500" />
+            <Mail size={18} className="text-brand-500" />
           </motion.div>
         </motion.div>
 

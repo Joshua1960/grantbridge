@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
@@ -11,7 +10,6 @@ import {
   Compass,
   BadgeCheck,
   AlertCircle,
-  X,
 } from "lucide-react";
 import { usePitches } from "../../lib/hooks/usePitches";
 import { useAppStore } from "../../lib/store";
@@ -33,11 +31,8 @@ const statusColors: Record<string, { bg: string; text: string; dot: string }> =
   };
 
 export default function FunderDashboardPage() {
-  const { user, updateUser } = useAppStore();
+  const { user } = useAppStore();
   const { data: pitches = [], isLoading } = usePitches();
-  const [showProfilePrompt, setShowProfilePrompt] = useState(
-    !user?.profileCompleted,
-  );
 
   // Simulated funder data — projects they've funded
   const fundedProjects = pitches.slice(0, 5).map((p, i) => ({
@@ -102,53 +97,64 @@ export default function FunderDashboardPage() {
               className="w-52 pl-9 pr-4 py-2 text-[13px] border border-slate-200 rounded-xl bg-slate-50 placeholder:text-slate-400 outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 focus:bg-white transition-all"
             />
           </div>
-          <button className="relative p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer">
-            <Bell size={18} />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
-          </button>
+          <div className="relative group">
+            <button className="relative p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer">
+              <Bell size={18} />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white" />
+            </button>
+            <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 overflow-hidden">
+              <div className="p-3 border-b border-slate-100 bg-slate-50">
+                <h4 className="font-semibold text-slate-800 text-sm">Notifications</h4>
+              </div>
+              <div className="max-h-64 overflow-y-auto">
+                <div className="p-6 text-center text-sm text-slate-500">
+                  No new notifications
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Complete Profile Prompt */}
-      {showProfilePrompt && (
+      {/* Verify Account Prompt */}
+      {(user?.verificationStatus === "pending" || user?.verificationStatus === "submitted") && (
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="bg-linear-to-r from-brand-500 to-emerald-600 rounded-2xl p-5 mb-8 flex items-start gap-4"
+          className={`rounded-2xl p-5 mb-8 flex items-start gap-4 ${
+            user?.verificationStatus === "submitted" 
+              ? "bg-linear-to-r from-amber-500 to-orange-600" 
+              : "bg-linear-to-r from-brand-500 to-emerald-600"
+          }`}
         >
           <div className="w-12 h-12 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center shrink-0">
             <AlertCircle size={24} className="text-white" />
           </div>
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-white font-[Outfit] mb-1">
-              Complete Your Profile
+              {user?.verificationStatus === "submitted" ? "ID Verification Pending" : "Verify Your Account"}
             </h3>
-            <p className="text-sm text-brand-100 mb-3">
-              Complete your profile to unlock all features and get discovered by
-              more entrepreneurs.
+            <p className="text-sm text-white/90 mb-3">
+              {user?.verificationStatus === "submitted" 
+                ? "Your identity documents are currently under review. This usually takes 24-48 hours."
+                : "Verify your identity by uploading a valid ID (National ID, Driver's License, or Voter's Card) to unlock all features and start funding projects."}
             </p>
-            <div className="flex items-center gap-3">
-              <Link
-                to="/dashboard/funder/profile"
-                onClick={() => {
-                  updateUser({ profileCompleted: true });
-                  setShowProfilePrompt(false);
-                }}
-                className="px-5 py-2.5 bg-white hover:bg-brand-50 text-brand-700 text-sm font-semibold rounded-xl transition-colors cursor-pointer"
-              >
-                Complete Profile
-              </Link>
-              <button
-                onClick={() => {
-                  updateUser({ profileCompleted: true });
-                  setShowProfilePrompt(false);
-                }}
-                className="p-2 text-white/80 hover:text-white transition-colors cursor-pointer"
-              >
-                <X size={18} />
-              </button>
-            </div>
+            {user?.verificationStatus === "pending" && (
+              <div className="flex items-center gap-3">
+                <Link
+                  to="/dashboard/funder/profile#verification-section"
+                  onClick={() => {
+                    setTimeout(() => {
+                      document.getElementById('verification-section')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }}
+                  className="px-5 py-2.5 bg-white hover:bg-brand-50 text-brand-700 text-sm font-semibold rounded-xl transition-colors cursor-pointer"
+                >
+                  Verify Account
+                </Link>
+              </div>
+            )}
           </div>
         </motion.div>
       )}

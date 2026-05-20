@@ -48,6 +48,9 @@ const SubmitProjectPage = lazy(
 const WeeklyProgressPage = lazy(
   () => import("./pages/entrepreneur/WeeklyProgressPage"),
 );
+const ImpactDashboardPage = lazy(
+  () => import("./pages/entrepreneur/ImpactDashboardPage"),
+);
 
 // Funder pages
 const FunderLayout = lazy(() => import("./pages/funder/FunderLayout"));
@@ -123,7 +126,9 @@ function AppLayout() {
           <Route path="/" element={<LandingPage />} />
 
           {/* Auth flow */}
+          <Route path="/signup" element={<SignupPage />} />
           <Route path="/signup/:role" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/login/:role" element={<LoginPage />} />
           <Route path="/verify-email/:role" element={<VerifyEmailPage />} />
           <Route path="/verify-phone/:role" element={<VerifyPhonePage />} />
@@ -161,6 +166,7 @@ function AppLayout() {
             <Route path="projects" element={<MyProjectsPage />} />
             <Route path="projects/new" element={<SubmitProjectPage />} />
             <Route path="progress" element={<WeeklyProgressPage />} />
+            <Route path="impact" element={<ImpactDashboardPage />} />
             <Route path="settings" element={<EntrepreneurSettingsPage />} />
           </Route>
 

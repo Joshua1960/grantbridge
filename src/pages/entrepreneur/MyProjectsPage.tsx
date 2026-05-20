@@ -62,17 +62,8 @@ export default function MyProjectsPage() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   const myPitches = pitches.slice(0, 6);
-  const pitchStatuses = [
-    "active",
-    "under review",
-    "active",
-    "draft",
-    "funded",
-    "active",
-  ];
-
-  const filtered = myPitches.filter((p: PitchCard, i: number) => {
-    const status = pitchStatuses[i];
+  const filtered = myPitches.filter((p: PitchCard) => {
+    const status = p.fundingStatus === "in_review" ? "under review" : p.fundingStatus === "open" ? "active" : p.fundingStatus;
     const matchSearch =
       !search ||
       p.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -109,7 +100,7 @@ export default function MyProjectsPage() {
             {myPitches.length} projects ·{" "}
             {
               myPitches.filter(
-                (_: PitchCard, i: number) => pitchStatuses[i] === "active",
+                (p: PitchCard) => p.fundingStatus === "open",
               ).length
             }{" "}
             active
@@ -188,14 +179,8 @@ export default function MyProjectsPage() {
           {viewMode === "grid" ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {filtered.map((pitch: PitchCard, i: number) => {
-                const statusMap: Record<string, string> = {
-                  open: "active",
-                  funded: "funded",
-                  in_review: "under review",
-                  closed: "draft",
-                };
-                const status = statusMap[pitch.fundingStatus] || "draft";
-                const sc = statusColors[status];
+                const status = pitch.fundingStatus === "in_review" ? "under review" : pitch.fundingStatus === "open" ? "active" : pitch.fundingStatus;
+                const sc = statusColors[status] || statusColors["draft"];
                 return (
                   <motion.div
                     key={pitch.id}
@@ -316,14 +301,8 @@ export default function MyProjectsPage() {
           ) : (
             <div className="space-y-3">
               {filtered.map((pitch: PitchCard, i: number) => {
-                const statusMap: Record<string, string> = {
-                  open: "active",
-                  funded: "funded",
-                  in_review: "under review",
-                  closed: "draft",
-                };
-                const status = statusMap[pitch.fundingStatus] || "draft";
-                const sc = statusColors[status];
+                const status = pitch.fundingStatus === "in_review" ? "under review" : pitch.fundingStatus === "open" ? "active" : pitch.fundingStatus;
+                const sc = statusColors[status] || statusColors["draft"];
                 return (
                   <motion.div
                     key={pitch.id}

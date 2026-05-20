@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X, LogOut, LayoutDashboard, User } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 import { useState } from "react";
 import { useAppStore } from "../../lib/store";
 import Button from "../ui/Button";
@@ -41,31 +41,20 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Nav */}
-          {/* <div className="hidden md:flex items-center gap-1">
-            {isLanding && (
-              <>
-                <a href="#features" className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors rounded-lg hover:bg-brand-50">Features</a>
-                <a href="#how-it-works" className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors rounded-lg hover:bg-brand-50">How It Works</a>
-                <a href="#categories" className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors rounded-lg hover:bg-brand-50">Categories</a>
-              </>
-            )}
-          </div> */}
-
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
                 <Link to="/dashboard">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    icon={<LayoutDashboard size={16} />}
-                  >
+                  <Button variant="ghost" size="sm">
                     Dashboard
                   </Button>
                 </Link>
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-brand-50 rounded-xl">
+
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  Logout
+                </Button>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl">
                   <div className="w-7 h-7 bg-brand-500 rounded-full flex items-center justify-center">
                     <User size={14} className="text-white" />
                   </div>
@@ -73,23 +62,15 @@ export default function Navbar() {
                     {user?.fullName?.split(" ")[0]}
                   </span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleLogout}
-                  icon={<LogOut size={16} />}
-                >
-                  Logout
-                </Button>
               </div>
             ) : (
               <>
-                <Link to="/login/entrepreneur">
+                <Link to="/login">
                   <Button variant="ghost" size="sm">
                     Log In
                   </Button>
                 </Link>
-                <Link to="/signup/entrepreneur">
+                <Link to="/signup">
                   <Button variant="primary" size="sm">
                     Get Started
                   </Button>
@@ -195,7 +176,7 @@ function AnimatedMobileMenu({
               >
                 Log In
               </Link>
-              <Link to="/signup/entrepreneur" onClick={onClose}>
+              <Link to="/signup" onClick={onClose}>
                 <div className="px-4 py-2.5 text-sm font-semibold text-white bg-brand-500 rounded-lg text-center">
                   Get Started
                 </div>

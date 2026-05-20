@@ -1,11 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  LayoutDashboard,
-  FolderOpen,
-  FilePlus2,
-  ClipboardList,
-  User,
-  Settings,
+
   LogOut,
   X,
   MapPin,
@@ -21,32 +16,38 @@ const navItems = [
   {
     label: "Dashboard",
     path: "/dashboard/entrepreneur",
-    icon: LayoutDashboard,
     exact: true,
   },
   {
     label: "My Projects",
     path: "/dashboard/entrepreneur/projects",
-    icon: FolderOpen,
   },
   {
     label: "Submit Project",
     path: "/dashboard/entrepreneur/projects/new",
-    icon: FilePlus2,
   },
   {
     label: "Weekly Updates",
     path: "/dashboard/entrepreneur/progress",
-    icon: ClipboardList,
+  },
+  {
+    label: "Impact",
+    path: "/dashboard/entrepreneur/impact",
   },
 ];
 
 const accountItems = [
-  { label: "Profile", path: "/dashboard/entrepreneur/profile", icon: User },
-  { label: "Settings", path: "/dashboard/entrepreneur/settings", icon: Settings },
+  { label: "Profile", path: "/dashboard/entrepreneur/profile" },
+  {
+    label: "Settings",
+    path: "/dashboard/entrepreneur/settings",
+  },
 ];
 
-export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSidebarProps) {
+export default function EntrepreneurSidebar({
+  isOpen,
+  onClose,
+}: EntrepreneurSidebarProps) {
   const { user, logout } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
@@ -129,9 +130,6 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
               }`}
             >
-              <span className={active ? "text-brand-600" : "text-slate-400"}>
-                <item.icon size={18} />
-              </span>
               <span className="flex-1 text-left">{item.label}</span>
             </Link>
           );
@@ -153,9 +151,6 @@ export default function EntrepreneurSidebar({ isOpen, onClose }: EntrepreneurSid
                   : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
               }`}
             >
-              <span className={active ? "text-brand-600" : "text-slate-400"}>
-                <item.icon size={18} />
-              </span>
               <span className="flex-1 text-left">{item.label}</span>
             </Link>
           );

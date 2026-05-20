@@ -14,6 +14,8 @@ import {
   X,
   GraduationCap,
   Building,
+  Upload,
+  Clock,
 } from "lucide-react";
 import { useAppStore } from "../../lib/store";
 // import { formatNaira } from "../../lib/format";
@@ -43,6 +45,9 @@ export default function EntrepreneurProfilePage() {
     joinedDate: "March 2024",
   });
 
+  const [idFront, setIdFront] = useState<string | null>(user?.verificationDocuments?.idFront || null);
+  const [idBack, setIdBack] = useState<string | null>(user?.verificationDocuments?.idBack || null);
+
   const handleSave = () => {
     updateUser({
       fullName: formData.fullName,
@@ -50,6 +55,12 @@ export default function EntrepreneurProfilePage() {
       phone: formData.phone,
       company: formData.company,
       avatar: avatarUrl,
+      verificationStatus: (idFront && idBack && user?.verificationStatus === 'pending') ? 'submitted' : user?.verificationStatus,
+      verificationDocuments: {
+        ...user?.verificationDocuments,
+        idFront: idFront || undefined,
+        idBack: idBack || undefined,
+      }
     });
     setIsEditing(false);
   };
@@ -378,6 +389,139 @@ export default function EntrepreneurProfilePage() {
                     </a>
                   )}
                 </div>
+              </div>
+            </div>
+
+            {/* Identity Verification Section */}
+            <div id="verification-section" className="bg-white rounded-2xl border border-slate-200 p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-base font-semibold text-slate-800 font-[Outfit]">
+                  Identity Verification
+                </h3>
+                <ShieldCheck size={18} className={user?.verificationStatus === "verified" ? "text-emerald-500" : "text-slate-400"} />
+              </div>
+
+              <div className="space-y-6">
+                {user?.verificationStatus === "verified" ? (
+                  <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 flex items-start gap-3">
+                    <ShieldCheck className="text-emerald-600 mt-0.5" size={20} />
+                    <div>
+                      <p className="text-sm font-semibold text-emerald-800">Account Verified</p>
+                      <p className="text-xs text-emerald-600 mt-1">Your identity has been successfully verified by our team.</p>
+                    </div>
+                  </div>
+                ) : user?.verificationStatus === "submitted" ? (
+                  <div className="bg-amber-50 border border-amber-100 rounded-xl p-4 flex items-start gap-3">
+                    <Clock className="text-amber-600 mt-0.5" size={20} />
+                    <div>
+                      <p className="text-sm font-semibold text-amber-800">Verification Pending</p>
+                      <p className="text-xs text-amber-600 mt-1">Your documents are currently under review. This usually takes 24-48 hours.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="bg-brand-50 border border-brand-100 rounded-xl p-4">
+                      <p className="text-sm text-brand-800">
+                        Please upload a valid government-issued ID (National ID, Driver's License, or Voter's Card) to verify your account.
+                      </p>
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 gap-5">
+                      {/* Front of ID */}
+                      <div>
+                        <label className="block text-xs font-medium text-slate-600 mb-2">
+                          Front of ID Card
+                        </label>
+                        <div className="relative aspect-[1.6/1] rounded-xl border-2 border-dashed border-slate-200 hover:border-brand-400 bg-slate-50 transition-colors overflow-hidden group">
+                          {idFront ? (
+                            <>
+                              <img src={idFront} alt="ID Front" className="w-full h-full object-cover" />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button onClick={() => setIdFront(null)} className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600">
+                                  <X size={16} />
+                                </button>
+                              </div>
+                            </>
+                          ) : (
+                            <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer text-slate-400 hover:text-brand-600">
+                              <Upload size={24} className="mb-2" />
+                              <span className="text-xs font-medium">Upload Front</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => setIdFront(reader.result as string);
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+                            </label>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Back of ID */}
+                      <div>
+                        <label className="block text-xs font-medium text-slate-600 mb-2">
+                          Back of ID Card
+                        </label>
+                        <div className="relative aspect-[1.6/1] rounded-xl border-2 border-dashed border-slate-200 hover:border-brand-400 bg-slate-50 transition-colors overflow-hidden group">
+                          {idBack ? (
+                            <>
+                              <img src={idBack} alt="ID Back" className="w-full h-full object-cover" />
+                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button onClick={() => setIdBack(null)} className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600">
+                                  <X size={16} />
+                                </button>
+                              </div>
+                            </>
+                          ) : (
+                            <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer text-slate-400 hover:text-brand-600">
+                              <Upload size={24} className="mb-2" />
+                              <span className="text-xs font-medium">Upload Back</span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    const reader = new FileReader();
+                                    reader.onloadend = () => setIdBack(reader.result as string);
+                                    reader.readAsDataURL(file);
+                                  }
+                                }}
+                              />
+                            </label>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    {idFront && idBack && (
+                      <div className="flex justify-end mt-4">
+                        <button
+                          onClick={() => {
+                            updateUser({
+                              verificationStatus: 'submitted',
+                              verificationDocuments: {
+                                ...user?.verificationDocuments,
+                                idFront: idFront,
+                                idBack: idBack,
+                              }
+                            });
+                          }}
+                          className="flex items-center gap-2 px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition-colors font-medium text-sm"
+                        >
+                          Submit for Verification
+                        </button>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             </div>
 
